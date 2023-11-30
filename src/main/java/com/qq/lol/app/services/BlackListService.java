@@ -1,7 +1,6 @@
 package com.qq.lol.app.services;
 
-import com.qq.lol.dto.BlackPlayer;
-import com.qq.lol.dto.PlayerInfoDto;
+import com.qq.lol.dto.BlackPlayerDto;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ public interface BlackListService {
      * @Auther: null
      * @Date: 2023/11/29 - 19:25
      */
-    void addBlackList(BlackPlayer player);
+    void addBlackList(BlackPlayerDto player);
 
     /**
      * @Description: 通过 puuid删除黑名单玩家
@@ -40,7 +39,7 @@ public interface BlackListService {
      * @Auther: null
      * @Date: 2023/11/29 - 19:26
      */
-    BlackPlayer selectBlackPlayerByPuuid(String puuid);
+    BlackPlayerDto selectBlackPlayerByPuuid(String puuid);
 
     /**
      * @Description: 分页查询黑名单玩家
@@ -49,5 +48,5 @@ public interface BlackListService {
      * @Auther: null
      * @Date: 2023/11/29 - 19:33
      */
-    List<BlackPlayer> selectBlackPlayerByPage(int begin, int limit);
+    List<BlackPlayerDto> selectBlackPlayerByPage(int begin, int limit);
 }

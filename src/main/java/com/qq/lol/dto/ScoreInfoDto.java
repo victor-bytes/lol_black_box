@@ -31,4 +31,7 @@ public class ScoreInfoDto {
 
     // 对局 id
     private String gameId;
+
+    // 服务器所在地区
+    private String platformId;
 }

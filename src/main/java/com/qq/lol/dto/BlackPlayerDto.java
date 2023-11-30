@@ -8,7 +8,7 @@ import lombok.Data;
  * @version: 1.0
  */
 @Data
-public class BlackPlayer {
+public class BlackPlayerDto {
 
     // 主键
     private String id;

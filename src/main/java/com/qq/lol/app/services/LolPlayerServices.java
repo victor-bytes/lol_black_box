@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface LolPlayerServices {
     /**
-     * 获取当前已登录的召唤师信息
+     * 获取当前已登录游戏客户端的召唤师信息
      * @return
      */
     SummonerInfoDto getCurrentSummoner();
@@ -46,6 +46,7 @@ public interface LolPlayerServices {
      * @param begIndex:
      * @param endIndex:
      * @return java.util.List<com.qq.lol.dto.ScoreInfoDto>
+     *     包含大区
      * @throws
      * @Auther: null
      * @Date: 2023/11/29 - 19:51
