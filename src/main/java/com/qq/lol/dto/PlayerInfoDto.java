@@ -39,7 +39,7 @@ public class PlayerInfoDto {
     private String summonerName;
 
     // 楼层？
-    private String teamParticipantId;
+//    private String teamParticipantId;
 
 
 

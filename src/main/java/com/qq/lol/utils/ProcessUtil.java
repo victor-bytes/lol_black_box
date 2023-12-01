@@ -17,8 +17,21 @@ public class ProcessUtil {
     public static Pattern appPortPattern = Pattern.compile("--app-port=(\\d+)");
     public static Pattern tokenPattern = Pattern.compile("--remoting-auth-token=([\\w-]+)");
 
+    private static final ProcessUtil processUtil = new ProcessUtil();
+
+    // 私有构造，该类只会被用到 getClientProcess()方法
+    private ProcessUtil(){
+
+    }
+
+    // 饿汉式单例模式
+    public static ProcessUtil getProcessUtil() {
+        return processUtil;
+    }
+
     /**
      * 通过进程名查询出进程的启动命令,解析出需要的客户端token和端口
+     * 如果游戏客户端未启动，则 LolClientDto的两个属性值均为 null
      */
     public static LolClientDto getClientProcess() throws IOException {
         String cmd = "WMIC PROCESS WHERE name=\"LeagueClientUx.exe\" GET commandline";
@@ -42,6 +55,9 @@ public class ProcessUtil {
                 }
 
             }
+            if(null == leagueClientBO.getPort() && null == leagueClientBO.getToken())
+                System.out.println(StandardOutTime.getCurrentTime() + "获取Port和Token失败，请先启动游戏！");
+
             return leagueClientBO;
         } finally {
             if (reader != null) {

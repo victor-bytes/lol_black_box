@@ -19,12 +19,15 @@ import java.util.concurrent.TimeUnit;
  */
 @Data
 public class NetRequestUtil {
-    private String defaultHost;
+    private static String defaultHost;
     private OkHttpClient client = myHttpClient();
     private Headers defaultHeaders;
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    public NetRequestUtil(LolClientDto bo) {
+    private static NetRequestUtil netRequestUtil;
+
+    // 初始化请求头
+    private NetRequestUtil(LolClientDto bo) {
         defaultHost = "https://127.0.0.1:" + bo.getPort();
         String basic = Credentials.basic("riot", bo.getToken());
         defaultHeaders = new Headers.Builder()
@@ -32,6 +35,24 @@ public class NetRequestUtil {
                 .add("Accept", "application/json")
                 .add("Authorization", basic)
                 .build();
+    }
+
+    // 饿汉式单例模式
+    public static NetRequestUtil getNetRequestUtil(){
+        try {
+            if(netRequestUtil == null) {
+                // 获取 Port和 Token
+                LolClientDto riotClientDto = ProcessUtil.getClientProcess();
+                // 实例化 NetRequestUtil，用于返回
+                netRequestUtil = new NetRequestUtil(riotClientDto);
+
+                System.out.println(StandardOutTime.getCurrentTime() + "第一次初始化NetRequestUtil--");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return netRequestUtil;
     }
 
     /**
@@ -57,8 +78,14 @@ public class NetRequestUtil {
      * @return
      * @throws IOException
      */
-    public String doGet(String endpoint) throws IOException {
-        return this.doGet(defaultHost, endpoint);
+    public String doGet(String endpoint){
+        try {
+            return this.doGet(defaultHost, endpoint);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "doGet方法异常";
     }
 
     public String doPost(String endpoint, String bodyStr) throws IOException {

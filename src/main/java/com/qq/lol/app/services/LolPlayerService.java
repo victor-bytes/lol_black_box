@@ -9,7 +9,7 @@ import java.util.List;
  * @Description: 玩家 api
  * @version: 1.0
  */
-public interface LolPlayerServices {
+public interface LolPlayerService {
     /**
      * 获取当前已登录游戏客户端的召唤师信息
      * @return
@@ -23,6 +23,12 @@ public interface LolPlayerServices {
      * @return
      */
     PlayerInfoDto getPlayerInfoByPuuid(String puuid);
+
+    /**
+     * 获取游戏中十个玩家的信息
+     * @return
+     */
+    PlayerInfoDto getAllInGamePlayerInfo();
 
     /**
      * 通过puuid获取玩家段位

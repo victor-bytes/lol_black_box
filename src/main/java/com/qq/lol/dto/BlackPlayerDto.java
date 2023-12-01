@@ -17,6 +17,8 @@ public class BlackPlayerDto {
 
     private String gameName;
 
+    private String tagLine;
+
     private String heroName;
 
     private String selectedPosition;
@@ -31,4 +33,8 @@ public class BlackPlayerDto {
 
     // 遇见次数
     private String meetCount;
+
+    private String isPlayWithFriend;
+
+    private String friendPuuid;
 }

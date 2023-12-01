@@ -32,6 +32,12 @@ public class SummonerInfoDto {
     // 当前已获得经验值
     private String xpSinceLastLevel;
 
+    // PUBLIC、PRIVATE
+    private String privacy;
+
+    // 是否允许设置隐藏个人信息
+    private String enabledState;
+
     // 升到下一级一共需要的经验值
     private String xpUntilNextLevel;
 

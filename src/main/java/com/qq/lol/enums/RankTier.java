@@ -6,7 +6,7 @@ package com.qq.lol.enums;
  * @Description: 段位
  * @version: 1.0
  */
-public class RankTier {
+public enum RankTier {
  /*   RankTierIron        RankTier = "IRON"        // 黑铁
     RankTierBronze      RankTier = "BRONZE"      // 青铜
     RankTierSilver      RankTier = "SILVER"      // 白银

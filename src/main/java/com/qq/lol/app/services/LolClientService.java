@@ -1,6 +1,6 @@
 package com.qq.lol.app.services;
 
-import com.qq.lol.enums.GameStatusEnum;
+import com.qq.lol.enums.ClientStatusEnum;
 
 
 /**
@@ -29,6 +29,6 @@ public interface LolClientService {
      * 等待重新连接:Reconnect
      * /lol-gameflow/v1/gameflow-phase
      */
-    GameStatusEnum getClientStatus();
+    String getClientStatus();
 
 }

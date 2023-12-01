@@ -6,7 +6,7 @@ package com.qq.lol.enums;
  * @Description: 游戏客户端状态
  * @version: 1.0
  */
-public class ClientStatus {
+public enum Status {
 //    GameStatusInQueue        GameStatus = "inQueue"                   // 队列中
 //    GameStatusInGame         GameStatus = "inGame"                    // 游戏中
 //    GameStatusChampionSelect GameStatus = "championSelect"            // 英雄选择中
