@@ -57,7 +57,7 @@ public enum Status {
      GameQueueTypeURF      GameQueueType = "URF"               // 无限火力
      GameQueueTypeBOT      GameQueueType = "BOT"               // 人机
      GameQueueTypeCustom   GameQueueType = "PRACTICETOOL"      // 自定义
-     // 游戏状态
+     // 游戏状态 √
      GameStatusInQueue        GameStatus = "inQueue"                   // 队列中
      GameStatusInGame         GameStatus = "inGame"                    // 游戏中
      GameStatusChampionSelect GameStatus = "championSelect"            // 英雄选择中
@@ -73,7 +73,7 @@ public enum Status {
      GameFlowInProgress       GameFlow   = "InProgress"                // 进行中
      GameFlowMatchmaking      GameFlow   = "Matchmaking"               // 匹配中
      GameFlowNone             GameFlow   = "None"                      // 无
-     // 排位等级
+     // 排位等级 √
      RankTierIron        RankTier = "IRON"        // 黑铁
      RankTierBronze      RankTier = "BRONZE"      // 青铜
      RankTierSilver      RankTier = "SILVER"      // 白银
@@ -87,7 +87,7 @@ public enum Status {
      GameTypeMatch GameType = "MATCHED_GAME" // 匹配
      )
      const (
-     // 游戏队列id
+     // 游戏队列id √
      NormalQueueID    GameQueueID = 430 // 匹配
      RankSoleQueueID  GameQueueID = 420 // 单排
      RankFlexQueueID  GameQueueID = 440 // 组排

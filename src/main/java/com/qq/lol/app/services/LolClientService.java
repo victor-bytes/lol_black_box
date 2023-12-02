@@ -29,6 +29,6 @@ public interface LolClientService {
      * 等待重新连接:Reconnect
      * /lol-gameflow/v1/gameflow-phase
      */
-    String getClientStatus();
+    ClientStatusEnum getClientStatus();
 
 }

@@ -36,7 +36,7 @@ public interface LolPlayerService {
      * @param puuid
      * @return
      */
-    String getRankByPuuid(String puuid);
+    List<RankDto> getRankByPuuid(String puuid);
 
     /**
      * 通过 puuid查询玩家近期 20 场游戏中的前 6 场排位战绩，
@@ -44,7 +44,7 @@ public interface LolPlayerService {
      * /lol-match-history/v1/products/lol/" + id + "/matches?begIndex=0&endIndex=" + endIndex
      * @param puuid
      */
-    List<ScoreInfoDto> getRecentScoreInfoByPuuid(String puuid, int endIndex);
+    List<GameScoreInfoDto> getRecentScoreInfoByPuuid(String puuid, int endIndex);
 
     /**
      * @Description: 通过 puuid查询玩家近 20 场战绩（所有模式）
@@ -57,7 +57,7 @@ public interface LolPlayerService {
      * @Auther: null
      * @Date: 2023/11/29 - 19:51
      */
-    List<ScoreInfoDto> getScoreInfoByPuuid(String puuid, int begIndex, int endIndex);
+    List<GameScoreInfoDto> getScoreInfoByPuuid(String puuid, int begIndex, int endIndex);
 
     /**
      * 获取当前游戏两队人的puuid

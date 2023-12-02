@@ -16,4 +16,26 @@ public enum RankTier {
     RankTierMaster      RankTier = "MASTER"      // 大师
     RankTierGrandMaster RankTier = "GRANDMASTER" // 宗师
     RankTierChallenger  RankTier = "CHALLENGER"  // 王者*/
+    IRON("黑铁"),
+    BRONZE("青铜"),
+    SILVER("白银"),
+    GOLD("黄金"),
+    PLATINUM("白金"),
+    DIAMOND("钻石"),
+    MASTER("大师"),
+    GRANDMASTER("宗师"),
+    CHALLENGER("王者"),
+    NONE("未定级"),
+    DEFAULT_TIER("未知段位");
+    // 没有段位，客户端会传来空字符串 ""
+
+    private String tier;
+
+    RankTier(String tier) {
+        this.tier = tier;
+    }
+
+    public String getTier() {
+        return this.tier;
+    }
 }
