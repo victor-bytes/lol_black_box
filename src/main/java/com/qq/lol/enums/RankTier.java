@@ -1,5 +1,8 @@
 package com.qq.lol.enums;
 
+import com.google.common.base.Enums;
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * @Auther: null
  * @Date: 2023/11/30 - 11 - 30 - 19:36
@@ -37,5 +40,17 @@ public enum RankTier {
 
     public String getTier() {
         return this.tier;
+    }
+
+    public static RankTier getEnumIfPresent(String enumName) {
+       // 未定级判断
+       if(StringUtils.equals("", enumName))
+          return NONE;
+
+       RankTier rankTier = Enums.getIfPresent(RankTier.class, enumName).orNull();
+       if(rankTier == null)
+          return DEFAULT_TIER;
+       else
+          return RankTier.valueOf(enumName);
     }
 }

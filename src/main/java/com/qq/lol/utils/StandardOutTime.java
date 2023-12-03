@@ -1,8 +1,12 @@
 package com.qq.lol.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * @Auther: null
@@ -25,5 +29,23 @@ public class StandardOutTime {
         String str = df2.format(currentTime);
 
         return str + "  ";
+    }
+
+    // 将 UTC 转成北京时间
+    public static String utcToBeijingTime(String utcTime) {
+        // UTC 时间格式
+        SimpleDateFormat timeMode1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        // 北京时间格式
+        SimpleDateFormat timeMode2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        timeMode1.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date date = null;
+        try {
+            date = timeMode1.parse(utcTime);
+        } catch (ParseException e) {
+            System.out.println("将 UTC 转成北京时间异常");
+            e.printStackTrace();
+        }
+
+        return timeMode2.format(date);
     }
 }

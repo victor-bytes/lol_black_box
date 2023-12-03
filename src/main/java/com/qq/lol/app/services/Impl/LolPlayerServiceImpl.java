@@ -3,15 +3,20 @@ package com.qq.lol.app.services.Impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.qq.lol.app.services.LolPlayerService;
+import com.qq.lol.app.services.RoomService;
 import com.qq.lol.dto.*;
 import com.qq.lol.enums.GameQueueType;
 import com.qq.lol.enums.RankTier;
 import com.qq.lol.utils.NetRequestUtil;
+import com.qq.lol.utils.StandardOutTime;
+import com.sun.xml.internal.bind.v2.TODO;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @Auther: null
@@ -20,7 +25,8 @@ import java.util.Map;
  * @version: 1.0
  */
 public class LolPlayerServiceImpl implements LolPlayerService {
-    private NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
+    private final NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
+    private final RoomService roomService = new RoomServiceImpl();
 
 //    游戏队列id，用于识别战绩中游戏类型
     private static final Map<Integer, String> gameGueueId = new HashMap<>();
@@ -62,6 +68,23 @@ public class LolPlayerServiceImpl implements LolPlayerService {
         summonerInfo.setPrivacy(jsonObject.getString("setting"));
         summonerInfo.setEnabledState(jsonObject.getString("enabledState"));
 
+        // 添加大区
+        String json = netRequestUtil.doGet("/lol-chat/v1/me");
+        JSONObject parseObject = JSON.parseObject(json);
+        // 对比 puuid是否与当前已登录用户相同
+        String puuid = parseObject.getString("puuid");
+        if(StringUtils.equals(puuid, summonerInfo.getPuuid())) {
+            // 获取大区 id
+            String platformId = parseObject.getString("platformId");
+            // 添加大区
+            if(StringUtils.equals("TW2", platformId))
+                summonerInfo.setPlatformId("TW2");
+            else if(StringUtils.equals("HN1", platformId))
+                summonerInfo.setPlatformId("艾欧尼亚");
+            else
+                summonerInfo.setPlatformId("未知大区");
+        }
+
         return summonerInfo;
     }
 
@@ -81,12 +104,51 @@ public class LolPlayerServiceImpl implements LolPlayerService {
     }
 
     /**
-     * 获取游戏中十个玩家的信息
-     *
+     * 获取游戏中十个玩家的信息,不包含战绩
+     * 战绩、信息分开获取
+     *默认游戏中玩家大区和已登录用户相同
+     *      * 否则，应当自动刷新已登录用户
+     * @param teamPuuidDto
      * @return
      */
     @Override
-    public PlayerInfoDto getAllInGamePlayerInfo() {
+    public List<PlayerInfoDto> getAllInGamePlayerInfo(TeamPuuidDto teamPuuidDto) {
+        return null;
+    }
+
+    /**
+     * 获取十个玩家近期 20场战绩中前 6场排位战绩（不区分单排、组排）
+     *默认游戏中玩家大区和已登录用户相同
+     *      * 否则，应当自动刷新已登录用户
+     * @param teamPuuidDto
+     * @return
+     */
+    @Override
+    public Map<String, List<GameScoreInfoDto>> getRecentSixRankScoreInfo(TeamPuuidDto teamPuuidDto) {
+        return null;
+    }
+
+    /**
+     * 获取十个玩家近期 20场战绩中前 6场匹配战绩
+     *默认游戏中玩家大区和已登录用户相同
+     *      * 否则，应当自动刷新已登录用户
+     * @param teamPuuidDto
+     * @return
+     */
+    @Override
+    public Map<String, List<GameScoreInfoDto>> getRecentSixNormalScoreInfo(TeamPuuidDto teamPuuidDto) {
+        return null;
+    }
+
+    /**
+     * 获取十个玩家近期 20场战绩中前 6场大乱斗战绩
+     * 默认游戏中玩家大区和已登录用户相同
+     * 否则，应当自动刷新已登录用户
+     * @param teamPuuidDto
+     * @return
+     */
+    @Override
+    public Map<String, List<GameScoreInfoDto>> getRecentSixARAMScoreInfo(TeamPuuidDto teamPuuidDto) {
         return null;
     }
 
@@ -119,6 +181,20 @@ public class LolPlayerServiceImpl implements LolPlayerService {
     }
 
     /**
+     * 通过 puuid查询玩家近期 20 场战绩
+     * 默认查询登录用户
+     * 如果没有则为 null
+     * /lol-match-history/v1/products/lol/" + id + "/matches?begIndex=0&endIndex=" + endIndex
+     *
+     * @param puuid
+     * @param endIndex
+     */
+    @Override
+    public List<GameScoreInfoDto> getRecentTwentyScoreInfoByPuuid(String puuid, int endIndex) {
+        return null;
+    }
+
+    /**
      * 解析段位
      *
      */
@@ -128,58 +204,74 @@ public class LolPlayerServiceImpl implements LolPlayerService {
 //        从枚举中取出段位和游戏模式中文显示
         // 最高段位
         String highestTier = rankDto.getHighestTier();
-        // 没有顶级，客户端传来段位为空字符串 ""
-        if("".equals(highestTier))
-            rankDto.setHighestTier(RankTier.valueOf("NONE").getTier());
-        else
-            rankDto.setHighestTier(RankTier.valueOf(highestTier).getTier());
+        // 没有定级，客户端传来段位为空字符串 ""
+        rankDto.setHighestTier(RankTier.getEnumIfPresent(highestTier).getTier());
+
         // 目前段位
         String tier = rankDto.getTier();
-        if("".equals(tier))
-            rankDto.setTier(RankTier.valueOf("NONE").getTier());
-        else
-            rankDto.setTier(RankTier.valueOf(tier).getTier());
+        rankDto.setTier(RankTier.getEnumIfPresent(tier).getTier());
+
         // 队列类型
         String queueType = rankDto.getQueueType();
-        rankDto.setQueueType(GameQueueType.valueOf(queueType).getGameQueueType());
+        rankDto.setQueueType(GameQueueType.getEnumIfPresent(queueType).getGameQueueType());
 
         return rankDto;
     }
 
-    /**
-     * 通过 puuid查询玩家近期 20 场游戏中的前 6 场排位战绩，
-     * 如果没有则为 null
-     * /lol-match-history/v1/products/lol/" + id + "/matches?begIndex=0&endIndex=" + endIndex
-     *
-     * @param puuid
-     * @param endIndex
-     */
-    @Override
-    public List<GameScoreInfoDto> getRecentScoreInfoByPuuid(String puuid, int endIndex) {
-        return null;
-    }
 
     /**
-     * @param puuid    :
-     * @param begIndex :
-     * @param endIndex :
+     * @Description: 通过 puuid查询玩家战绩（所有模式）
+     * @param puuid:
+     * @param begIndex: 0代表最近一场
+     * @param endIndex: 截止到第几场战绩（包含）
      * @return java.util.List<com.qq.lol.dto.ScoreInfoDto>
-     * 包含大区
+     *     包含大区
      * @throws
-     * @Description: 通过 puuid查询玩家近 20 场战绩（所有模式）
      * @Auther: null
      * @Date: 2023/11/29 - 19:51
      */
     @Override
     public List<GameScoreInfoDto> getScoreInfoByPuuid(String puuid, int begIndex, int endIndex) {
-        return null;
+        List<GameScoreInfoDto> collect;
+
+        String json = netRequestUtil.doGet("/lol-match-history/v1/products/lol/"
+                + puuid + "/matches?begIndex=" + begIndex + "&endIndex=" + endIndex);
+        // 解析 json
+        JSONObject jsonObject = JSON.parseObject(json);
+        List<JSONObject> jsonList = jsonObject.getJSONObject("games").getJSONArray("games")
+                // 转成 Java的 List
+                .toJavaList(JSONObject.class);
+        // 再使用 stream进一步处理
+        collect = jsonList.stream().map(game -> {
+            GameScoreInfoDto gameScore = game.toJavaObject(GameScoreInfoDto.class);
+            // 格式化时间
+            String beijingTime = StandardOutTime.utcToBeijingTime(gameScore.getGameCreationDate());
+            gameScore.setGameCreationDate(beijingTime);
+            // 再设置 KDA值
+            JSONObject participants = game.getJSONArray("participants").getJSONObject(0);
+            String championId = participants.getString("championId");
+            gameScore.setChampionId(championId);
+            // 获取KDA
+            JSONObject stats = participants.getJSONObject("stats");
+            Integer assists = stats.getInteger("assists");
+            Integer deaths = stats.getInteger("deaths");
+            Integer kills = stats.getInteger("kills");
+            // 是否赢
+            Boolean win = stats.getBoolean("win");
+
+            gameScore.setAssists(assists);
+            gameScore.setDeaths(deaths);
+            gameScore.setKills(kills);
+            gameScore.setWin(win);
+
+            // 从枚举中替换中文
+//            TODO: 替换中文，并且在GameScoreInfoDto新增queueName championName，其他Dto同理
+
+            return gameScore;
+        }).collect(Collectors.toList()); // 再次转成 List
+
+        return collect;
     }
 
-    /**
-     * 获取当前游戏两队人的puuid
-     */
-    @Override
-    public TeamPuuidDto getTeamPuuid() {
-        return null;
-    }
+
 }

@@ -17,7 +17,7 @@ public class GameScoreInfoDto {
     // 游戏模式
     private GameMode gameMode;
 
-    private String gameType;
+//    private String gameType;
 //    private String gameVersion;
 //    private long mapId;
 //    private List<ParticipantIdentity> participantIdentities;
@@ -27,6 +27,7 @@ public class GameScoreInfoDto {
     private String queueId;
 //    private long seasonId;
 //    private List<Team> teams;
+    private String championId;
 
     // 游戏开始时间（UTC） + 8 = 北京时间
     private String gameCreationDate;

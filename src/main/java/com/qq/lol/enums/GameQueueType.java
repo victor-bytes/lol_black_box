@@ -1,5 +1,8 @@
 package com.qq.lol.enums;
 
+import com.google.common.base.Enums;
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * @Auther: null
  * @Date: 2023/12/2 - 12 - 02 - 17:27
@@ -27,5 +30,13 @@ public enum GameQueueType {
 
     public String getGameQueueType() {
         return gameQueueType;
+    }
+
+    public static GameQueueType getEnumIfPresent(String enumName) {
+        GameQueueType gameQueueType = Enums.getIfPresent(GameQueueType.class, enumName).orNull();
+        if(null == gameQueueType)
+            return DEAAULT_TYPE;
+        else
+            return GameQueueType.valueOf(enumName);
     }
 }

@@ -1,6 +1,7 @@
 package com.qq.lol.app.services.Impl;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.base.Enums;
 import com.qq.lol.app.services.LolClientService;
 import com.qq.lol.enums.ClientStatusEnum;
 import com.qq.lol.utils.NetRequestUtil;
@@ -34,16 +35,7 @@ public class LolClientServiceImpl implements LolClientService {
         String statusJson = netRequestUtil.doGet("/lol-gameflow/v1/gameflow-phase");
         // 解析到 status
         String status = JSON.parseObject(statusJson, String.class);
-        ClientStatusEnum clientStatus = ClientStatusEnum.valueOf("DEFAULT_STATUS"); // 默认是未知状态
 
-        // 当 status枚举不存在时返回 默认未知状态
-        try {
-            clientStatus = ClientStatusEnum.valueOf(status);
-
-        } catch (IllegalArgumentException e) {
-            System.out.println("---ClientStatusEnum.valueOf(status)---出现异常");
-            e.printStackTrace();
-        }
-        return clientStatus;
+        return ClientStatusEnum.getEnumIfPresent(status);
     }
 }

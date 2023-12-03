@@ -1,5 +1,7 @@
 package com.qq.lol.enums;
 
+import com.google.common.base.Enums;
+
 /**
  * 游戏客户端状态
  *
@@ -42,7 +44,7 @@ public enum ClientStatusEnum {
     inGame("inGame游戏中"),
     inQueue("队列中"),
     Reconnect("等待重新连接"),
-    DEFAULT_STATUS("游戏客户端未知状态");
+    DEFAULT_STATUS("未知状态");
 
     private String clientStatusMsg;
 
@@ -54,6 +56,15 @@ public enum ClientStatusEnum {
         return this.clientStatusMsg;
     }
 
+    public static ClientStatusEnum getEnumIfPresent(String enumName){
+        // 枚举名不正确，返回 DEFAULT_STATUS("游戏客户端未知状态")
+        ClientStatusEnum clientStatus = Enums.getIfPresent(ClientStatusEnum.class, enumName).orNull();
+        if(clientStatus == null)
+            return DEFAULT_STATUS;
+        else
+            return ClientStatusEnum.valueOf(enumName);
+
+    }
 
 
 }

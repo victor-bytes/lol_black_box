@@ -10,6 +10,9 @@ import lombok.Data;
 @Data
 public class SummonerInfoDto {
 
+    // TW2台服，HN1艾欧尼亚
+    private String platformId;
+
     private String puuid;
 
     private String accountId;
