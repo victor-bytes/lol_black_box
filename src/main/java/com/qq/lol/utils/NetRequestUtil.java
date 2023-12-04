@@ -37,7 +37,7 @@ public class NetRequestUtil {
                 .build();
     }
 
-    // 饿汉式单例模式
+    // 懒汉式单例模式
     public static NetRequestUtil getNetRequestUtil(){
         try {
             if(netRequestUtil == null) {
@@ -46,7 +46,7 @@ public class NetRequestUtil {
                 // 实例化 NetRequestUtil，用于返回
                 netRequestUtil = new NetRequestUtil(riotClientDto);
 
-                System.out.println(StandardOutTime.getCurrentTime() + "第一次初始化NetRequestUtil--");
+                System.out.println(StandardOutTime.getCurrentTime() + "---第一次初始化NetRequestUtil---");
             }
         } catch (IOException e) {
             e.printStackTrace();

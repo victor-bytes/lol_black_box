@@ -17,6 +17,9 @@ public class GameScoreInfoDto {
     // 游戏模式
     private GameMode gameMode;
 
+    // 谁的战绩
+    private String puuid;
+
 //    private String gameType;
 //    private String gameVersion;
 //    private long mapId;
@@ -25,9 +28,14 @@ public class GameScoreInfoDto {
 //    private String platformId;
     // 游戏队列 id，用于区分是什么游戏模式
     private String queueId;
+
+    private String queueName;
 //    private long seasonId;
 //    private List<Team> teams;
     private String championId;
+
+    // 所用英雄
+    private HeroDto hero;
 
     // 游戏开始时间（UTC） + 8 = 北京时间
     private String gameCreationDate;
@@ -57,6 +65,7 @@ public class GameScoreInfoDto {
     // 服务器所在地区
     private String platformId;
 
-    // 红蓝方，红 200 ，蓝 100
+    // 红蓝方，红 200 ，蓝 100, 0未知
     private String teamId;
+
 }

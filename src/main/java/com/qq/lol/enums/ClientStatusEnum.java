@@ -62,7 +62,7 @@ public enum ClientStatusEnum {
         if(clientStatus == null)
             return DEFAULT_STATUS;
         else
-            return ClientStatusEnum.valueOf(enumName);
+            return clientStatus;
 
     }
 

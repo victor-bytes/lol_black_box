@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 public class HeroDto {
 
+    // championId
     private String id;
 
     private String name;
@@ -23,5 +24,5 @@ public class HeroDto {
     private String squarePortraitPath;
 
     // 英雄定位
-    private List<String> roles;
+//    private List<String> roles;
 }

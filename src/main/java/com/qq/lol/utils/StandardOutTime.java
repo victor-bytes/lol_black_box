@@ -16,6 +16,7 @@ import java.util.TimeZone;
  */
 public class StandardOutTime {
 
+    // 私有构造，不允许实例化
     private StandardOutTime() {
 
     }

@@ -11,6 +11,6 @@ import java.util.List;
  */
 @Data
 public class TeamPuuidDto {
-    private List<String> teamPuuid1;
-    private List<String> teamPuuid2;
+    private List<String> teamPuuidOne;
+    private List<String> teamPuuidTwo;
 }

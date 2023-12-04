@@ -1,5 +1,7 @@
 package com.qq.lol.enums;
 
+import com.google.common.base.Enums;
+
 /**
  * @Auther: null
  * @Date: 2023/12/2 - 12 - 02 - 12:53
@@ -22,6 +24,14 @@ public enum GameMode {
     }
 
     public String getGameMode() {
+        return gameMode;
+    }
+
+    public static GameMode getEnumIfPresent(String enumName){
+        GameMode gameMode = Enums.getIfPresent(GameMode.class, enumName).orNull();
+        if(gameMode == null)
+            return DEFAULT_MODE;
+
         return gameMode;
     }
 }

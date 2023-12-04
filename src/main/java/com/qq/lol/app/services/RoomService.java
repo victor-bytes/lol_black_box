@@ -1,6 +1,6 @@
 package com.qq.lol.app.services;
 
-import com.qq.lol.dto.GameRoomDto;
+import com.qq.lol.dto.GameRoomInfoDto;
 import com.qq.lol.dto.TeamPuuidDto;
 
 /**
@@ -14,12 +14,12 @@ public interface RoomService {
     /**
      * 获取当前游戏房间内两队人的puuid
      */
-    TeamPuuidDto getTeamPuuid();
+//    TeamPuuidDto getTeamPuuid();
 
     /**
      * 获取游戏进行后房间信息
      * @return
      */
-    GameRoomDto getRoomInfo();
+    GameRoomInfoDto getRoomInfo();
 
 }

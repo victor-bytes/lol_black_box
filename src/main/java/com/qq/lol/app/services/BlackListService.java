@@ -19,7 +19,7 @@ public interface BlackListService {
      * @Auther: null
      * @Date: 2023/11/29 - 19:25
      */
-    void addBlackList(BlackPlayerDto player);
+    Integer addBlackList(BlackPlayerDto player);
 
     /**
      * @Description: 通过 puuid删除黑名单玩家
@@ -29,17 +29,18 @@ public interface BlackListService {
      * @Auther: null
      * @Date: 2023/11/29 - 19:41
      */
-    void removeBlackPlayerByPuuid(String puuid);
+    Integer removeFromBlackList(String puuid);
 
     /**
      * @Description: 通过 puuid查询玩家是否在黑名单
+     * 不存在返回 null
      * @param puuid:
      * @return com.qq.lol.dto.BlackPlayer
      * @throws
      * @Auther: null
      * @Date: 2023/11/29 - 19:26
      */
-    BlackPlayerDto selectBlackPlayerByPuuid(String puuid);
+    BlackPlayerDto inBlackList(String puuid);
 
     /**
      * @Description: 分页查询黑名单玩家

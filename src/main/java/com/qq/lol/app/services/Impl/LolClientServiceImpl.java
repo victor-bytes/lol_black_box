@@ -13,6 +13,13 @@ import com.qq.lol.utils.NetRequestUtil;
  * @version: 1.0
  */
 public class LolClientServiceImpl implements LolClientService {
+    private static final LolClientService lolClientService = new LolClientServiceImpl();
+
+    private LolClientServiceImpl() {}
+
+    public static LolClientService getLolClientService() {
+        return lolClientService;
+    }
 
     /**
      * 查看客户端当前状态

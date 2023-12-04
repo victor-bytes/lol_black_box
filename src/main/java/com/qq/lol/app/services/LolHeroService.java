@@ -9,7 +9,14 @@ import java.util.List;
  * @Description: 英雄信息 api
  * @version: 1.0
  */
-public interface LolHeroServices {
+public interface LolHeroService {
+
+    /**
+     * 根据 championId 获取英雄信息
+     * @return
+     */
+    HeroDto getHeroInfoByChampionId(String championId);
+
     /**
      * 获取所有英雄基础信息，包含英雄名称和头像 url
      * /lol-game-data/assets/v1/champion-summary.json
@@ -20,7 +27,7 @@ public interface LolHeroServices {
     /**
      * 获取用户已拥有英雄
      */
-    List<HeroDto> getChampionsBySummonerId(String summonerId);
+    List<HeroDto> getOwnedChampionsBySummonerId(String summonerId);
 
     /**
      * 获得已拥有英雄数量
