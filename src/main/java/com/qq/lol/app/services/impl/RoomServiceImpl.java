@@ -1,11 +1,8 @@
-package com.qq.lol.app.services.Impl;
+package com.qq.lol.app.services.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.qq.lol.app.services.LolClientService;
-import com.qq.lol.app.services.LolHeroService;
-import com.qq.lol.app.services.LolPlayerService;
-import com.qq.lol.app.services.RoomService;
+import com.qq.lol.app.services.*;
 import com.qq.lol.dto.GameRoomInfoDto;
 import com.qq.lol.dto.PlayerInfoDto;
 import com.qq.lol.dto.TeamPuuidDto;
@@ -14,6 +11,8 @@ import com.qq.lol.enums.GameMode;
 import com.qq.lol.enums.GameQueueType;
 import com.qq.lol.utils.InitGameData;
 import com.qq.lol.utils.NetRequestUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +25,12 @@ import java.util.stream.Collectors;
  * @version: 1.0
  */
 public class RoomServiceImpl implements RoomService {
-    private final NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
+    private static final NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
     private static final RoomService roomService = new RoomServiceImpl();
     private static final LolClientService lolClientService = LolClientServiceImpl.getLolClientService();
     private static final LolHeroService lolHeroService = LolHeroServiceImpl.getLolHeroService();
     private static final LolPlayerService lolPlayerService = LolPlayerServiceImpl.getLolPlayerService();
+    private static final GlobalService global_service = GlobalService.getGlobalService();
 
     private RoomServiceImpl() {}
 
@@ -39,33 +39,45 @@ public class RoomServiceImpl implements RoomService {
     }
 
     /**
-     * 获取对局开始后房间信息
+     * @Description: 获取对局开始后房间信息，包含玩家信息（只适配台服、马服）
      * 包含玩家信息
-     * @return
+     * @return com.qq.lol.dto.GameRoomInfoDto
+     * @Auther: null
+     * @Date: 2023/12/5 - 17:48
      */
     @Override
     public GameRoomInfoDto getRoomInfo() {
-        GameRoomInfoDto gameRoomInfoDto = new GameRoomInfoDto();
-
         // 获取当前客户端状态
         ClientStatusEnum clientStatus = lolClientService.getClientStatus();
-        // 判断是否正在对局中，，，暂时不适配马服
-        if(ClientStatusEnum.InProgress != clientStatus) {
-            System.out.println("------当前客户端未处于对局中------");
-            return gameRoomInfoDto;
-        }
+        // 获取当前大区 TW2台服 HN1 艾欧尼亚
+        String platformId = global_service.getLoginSummoner().getPlatformId();
 
-        // 开始解析
-        String json = netRequestUtil.doGet("/lol-gameflow/v1/session");
-        JSONObject jsonObject = JSON.parseObject(json);
         /**
          * 获取当前游戏阶段
          * 台服在选英雄阶段无法获取双方信息,马服在选英雄阶段可以获取到我方队员信息
          * 并且台服在选英雄阶段，会返回上一局的 gameData数据，选英雄阶段的 gameId是 0
-         * TODO 暂时不适配马服
+         *  只适配台服、马服
          */
-        // 获取当前大区
-//        String platformId = lolPlayerService.getCurrentSummoner().getPlatformId();
+        if(ClientStatusEnum.InProgress != clientStatus && StringUtils.equals("TW2", platformId)) {
+            System.out.println("------台服必须进入游戏才可以获取双方玩家信息------");
+            return null;
+        }
+        // 适配马服任意大区
+        if(clientStatus != ClientStatusEnum.ChampSelect && ClientStatusEnum.InProgress != clientStatus) {
+            System.out.println("------马服" + platformId + "未进入游戏房间------");
+            return null;
+        }
+
+        return parseRoomInfo();
+    }
+
+
+    @NotNull
+    private GameRoomInfoDto parseRoomInfo() {
+        GameRoomInfoDto gameRoomInfoDto = new GameRoomInfoDto();
+        // 开始解析
+        String json = netRequestUtil.doGet("/lol-gameflow/v1/session");
+        JSONObject jsonObject = JSON.parseObject(json);
 
         JSONObject gameData = jsonObject.getJSONObject("gameData");
         // gameId
@@ -108,6 +120,7 @@ public class RoomServiceImpl implements RoomService {
         List<String> teamPuuidTwo = new ArrayList<>();
         List<PlayerInfoDto> teamTwoPlayers;
 
+        // 房间信息解析完毕，开始解析双方玩家信息
         // teamOne
         teamOnePlayers = gameData.getJSONArray("teamOne")
                 .toJavaList(JSONObject.class)

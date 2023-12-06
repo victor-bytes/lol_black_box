@@ -1,6 +1,6 @@
 package com.qq.lol.utils;
 
-import com.qq.lol.app.services.Impl.LolHeroServiceImpl;
+import com.qq.lol.app.services.impl.LolHeroServiceImpl;
 import com.qq.lol.app.services.LolHeroService;
 
 import java.util.HashMap;

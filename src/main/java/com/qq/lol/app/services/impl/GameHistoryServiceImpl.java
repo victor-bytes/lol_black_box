@@ -1,11 +1,9 @@
-package com.qq.lol.app.services.Impl;
+package com.qq.lol.app.services.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.qq.lol.app.services.GameHistoryService;
 import com.qq.lol.app.services.LolHeroService;
-import com.qq.lol.app.services.RoomService;
-import com.qq.lol.dto.GameRoomInfoDto;
 import com.qq.lol.dto.GameScoreInfoDto;
 import com.qq.lol.dto.TeamPuuidDto;
 import com.qq.lol.enums.GameMode;
@@ -27,7 +25,7 @@ import java.util.stream.Collectors;
  */
 public class GameHistoryServiceImpl implements GameHistoryService {
     private static final GameHistoryService gameHistoryService = new GameHistoryServiceImpl();
-    private final NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
+    private static final NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
     private static final LolHeroService lolHeroService = LolHeroServiceImpl.getLolHeroService();
 
     private GameHistoryServiceImpl(){}
@@ -38,7 +36,6 @@ public class GameHistoryServiceImpl implements GameHistoryService {
 
     /**
      * @return java.util.Map<java.lang.String, java.util.List < com.qq.lol.dto.GameScoreInfoDto>>
-     * @throws
      * @Description: 获取十个玩家近期 20场战绩中前 6场组排战绩
      * @Auther: null
      * @Date: 2023/12/4 - 14:24
@@ -63,7 +60,6 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      * @Description: 通过puuid获取 玩家近期 20场战绩中前 6场组排战绩
      * @param puuid : puuid
      * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto>
-     * @throws
      * @Auther: null
      * @Date: 2023/12/4 - 16:48
      */
@@ -76,7 +72,6 @@ public class GameHistoryServiceImpl implements GameHistoryService {
     /**
      * @Description: 获取十个玩家近期 20场战绩中前 6场单排战绩
      * @return java.util.Map<java.lang.String,java.util.List<com.qq.lol.dto.GameScoreInfoDto>>
-     * @throws
      * @Auther: null
      * @Date: 2023/12/4 - 14:24
      */
@@ -100,7 +95,6 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      * @Description: 通过puuid获取 玩家近期 20场战绩中前 6场单排战绩
      * @param puuid : puuid
      * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto>
-     * @throws
      * @Auther: null
      * @Date: 2023/12/4 - 16:48
      */
@@ -135,7 +129,6 @@ public class GameHistoryServiceImpl implements GameHistoryService {
     /**
      * @Description: 通过puuid获取玩家近期 20场战绩中前 6场匹配战绩
      * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto>
-     * @throws
      * @Auther: null
      * @Date: 2023/12/4 - 16:49
      */
@@ -148,7 +141,6 @@ public class GameHistoryServiceImpl implements GameHistoryService {
     /**
      * @Description: 获取十个玩家近期 20场战绩中前 6场大乱斗战绩
      * @return java.util.Map<java.lang.String,java.util.List<com.qq.lol.dto.GameScoreInfoDto>>
-     * @throws
      * @Auther: null
      * @Date: 2023/12/4 - 14:23
      */

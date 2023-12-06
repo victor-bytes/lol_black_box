@@ -11,6 +11,8 @@ import java.util.List;
  */
 @Data
 public class HeroDto {
+    // 数据库主键
+    private Integer dbId;
 
     // championId
     private String id;

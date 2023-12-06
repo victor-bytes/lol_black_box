@@ -10,13 +10,13 @@ import com.qq.lol.dto.GameRoomInfoDto;
  */
 public interface RoomService {
 
-    /**
-     * 获取当前游戏房间内两队人的puuid
-     */
+//    /**
+//     * 获取当前游戏房间内两队人的puuid
+//     */
 //    TeamPuuidDto getTeamPuuid();
 
     /**
-     * @Description: 获取对局开始后房间信息
+     * @Description: 获取对局开始后房间信息，包含玩家信息（只适配台服、马服）
      * 包含玩家信息
      * @return com.qq.lol.dto.GameRoomInfoDto
      * @Auther: null

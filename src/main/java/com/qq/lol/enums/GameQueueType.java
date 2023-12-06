@@ -20,6 +20,7 @@ public enum GameQueueType {
     RANKED_TFT_DOUBLE_UP("云顶双人模式"),
     RANKED_TFT_TURBO("云顶狂暴模式"),
     PRACTICETOOL("自定义"),
+    PRACTICE_GAME("训练模式"),
     DEAAULT_TYPE("未知队列模式");
 
     private String gameQueueType;

@@ -57,7 +57,8 @@ public class ProcessUtil {
                 }
 
             }
-            System.out.println(leagueClientBO);
+            System.out.print("=== Port ：" + leagueClientBO.getPort());
+            System.out.println("=== Token ：" + leagueClientBO.getToken() + " ===");
 
             return leagueClientBO;
         } finally {
@@ -74,4 +75,11 @@ public class ProcessUtil {
         }
 
     }
+
+//    public static LolClientDto getClientProcessNew() {
+//        String cmd = "cmd /c runas /user:Administrator WMIC PROCESS WHERE name=\"LeagueClientUx.exe\" GET commandline";
+//
+//
+//    }
+
 }

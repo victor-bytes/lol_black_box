@@ -41,12 +41,12 @@ public class NetRequestUtil {
     public static NetRequestUtil getNetRequestUtil(){
         try {
             if(netRequestUtil == null) {
+                System.out.println(StandardOutTime.getCurrentTime() + "---第一次初始化NetRequestUtil---");
+
                 // 获取 Port和 Token
                 LolClientDto riotClientDto = ProcessUtil.getClientProcess();
                 // 实例化 NetRequestUtil，用于返回
                 netRequestUtil = new NetRequestUtil(riotClientDto);
-
-                System.out.println(StandardOutTime.getCurrentTime() + "---第一次初始化NetRequestUtil---");
             }
         } catch (IOException e) {
             e.printStackTrace();

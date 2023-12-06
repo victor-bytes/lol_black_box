@@ -1,22 +1,11 @@
-package com.qq.lol.app.services.Impl;
+package com.qq.lol.app.services.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.qq.lol.app.services.LolHeroService;
 import com.qq.lol.app.services.LolPlayerService;
-import com.qq.lol.app.services.RoomService;
 import com.qq.lol.dto.*;
-import com.qq.lol.enums.GameQueueType;
-import com.qq.lol.enums.RankTier;
 import com.qq.lol.utils.NetRequestUtil;
-import com.qq.lol.utils.StandardOutTime;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @Auther: null
@@ -27,8 +16,7 @@ import java.util.stream.Collectors;
 public class LolPlayerServiceImpl implements LolPlayerService {
     // 饿汉式单例模式
     private static final LolPlayerServiceImpl lolPlayerService = new LolPlayerServiceImpl();
-    private final NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
-    private final RoomService roomService = RoomServiceImpl.getRoomService();
+    private static final NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
 
     private LolPlayerServiceImpl() {}
 
@@ -38,8 +26,8 @@ public class LolPlayerServiceImpl implements LolPlayerService {
 
     /**
      * @Description: 获取当前已登录游戏客户端的召唤师信息
+     * 建议使用 com.qq.lol.app.services.GlobalService getLoginSummoner()
      * @return com.qq.lol.dto.SummonerInfoDto
-     * @throws
      * @Auther: null
      * @Date: 2023/12/4 - 14:24
      */
@@ -77,7 +65,6 @@ public class LolPlayerServiceImpl implements LolPlayerService {
      * @Description: 通过 puuid获取玩家信息
      * @param puuid:
      * @return com.qq.lol.dto.PlayerInfoDto
-     * @throws
      * @Auther: null
      * @Date: 2023/12/4 - 14:27
      */
@@ -89,14 +76,14 @@ public class LolPlayerServiceImpl implements LolPlayerService {
         return playerInfo;
     }
 
-    /**
-     * @Description: 获取游戏中十个玩家的信息,不包含战绩
-     * 战绩、信息分开获取
-     * @return java.util.List<com.qq.lol.dto.PlayerInfoDto>
-     * @throws
-     * @Auther: null
-     * @Date: 2023/12/4 - 14:24
-     */
+//    /**
+//     * @Description: 获取游戏中十个玩家的信息,不包含战绩
+//     * 战绩、信息分开获取
+//     * @return java.util.List<com.qq.lol.dto.PlayerInfoDto>
+//     * @throws
+//     * @Auther: null
+//     * @Date: 2023/12/4 - 14:24
+//     */
 //    @Override
 //    public List<PlayerInfoDto> getPlayersInfoByPuuid() {
 //        return null;

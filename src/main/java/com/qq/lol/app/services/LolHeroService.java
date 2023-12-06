@@ -12,26 +12,38 @@ import java.util.List;
 public interface LolHeroService {
 
     /**
-     * 根据 championId 获取英雄信息
-     * @return
+     * @Description: 根据 championId 获取英雄信息
+     * @param championId:
+     * @return com.qq.lol.dto.HeroDto
+     * @Auther: null
+     * @Date: 2023/12/6 - 19:12
      */
     HeroDto getHeroInfoByChampionId(String championId);
 
     /**
-     * 获取所有英雄基础信息，包含英雄名称和头像 url
-     * /lol-game-data/assets/v1/champion-summary.json
-     * @return
+     * @Description: 从客户端获取所有英雄基础信息，包含英雄名称和头像 url
+     * 保存到数据库
+     * @return java.util.List<com.qq.lol.dto.HeroDto>
+     * @Auther: null
+     * @Date: 2023/12/6 - 19:12
      */
-    List<HeroDto> getHero();
+    Integer getHeroes();
 
     /**
-     * 获取用户已拥有英雄
+     * @Description: 获取用户已拥有英雄
+     * @param summonerId:
+     * @return java.util.List<com.qq.lol.dto.HeroDto>
+     * @Auther: null
+     * @Date: 2023/12/6 - 19:14
      */
     List<HeroDto> getOwnedChampionsBySummonerId(String summonerId);
 
     /**
-     * 获得已拥有英雄数量
-     * @return
+     * @Description: 获得已拥有英雄数量
+     * @param summonerId:
+     * @return java.lang.Integer
+     * @Auther: null
+     * @Date: 2023/12/6 - 19:14
      */
     Integer getOwnedHeroCount(String summonerId);
 }

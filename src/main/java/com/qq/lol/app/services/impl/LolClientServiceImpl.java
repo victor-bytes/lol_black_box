@@ -1,7 +1,6 @@
-package com.qq.lol.app.services.Impl;
+package com.qq.lol.app.services.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.google.common.base.Enums;
 import com.qq.lol.app.services.LolClientService;
 import com.qq.lol.enums.ClientStatusEnum;
 import com.qq.lol.utils.NetRequestUtil;
@@ -14,6 +13,7 @@ import com.qq.lol.utils.NetRequestUtil;
  */
 public class LolClientServiceImpl implements LolClientService {
     private static final LolClientService lolClientService = new LolClientServiceImpl();
+    private static final NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
 
     private LolClientServiceImpl() {}
 
@@ -37,7 +37,7 @@ public class LolClientServiceImpl implements LolClientService {
      */
     @Override
     public ClientStatusEnum getClientStatus() {
-        NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
+        System.out.println("ssss");
         // 获取客户端返回的 json
         String statusJson = netRequestUtil.doGet("/lol-gameflow/v1/gameflow-phase");
         // 解析到 status

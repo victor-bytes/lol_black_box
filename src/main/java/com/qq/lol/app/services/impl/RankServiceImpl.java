@@ -1,4 +1,4 @@
-package com.qq.lol.app.services.Impl;
+package com.qq.lol.app.services.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class RankServiceImpl implements RankService {
     private static final RankService rankService = new RankServiceImpl();
-    private final NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
+    private static final NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
 
     private RankServiceImpl(){}
 
@@ -31,7 +31,6 @@ public class RankServiceImpl implements RankService {
      * @Description: 通过puuid获取玩家段位
      * @param puuid: puuid
      * @return java.util.List<com.qq.lol.dto.RankDto>
-     * @throws
      * @Auther: null
      * @Date: 2023/12/4 - 14:23
      */

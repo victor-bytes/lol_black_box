@@ -10,10 +10,6 @@ import lombok.Data;
  */
 @Data
 public class GameScoreInfoDto {
-//    private long gameCreation;
-//    private String gameCreationDate;
-//    private long gameDuration;
-
     // 游戏模式
     private GameMode gameMode;
 
@@ -22,18 +18,11 @@ public class GameScoreInfoDto {
     // 谁的战绩
     private String puuid;
 
-//    private String gameType;
-//    private String gameVersion;
-//    private long mapId;
-//    private List<ParticipantIdentity> participantIdentities;
-//    private List<Participant> participants;
-//    private String platformId;
     // 游戏队列 id，用于区分是什么游戏模式
     private String queueId;
 
     private String queueName;
-//    private long seasonId;
-//    private List<Team> teams;
+
     private String championId;
 
     // 所用英雄
