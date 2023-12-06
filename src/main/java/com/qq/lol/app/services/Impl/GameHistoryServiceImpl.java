@@ -4,7 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.qq.lol.app.services.GameHistoryService;
 import com.qq.lol.app.services.LolHeroService;
+import com.qq.lol.app.services.RoomService;
+import com.qq.lol.dto.GameRoomInfoDto;
 import com.qq.lol.dto.GameScoreInfoDto;
+import com.qq.lol.dto.TeamPuuidDto;
 import com.qq.lol.enums.GameMode;
 import com.qq.lol.utils.InitGameData;
 import com.qq.lol.utils.NetRequestUtil;
@@ -25,7 +28,7 @@ import java.util.stream.Collectors;
 public class GameHistoryServiceImpl implements GameHistoryService {
     private static final GameHistoryService gameHistoryService = new GameHistoryServiceImpl();
     private final NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
-    private final LolHeroService lolHeroService = LolHeroServiceImpl.getLolHeroService();
+    private static final LolHeroService lolHeroService = LolHeroServiceImpl.getLolHeroService();
 
     private GameHistoryServiceImpl(){}
 
@@ -41,8 +44,19 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      * @Date: 2023/12/4 - 14:24
      */
     @Override
-    public Map<String, List<GameScoreInfoDto>> getRecentSixRankFlexScoresInfo() {
-        return null;
+    public Map<String, List<GameScoreInfoDto>> getRecentSixRankFlexScoresInfo(TeamPuuidDto teamPuuidDto) {
+        List<String> teamPuuidOne = teamPuuidDto.getTeamPuuidOne();
+        List<String> teamPuuidTwo = teamPuuidDto.getTeamPuuidTwo();
+
+        Map<String, List<GameScoreInfoDto>> recentSixRankFlexScoresInfo = new HashMap<>();
+        for (String puuid : teamPuuidOne) {
+            recentSixRankFlexScoresInfo.put(puuid, getRecentSixRankFlexScoreInfo(puuid));
+        }
+        for (String puuid : teamPuuidTwo) {
+            recentSixRankFlexScoresInfo.put(puuid, getRecentSixRankFlexScoreInfo(puuid));
+        }
+
+        return recentSixRankFlexScoresInfo;
     }
 
     /**
@@ -67,8 +81,19 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      * @Date: 2023/12/4 - 14:24
      */
     @Override
-    public Map<String, List<GameScoreInfoDto>> getRecentSixRankSOLOScoresInfo() {
-        return null;
+    public Map<String, List<GameScoreInfoDto>> getRecentSixRankSOLOScoresInfo(TeamPuuidDto teamPuuidDto) {
+        List<String> teamPuuidOne = teamPuuidDto.getTeamPuuidOne();
+        List<String> teamPuuidTwo = teamPuuidDto.getTeamPuuidTwo();
+
+        Map<String, List<GameScoreInfoDto>> recentSixRankSOLOScoresInfo = new HashMap<>();
+        for (String puuid : teamPuuidOne) {
+            recentSixRankSOLOScoresInfo.put(puuid, getRecentSixRankSOLOScoreInfo(puuid));
+        }
+        for (String puuid : teamPuuidTwo) {
+            recentSixRankSOLOScoresInfo.put(puuid, getRecentSixRankSOLOScoreInfo(puuid));
+        }
+
+        return recentSixRankSOLOScoresInfo;
     }
 
     /**
@@ -88,13 +113,23 @@ public class GameHistoryServiceImpl implements GameHistoryService {
     /**
      * @Description: 获取十个玩家近期 20场战绩中前 6场匹配战绩
      * @return java.util.Map<java.lang.String,java.util.List<com.qq.lol.dto.GameScoreInfoDto>>
-     * @throws
      * @Auther: null
      * @Date: 2023/12/4 - 14:23
      */
     @Override
-    public Map<String, List<GameScoreInfoDto>> getRecentSixNormalScoresInfo() {
-        return null;
+    public Map<String, List<GameScoreInfoDto>> getRecentSixNormalScoresInfo(TeamPuuidDto teamPuuidDto) {
+        List<String> teamPuuidOne = teamPuuidDto.getTeamPuuidOne();
+        List<String> teamPuuidTwo = teamPuuidDto.getTeamPuuidTwo();
+
+        Map<String, List<GameScoreInfoDto>> recentSixNormalScoresInfo = new HashMap<>();
+        for (String puuid : teamPuuidOne) {
+            recentSixNormalScoresInfo.put(puuid, getRecentSixNormalScoreInfo(puuid));
+        }
+        for (String puuid : teamPuuidTwo) {
+            recentSixNormalScoresInfo.put(puuid, getRecentSixNormalScoreInfo(puuid));
+        }
+
+        return recentSixNormalScoresInfo;
     }
 
     /**
@@ -118,16 +153,25 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      * @Date: 2023/12/4 - 14:23
      */
     @Override
-    public Map<String, List<GameScoreInfoDto>> getRecentSixARAMScoresInfo() {
+    public Map<String, List<GameScoreInfoDto>> getRecentSixARAMScoresInfo(TeamPuuidDto teamPuuidDto) {
+        List<String> teamPuuidOne = teamPuuidDto.getTeamPuuidOne();
+        List<String> teamPuuidTwo = teamPuuidDto.getTeamPuuidTwo();
 
-        return null;
+        Map<String, List<GameScoreInfoDto>> recentSixARAMScoresInfo = new HashMap<>();
+        for (String puuid : teamPuuidOne) {
+            recentSixARAMScoresInfo.put(puuid, getRecentSixARAMScoreInfo(puuid));
+        }
+        for (String puuid : teamPuuidTwo) {
+            recentSixARAMScoresInfo.put(puuid, getRecentSixARAMScoreInfo(puuid));
+        }
+
+        return recentSixARAMScoresInfo;
     }
 
     /**
      * @Description: 通过puuid获取玩家近期 20场战绩中前 6场大乱斗战绩
      * 没有6场显示实际场数
      * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto>
-     * @throws
      * @Auther: null
      * @Date: 2023/12/4 - 16:50
      */
@@ -142,7 +186,6 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      * @param queueId:
      * @param recentTwentyScore:
      * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto>
-     * @throws
      * @Auther: null
      * @Date: 2023/12/4 - 17:42
      */
@@ -160,7 +203,6 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      * @Description: 通过 puuid查询玩家近期 20 场战绩
      * @param puuid: puuid
      * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto>
-     * @throws
      * @Auther: null
      * @Date: 2023/12/4 - 14:22
      */
@@ -175,7 +217,6 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      * @param begIndex: 0代表最近一场
      * @param endIndex: 截止到第几场战绩（不包含）
      * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto>
-     * @throws
      * @Auther: null
      * @Date: 2023/12/4 - 14:21
      */
@@ -198,6 +239,9 @@ public class GameHistoryServiceImpl implements GameHistoryService {
             // 格式化时间
             String beijingTime = StandardOutTime.utcToBeijingTime(gameScore.getGameCreationDate());
             gameScore.setGameCreationDate(beijingTime);
+            // 设置 gameModeName
+            String gameMode = game.getString("gameMode");
+            gameScore.setGameModeName(GameMode.getEnumIfPresent(gameMode).getGameModeMsg());
 
             JSONObject participants = game.getJSONArray("participants").getJSONObject(0);
 

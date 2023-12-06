@@ -3,6 +3,8 @@ package com.qq.lol.app.services.Impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.qq.lol.app.services.LolClientService;
+import com.qq.lol.app.services.LolHeroService;
+import com.qq.lol.app.services.LolPlayerService;
 import com.qq.lol.app.services.RoomService;
 import com.qq.lol.dto.GameRoomInfoDto;
 import com.qq.lol.dto.PlayerInfoDto;
@@ -10,6 +12,7 @@ import com.qq.lol.dto.TeamPuuidDto;
 import com.qq.lol.enums.ClientStatusEnum;
 import com.qq.lol.enums.GameMode;
 import com.qq.lol.enums.GameQueueType;
+import com.qq.lol.utils.InitGameData;
 import com.qq.lol.utils.NetRequestUtil;
 
 import java.util.ArrayList;
@@ -26,6 +29,8 @@ public class RoomServiceImpl implements RoomService {
     private final NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
     private static final RoomService roomService = new RoomServiceImpl();
     private static final LolClientService lolClientService = LolClientServiceImpl.getLolClientService();
+    private static final LolHeroService lolHeroService = LolHeroServiceImpl.getLolHeroService();
+    private static final LolPlayerService lolPlayerService = LolPlayerServiceImpl.getLolPlayerService();
 
     private RoomServiceImpl() {}
 
@@ -34,7 +39,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     /**
-     * 获取游戏进行后房间信息
+     * 获取对局开始后房间信息
      * 包含玩家信息
      * @return
      */
@@ -42,67 +47,123 @@ public class RoomServiceImpl implements RoomService {
     public GameRoomInfoDto getRoomInfo() {
         GameRoomInfoDto gameRoomInfoDto = new GameRoomInfoDto();
 
-        System.out.println("------正在获取对局信息--------");
-
-        // 判断是否正在对局中
+        // 获取当前客户端状态
         ClientStatusEnum clientStatus = lolClientService.getClientStatus();
+        // 判断是否正在对局中，，，暂时不适配马服
         if(ClientStatusEnum.InProgress != clientStatus) {
-            System.out.println("对局尚未开始");
-            // 不在对局中
-            //TODO
-            return null;
+            System.out.println("------当前客户端未处于对局中------");
+            return gameRoomInfoDto;
         }
+
+        // 开始解析
         String json = netRequestUtil.doGet("/lol-gameflow/v1/session");
-        JSONObject gameData = JSON.parseObject(json).getJSONObject("gameData");
+        JSONObject jsonObject = JSON.parseObject(json);
+        /**
+         * 获取当前游戏阶段
+         * 台服在选英雄阶段无法获取双方信息,马服在选英雄阶段可以获取到我方队员信息
+         * 并且台服在选英雄阶段，会返回上一局的 gameData数据，选英雄阶段的 gameId是 0
+         * TODO 暂时不适配马服
+         */
+        // 获取当前大区
+//        String platformId = lolPlayerService.getCurrentSummoner().getPlatformId();
+
+        JSONObject gameData = jsonObject.getJSONObject("gameData");
         // gameId
         String gameId = gameData.getString("gameId");
+        // 设置 gameId
+        gameRoomInfoDto.setGameId(gameId);
+
+        // queue里面可以获取到房间的信息
         JSONObject queue = gameData.getJSONObject("queue");
         // gameMode
         String gameMode = queue.getString("gameMode");
-        // gameQueueId
-        String gameQueueId = queue.getString("id");
+        // 设置 gameMode、gameModeName
+        // 需要判断是否有该枚举
+        GameMode gM = GameMode.getEnumIfPresent(gameMode);
+        gameRoomInfoDto.setGameMode(gM);
+        gameRoomInfoDto.setGameModeName(gM.getGameModeMsg());
         // gameQueueType
         String gameQueueType = queue.getString("type");
-
-        gameRoomInfoDto.setGameId(gameId);
-        gameRoomInfoDto.setGameMode(GameMode.getEnumIfPresent(gameMode));
+        // 设置 gameQueueType、gameQueueTypeName
+        GameQueueType gQT = GameQueueType.getEnumIfPresent(gameQueueType);
+        gameRoomInfoDto.setGameQueueType(gQT);
+        gameRoomInfoDto.setGameQueueTypeName(gQT.getGameQueueTypeMsg());
+        // 设置 gameQueueId、gameQueueName
+        String gameQueueId = queue.getString("id");
+        String gameQueueName = InitGameData.gameQueueIdToName.get(gameQueueId);
         gameRoomInfoDto.setGameQueueId(gameQueueId);
-        gameRoomInfoDto.setGameQueueType(GameQueueType.getEnumIfPresent(gameQueueType));
+        gameRoomInfoDto.setGameQueueName(gameQueueName);
 
-        System.out.println("gameId --> " + gameId);
-        System.out.println("gameMode --> " + gameMode);
-        System.out.println("gameQueueId --> " + gameQueueId);
-        System.out.println("gameQueueType --> " + gameQueueType);
+        System.out.println("----------当前游戏对局信息-------------");
+        System.out.println("gameId            --> " + gameId);
+        System.out.println("gameMode          --> " + gameMode);
+        System.out.println("gameModeName      --> " + gM.getGameModeMsg());
+        System.out.println("gameQueueType     --> " + gameQueueType);
+        System.out.println("gameQueueTypeName --> " + gQT.getGameQueueTypeMsg());
+        System.out.println("gameQueueId       --> " + gameQueueId);
+        System.out.println("gameQueueName     --> " + gameQueueName);
 
         List<String> teamPuuidOne = new ArrayList<>();
-        List<PlayerInfoDto> teamOne;
+        List<PlayerInfoDto> teamOnePlayers;
         List<String> teamPuuidTwo = new ArrayList<>();
-        List<PlayerInfoDto> teamTwo = new ArrayList<>();
+        List<PlayerInfoDto> teamTwoPlayers;
 
-
-        // 队伍一
-        teamOne = gameData.getJSONArray("teamOne")
+        // teamOne
+        teamOnePlayers = gameData.getJSONArray("teamOne")
                 .toJavaList(JSONObject.class)
                 .stream()
-                .map(player -> {
-                    String championId = player.getString("championId");
-                    String profileIconId = player.getString("profileIconId");
-                    String puuid = player.getString("puuid");
-                    String summonerId = player.getString("summonerId");
-                    String summonerName = player.getString("summonerName");
-
-                    teamPuuidOne.add(puuid);
-                    PlayerInfoDto playerInfoDto = new PlayerInfoDto();
-                    playerInfoDto.setChampionId(championId);
-                    playerInfoDto.setProfileIconId(profileIconId);
-                    playerInfoDto.setSummonerId(summonerId);
-                    playerInfoDto.setSummonerName(summonerName);
-
-                    return playerInfoDto;
-                })
+                .map(RoomServiceImpl::parsePlayer)
                 .collect(Collectors.toList());
+        // 获取 teamOne的puuid
+        for (PlayerInfoDto player : teamOnePlayers) {
+            teamPuuidOne.add(player.getPuuid());
+        }
 
+        // teamTwo
+        teamTwoPlayers = gameData.getJSONArray("teamTwo")
+                .toJavaList(JSONObject.class)
+                .stream()
+                .map(RoomServiceImpl::parsePlayer)
+                .collect(Collectors.toList());
+        // 获取 teamTwo的puuid
+        for (PlayerInfoDto player : teamTwoPlayers) {
+            teamPuuidTwo.add(player.getPuuid());
+        }
 
-        return null;
+        // 设置 teamOne teamTwo
+        gameRoomInfoDto.setTeamOnePlayers(teamOnePlayers);
+        gameRoomInfoDto.setTeamTwoPlayers(teamTwoPlayers);
+
+        // 设置 teamPuuidDto
+        TeamPuuidDto teamPuuidDto = new TeamPuuidDto();
+        teamPuuidDto.setTeamPuuidOne(teamPuuidOne);
+        teamPuuidDto.setTeamPuuidTwo(teamPuuidTwo);
+        gameRoomInfoDto.setTeamPuuidDto(teamPuuidDto);
+
+        return gameRoomInfoDto;
     }
+
+    // 解析 teamOne、teamTwo
+    private static PlayerInfoDto parsePlayer(JSONObject player) {
+        String championId = player.getString("championId");
+        String profileIconId = player.getString("profileIconId");
+        String puuid = player.getString("puuid");
+        String summonerId = player.getString("summonerId");
+        String summonerName = player.getString("summonerName");
+        String selectedPosition = player.getString("selectedPosition");
+
+//        teamPuuid.add(puuid);
+        PlayerInfoDto playerInfoDto = new PlayerInfoDto();
+        playerInfoDto.setPuuid(puuid);
+        playerInfoDto.setChampionId(championId);
+        playerInfoDto.setProfileIconId(profileIconId);
+        playerInfoDto.setSummonerId(summonerId);
+        playerInfoDto.setSummonerName(summonerName);
+        playerInfoDto.setSelectedPosition(selectedPosition);
+        playerInfoDto.setHero(lolHeroService.getHeroInfoByChampionId(championId));
+
+        return playerInfoDto;
+    }
+
+
 }

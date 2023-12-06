@@ -75,7 +75,7 @@ public class RankServiceImpl implements RankService {
 
         // 队列类型
         String queueType = rankDto.getQueueType();
-        rankDto.setQueueType(GameQueueType.getEnumIfPresent(queueType).getGameQueueType());
+        rankDto.setQueueType(GameQueueType.getEnumIfPresent(queueType).getGameQueueTypeMsg());
 
         return rankDto;
     }

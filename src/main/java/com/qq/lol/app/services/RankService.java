@@ -15,7 +15,6 @@ public interface RankService {
      * @Description: 通过puuid获取玩家段位
      * @param puuid: puuid
      * @return java.util.List<com.qq.lol.dto.RankDto>
-     * @throws
      * @Auther: null
      * @Date: 2023/12/4 - 14:23
      */

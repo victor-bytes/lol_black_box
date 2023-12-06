@@ -14,21 +14,27 @@ import java.util.List;
  */
 @Data
 public class GameRoomInfoDto {
-    private GameMode gameMode;
-
     private String gameId;
 
+    private GameMode gameMode;
+
+    private String gameModeName;
+
     private GameQueueType gameQueueType;
+
+    private String gameQueueTypeName;
 
     // gameQueueId
     private String gameQueueId;
 
+    private String gameQueueName;
+
     // 用于查询十个玩家历史战绩
     private TeamPuuidDto teamPuuidDto;
 
-    // 游戏中双方玩家精简信息
-    private List<PlayerInfoDto> teamOne;
+    // 游戏中双方玩家信息
+    private List<PlayerInfoDto> teamOnePlayers;
 
-    private List<PlayerInfoDto> teamTwo;
+    private List<PlayerInfoDto> teamTwoPlayers;
 
 }

@@ -13,9 +13,11 @@ public class GameScoreInfoDto {
 //    private long gameCreation;
 //    private String gameCreationDate;
 //    private long gameDuration;
-//    private long gameId;
+
     // 游戏模式
     private GameMode gameMode;
+
+    private String gameModeName;
 
     // 谁的战绩
     private String puuid;

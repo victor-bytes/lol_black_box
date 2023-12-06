@@ -39,6 +39,6 @@ public interface LolPlayerService {
      * @Auther: null
      * @Date: 2023/12/4 - 14:24
      */
-    List<PlayerInfoDto> getPlayersInfoByPuuid();
+//    List<PlayerInfoDto> getPlayersInfoByPuuid();
 
 }

@@ -28,7 +28,7 @@ public enum GameQueueType {
         this.gameQueueType = gameQueueType;
     }
 
-    public String getGameQueueType() {
+    public String getGameQueueTypeMsg() {
         return gameQueueType;
     }
 

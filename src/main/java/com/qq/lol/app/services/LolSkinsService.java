@@ -13,9 +13,12 @@ import java.util.List;
 public interface LolSkinsService {
 
     /**
-     * 获取指定英雄的所有皮肤信息
-     * /lol-champions/v1/inventories/3242111374231456/champions/20/skins
-     * @return
+     * @Description: 获取指定英雄的所有皮肤信息
+     * @param puuid:
+     * @param championId:
+     * @return java.util.List<com.qq.lol.dto.SkinDto>
+     * @Auther: null
+     * @Date: 2023/12/5 - 17:48
      */
     List<SkinDto> getSkinsByChampionId(String puuid, String championId);
 

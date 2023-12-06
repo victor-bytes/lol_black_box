@@ -23,7 +23,7 @@ public enum GameMode {
         this.gameMode = gameMode;
     }
 
-    public String getGameMode() {
+    public String getGameModeMsg() {
         return gameMode;
     }
 

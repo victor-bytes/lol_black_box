@@ -57,6 +57,8 @@ public class ProcessUtil {
                 }
 
             }
+            System.out.println(leagueClientBO);
+
             return leagueClientBO;
         } finally {
             if (reader != null) {

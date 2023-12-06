@@ -1,6 +1,7 @@
 package com.qq.lol.app.services;
 
 import com.qq.lol.dto.GameScoreInfoDto;
+import com.qq.lol.dto.TeamPuuidDto;
 
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,7 @@ public interface GameHistoryService {
      * @Auther: null
      * @Date: 2023/12/4 - 14:24
      */
-    Map<String, List<GameScoreInfoDto>> getRecentSixRankFlexScoresInfo();
+    Map<String, List<GameScoreInfoDto>> getRecentSixRankFlexScoresInfo(TeamPuuidDto teamPuuidDto);
 
     /**
      * @Description: 通过puuid获取 玩家近期 20场战绩中前 6场组排战绩
@@ -48,7 +49,7 @@ public interface GameHistoryService {
      * @Auther: null
      * @Date: 2023/12/4 - 14:24
      */
-    Map<String, List<GameScoreInfoDto>> getRecentSixRankSOLOScoresInfo();
+    Map<String, List<GameScoreInfoDto>> getRecentSixRankSOLOScoresInfo(TeamPuuidDto teamPuuidDto);
 
     /**
      * @Description: 通过puuid获取 玩家近期 20场战绩中前 6场单排战绩
@@ -67,7 +68,7 @@ public interface GameHistoryService {
      * @Auther: null
      * @Date: 2023/12/4 - 14:23
      */
-    Map<String, List<GameScoreInfoDto>> getRecentSixNormalScoresInfo();
+    Map<String, List<GameScoreInfoDto>> getRecentSixNormalScoresInfo(TeamPuuidDto teamPuuidDto);
 
     /**
      * @Description: 通过puuid获取玩家近期 20场战绩中前 6场匹配战绩
@@ -85,7 +86,7 @@ public interface GameHistoryService {
      * @Auther: null
      * @Date: 2023/12/4 - 14:23
      */
-    Map<String, List<GameScoreInfoDto>> getRecentSixARAMScoresInfo();
+    Map<String, List<GameScoreInfoDto>> getRecentSixARAMScoresInfo(TeamPuuidDto teamPuuidDto);
 
     /**
      * @Description: 通过puuid获取玩家近期 20场战绩中前 6场大乱斗战绩

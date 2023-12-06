@@ -29,7 +29,7 @@ public class PlayerInfoDto {
     // 头像编号
     private String profileIconId;
 
-    // 位置
+    // 预选位置
     private String selectedPosition;
 
     // summonerId 与 accountId 相同

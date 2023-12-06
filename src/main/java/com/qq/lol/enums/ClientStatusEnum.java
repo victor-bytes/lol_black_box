@@ -7,24 +7,6 @@ import com.google.common.base.Enums;
  *
  */
 public enum ClientStatusEnum {
-    /*
-    GameStatusInQueue        GameStatus = "inQueue"                   // 队列中
-     GameStatusInGame         GameStatus = "inGame"                    // 游戏中
-     GameStatusChampionSelect GameStatus = "championSelect"            // 英雄选择中
-     GameStatusOutOfGame      GameStatus = "outOfGame"                 // 退出游戏中
-     GameStatusHostNormal     GameStatus = "hosting_NORMAL"            // 匹配组队中-队长
-     GameStatusHostRankSolo   GameStatus = "hosting_RANKED_SOLO_5x5"   // 单排组队中-队长
-     GameStatusHostRankFlex   GameStatus = "hosting_RANKED_FLEX_SR"    // 组排组队中-队长
-     GameStatusHostARAM       GameStatus = "hosting_ARAM_UNRANKED_5x5" // 大乱斗5v5组队中-队长
-     GameStatusHostURF        GameStatus = "hosting_URF"               // 无限火力组队中-队长
-     GameStatusHostBOT        GameStatus = "hosting_BOT"               // 人机组队中-队长
-     GameFlowChampionSelect   GameFlow   = "ChampSelect"               // 英雄选择中
-     GameFlowReadyCheck       GameFlow   = "ReadyCheck"                // 等待接受对局
-     GameFlowInProgress       GameFlow   = "InProgress"                // 进行中
-     GameFlowMatchmaking      GameFlow   = "Matchmaking"               // 匹配中
-     GameFlowNone             GameFlow   = "None"                      // 无
-     */
-
     None("客户端大厅中"),
     Lobby("游戏房间内"),
     Matchmaking("正在排队"),

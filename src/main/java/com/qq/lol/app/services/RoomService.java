@@ -1,7 +1,6 @@
 package com.qq.lol.app.services;
 
 import com.qq.lol.dto.GameRoomInfoDto;
-import com.qq.lol.dto.TeamPuuidDto;
 
 /**
  * @Auther: null
@@ -17,8 +16,11 @@ public interface RoomService {
 //    TeamPuuidDto getTeamPuuid();
 
     /**
-     * 获取游戏进行后房间信息
-     * @return
+     * @Description: 获取对局开始后房间信息
+     * 包含玩家信息
+     * @return com.qq.lol.dto.GameRoomInfoDto
+     * @Auther: null
+     * @Date: 2023/12/5 - 17:48
      */
     GameRoomInfoDto getRoomInfo();
 
