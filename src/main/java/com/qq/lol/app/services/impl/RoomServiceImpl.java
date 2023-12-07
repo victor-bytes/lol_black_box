@@ -2,7 +2,10 @@ package com.qq.lol.app.services.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.qq.lol.app.services.*;
+import com.qq.lol.app.services.GlobalService;
+import com.qq.lol.app.services.LolClientService;
+import com.qq.lol.app.services.LolHeroService;
+import com.qq.lol.app.services.RoomService;
 import com.qq.lol.dto.GameRoomInfoDto;
 import com.qq.lol.dto.PlayerInfoDto;
 import com.qq.lol.dto.TeamPuuidDto;
@@ -12,11 +15,12 @@ import com.qq.lol.enums.GameQueueType;
 import com.qq.lol.utils.InitGameData;
 import com.qq.lol.utils.NetRequestUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.qq.lol.enums.GameQueueType.*;
 
 /**
  * @Auther: null
@@ -29,7 +33,6 @@ public class RoomServiceImpl implements RoomService {
     private static final RoomService roomService = new RoomServiceImpl();
     private static final LolClientService lolClientService = LolClientServiceImpl.getLolClientService();
     private static final LolHeroService lolHeroService = LolHeroServiceImpl.getLolHeroService();
-    private static final LolPlayerService lolPlayerService = LolPlayerServiceImpl.getLolPlayerService();
     private static final GlobalService global_service = GlobalService.getGlobalService();
 
     private RoomServiceImpl() {}
@@ -71,8 +74,6 @@ public class RoomServiceImpl implements RoomService {
         return parseRoomInfo();
     }
 
-
-    @NotNull
     private GameRoomInfoDto parseRoomInfo() {
         GameRoomInfoDto gameRoomInfoDto = new GameRoomInfoDto();
         // 开始解析
@@ -114,6 +115,10 @@ public class RoomServiceImpl implements RoomService {
         System.out.println("gameQueueTypeName --> " + gQT.getGameQueueTypeMsg());
         System.out.println("gameQueueId       --> " + gameQueueId);
         System.out.println("gameQueueName     --> " + gameQueueName);
+
+        // 只获取 排位、大乱斗、匹配的玩家信息
+        if(gQT != RANKED_SOLO_5x5 && gQT != RANKED_FLEX_SR && gQT != ARAM_UNRANKED_5x5 && gQT != NORMAL)
+            return gameRoomInfoDto;
 
         List<String> teamPuuidOne = new ArrayList<>();
         List<PlayerInfoDto> teamOnePlayers;
@@ -158,6 +163,9 @@ public class RoomServiceImpl implements RoomService {
 
     // 解析 teamOne、teamTwo
     private static PlayerInfoDto parsePlayer(JSONObject player) {
+        if(player == null)
+            return new PlayerInfoDto();
+
         String championId = player.getString("championId");
         String profileIconId = player.getString("profileIconId");
         String puuid = player.getString("puuid");

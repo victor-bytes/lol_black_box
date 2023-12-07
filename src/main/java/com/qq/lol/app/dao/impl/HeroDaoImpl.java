@@ -3,6 +3,7 @@ package com.qq.lol.app.dao.impl;
 import com.qq.lol.app.dao.HeroDao;
 import com.qq.lol.dto.HeroDto;
 import com.qq.lol.utils.JdbcUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,14 +27,69 @@ public class HeroDaoImpl implements HeroDao {
     }
 
     /**
-     * @return java.lang.Integer
+     * @return java.lang.Integer >1 英雄信息更新到了数据库，=1英雄数量未改变，<1更新数据库失败
      * @Description: 保存所有英雄信息
      * @Auther: null
      * @Date: 2023/12/6 - 20:19
      */
     @Override
     public Integer saveHeroes(List<HeroDto> heroes) {
-        return null;
+        if(heroes == null || heroes.size() == 0)
+            return 0;
+
+        // 只有 riot 推出了新英雄，英雄总数增加的情况才会真的更新到数据库
+        Integer heroCount = heroDao.getHeroCount();
+        if(heroes.size() == heroCount)
+            return 1;
+
+        // 保存英雄信息
+        String deleteTable = "truncate table `hero`";
+        String insertSql = "insert into `hero`(`champion_id`,`champion_name`,`alias`,`square_portrait_path`)" +
+                " values(?, ?, ?, ?)";
+        Connection connection = JdbcUtils.getConnection();
+        PreparedStatement ps = null;
+        try {
+            connection.setAutoCommit(false);
+            // 先输出表中所有数据，再插入数据
+            ps = connection.prepareStatement(deleteTable);
+            ps.executeUpdate();
+            ps = connection.prepareStatement(insertSql);
+            // 使用批处理 sql
+            for (HeroDto hero : heroes) {
+                ps.setString(1, hero.getId());
+                ps.setString(2, hero.getName());
+                ps.setString(3, hero.getAlias());
+                ps.setString(4, hero.getSquarePortraitPath());
+                // 逐条将 sql 语句加入到批处理包中，此时还没有执行sql语句
+                ps.addBatch();
+            }
+            // 再一次批量执行sql语句, 将批处理包里面的sql语句全部执行
+            int[] batch = ps.executeBatch();
+            // 执行完成后，清空批处理包中所有的sql语句
+            ps.clearBatch();
+
+            connection.commit();
+            return batch.length;
+        } catch (SQLException e) {
+            System.out.println("执行过程发生了异常，撤销执行的 sql语句。");
+            try {
+                connection.rollback();
+            } catch (SQLException throwAbles) {
+                throwAbles.printStackTrace();
+            }
+
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            JdbcUtils.release(null, ps, connection);
+        }
+
+        return 0;
     }
 
     /**
@@ -93,6 +149,48 @@ public class HeroDaoImpl implements HeroDao {
      */
     @Override
     public HeroDto getHeroByChampionId(String championId) {
-        return null;
+        if(championId == null || StringUtils.equals("", championId))
+            return new HeroDto();
+
+        String sql = "select `id` , champion_id, champion_name, alias, square_portrait_path from `hero` where champion_id = ?";
+        Connection connection = JdbcUtils.getConnection();
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        HeroDto hero = new HeroDto();
+        try {
+            ps = connection.prepareStatement(sql);
+            connection.setAutoCommit(false);
+            ps.setString(1, championId);
+
+            resultSet = ps.executeQuery();
+            while(resultSet.next()){
+                hero.setDbId(resultSet.getInt("id"));
+                hero.setId(resultSet.getString("champion_id"));
+                hero.setName(resultSet.getString("champion_name"));
+                hero.setAlias(resultSet.getString("alias"));
+                hero.setSquarePortraitPath(resultSet.getString("square_portrait_path"));
+            }
+
+            connection.commit();
+        } catch (SQLException e) {
+            System.out.println("执行过程发生了异常，撤销执行的 sql语句。");
+            try {
+                connection.rollback();
+            } catch (SQLException throwAbles) {
+                throwAbles.printStackTrace();
+            }
+
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            JdbcUtils.release(resultSet, ps, connection);
+        }
+
+        return hero;
     }
 }

@@ -1,8 +1,7 @@
 package com.qq.lol.dto;
 
+import com.qq.lol.app.dao.HeroDao;
 import lombok.Data;
-
-import java.sql.Timestamp;
 
 
 /**
@@ -24,7 +23,7 @@ public class BlackPlayerDto {
 
     private String championId;
 
-    private String championName;
+    private HeroDao hero;
 
     // 默认预选位置，加入黑名单时应当可以改
     private String selectedPosition;
@@ -49,16 +48,16 @@ public class BlackPlayerDto {
     // 遇见次数
     private String meetCount;
 
-    // 是否双排
+    // 是否双排 1双排，0单排
     private String isPlayWithFriend;
 
     // 双排着的 puuid
     private String friendPuuid;
 
     //拉黑时间
-    private Timestamp created_at;
+    private String created_at;
 
     // 最近一次遇到时间
-    private Timestamp last_update_time;
+    private String last_update_time;
 
 }

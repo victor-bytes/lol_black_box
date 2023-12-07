@@ -1,5 +1,7 @@
 package com.qq.lol.utils;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -48,5 +50,19 @@ public class StandardOutTime {
         }
 
         return timeMode2.format(date);
+    }
+
+    /**
+     * @Description: java.sql.Timestamp转 String
+     * @param time:
+     * @param strFormat:
+     * @return java.lang.String
+     * @Auther: null
+     * @Date: 2023/12/7 - 18:09
+     */
+    public static String timestampToStr(Timestamp time, String strFormat) {
+        DateFormat df = new SimpleDateFormat(strFormat);
+        String str =df.format(time);
+        return str;
     }
 }

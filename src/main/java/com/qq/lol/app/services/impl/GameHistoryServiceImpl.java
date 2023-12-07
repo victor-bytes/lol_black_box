@@ -12,6 +12,7 @@ import com.qq.lol.utils.NetRequestUtil;
 import com.qq.lol.utils.StandardOutTime;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,9 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      */
     @Override
     public Map<String, List<GameScoreInfoDto>> getRecentSixRankFlexScoresInfo(TeamPuuidDto teamPuuidDto) {
+        if(teamPuuidDto == null)
+            return new HashMap<>();
+
         List<String> teamPuuidOne = teamPuuidDto.getTeamPuuidOne();
         List<String> teamPuuidTwo = teamPuuidDto.getTeamPuuidTwo();
 
@@ -65,6 +69,9 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      */
     @Override
     public List<GameScoreInfoDto> getRecentSixRankFlexScoreInfo(String puuid) {
+        if(puuid == null || StringUtils.equals("", puuid))
+            return new ArrayList<>();
+
         List<GameScoreInfoDto> twentyScoreInfo = getRecentTwentyScoreInfoByPuuid(puuid);
         return getRecentSixScoreInfo("440",twentyScoreInfo);
     }
@@ -77,6 +84,9 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      */
     @Override
     public Map<String, List<GameScoreInfoDto>> getRecentSixRankSOLOScoresInfo(TeamPuuidDto teamPuuidDto) {
+        if(teamPuuidDto == null)
+            return new HashMap<>();
+
         List<String> teamPuuidOne = teamPuuidDto.getTeamPuuidOne();
         List<String> teamPuuidTwo = teamPuuidDto.getTeamPuuidTwo();
 
@@ -100,6 +110,9 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      */
     @Override
     public List<GameScoreInfoDto> getRecentSixRankSOLOScoreInfo(String puuid) {
+        if(puuid == null || StringUtils.equals("", puuid))
+            return new ArrayList<>();
+
         List<GameScoreInfoDto> twentyScoreInfo = getRecentTwentyScoreInfoByPuuid(puuid);
         return getRecentSixScoreInfo("420",twentyScoreInfo);
     }
@@ -112,6 +125,9 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      */
     @Override
     public Map<String, List<GameScoreInfoDto>> getRecentSixNormalScoresInfo(TeamPuuidDto teamPuuidDto) {
+        if(teamPuuidDto == null)
+            return new HashMap<>();
+
         List<String> teamPuuidOne = teamPuuidDto.getTeamPuuidOne();
         List<String> teamPuuidTwo = teamPuuidDto.getTeamPuuidTwo();
 
@@ -134,6 +150,9 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      */
     @Override
     public List<GameScoreInfoDto> getRecentSixNormalScoreInfo(String puuid) {
+        if(puuid == null || StringUtils.equals("", puuid))
+            return new ArrayList<>();
+
         List<GameScoreInfoDto> twentyScoreInfo = getRecentTwentyScoreInfoByPuuid(puuid);
         return getRecentSixScoreInfo("430",twentyScoreInfo);
     }
@@ -146,6 +165,9 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      */
     @Override
     public Map<String, List<GameScoreInfoDto>> getRecentSixARAMScoresInfo(TeamPuuidDto teamPuuidDto) {
+        if(teamPuuidDto == null)
+            return new HashMap<>();
+
         List<String> teamPuuidOne = teamPuuidDto.getTeamPuuidOne();
         List<String> teamPuuidTwo = teamPuuidDto.getTeamPuuidTwo();
 
@@ -169,6 +191,9 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      */
     @Override
     public List<GameScoreInfoDto> getRecentSixARAMScoreInfo(String puuid) {
+        if(puuid == null || StringUtils.equals("", puuid))
+            return new ArrayList<>();
+
         List<GameScoreInfoDto> twentyScoreInfo = getRecentTwentyScoreInfoByPuuid(puuid);
         return getRecentSixScoreInfo("450",twentyScoreInfo);
     }
@@ -183,6 +208,9 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      */
     private static List<GameScoreInfoDto> getRecentSixScoreInfo(String queueId,
                                                                 List<GameScoreInfoDto> recentTwentyScore) {
+        if(queueId == null || StringUtils.equals("", queueId) || recentTwentyScore == null || recentTwentyScore.size() == 0)
+            return new ArrayList<>();
+
         // 过滤战绩
         recentTwentyScore = recentTwentyScore.stream().limit(6).filter(aramScore
                 -> StringUtils.equals(queueId, aramScore.getQueueId()))
@@ -200,6 +228,9 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      */
     @Override
     public List<GameScoreInfoDto> getRecentTwentyScoreInfoByPuuid(String puuid) {
+        if(puuid == null || StringUtils.equals("", puuid))
+            return new ArrayList<>();
+
         return getScoreInfoByPuuid(puuid, 0, 19);
     }
 
@@ -214,6 +245,9 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      */
     @Override
     public List<GameScoreInfoDto> getScoreInfoByPuuid(String puuid, int begIndex, int endIndex) {
+        if(puuid == null || StringUtils.equals("", puuid))
+            return new ArrayList<>();
+
         List<GameScoreInfoDto> collect;
 
         String json = netRequestUtil.doGet("/lol-match-history/v1/products/lol/"

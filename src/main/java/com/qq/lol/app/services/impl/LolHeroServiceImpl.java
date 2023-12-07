@@ -1,12 +1,12 @@
 package com.qq.lol.app.services.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.qq.lol.app.dao.HeroDao;
 import com.qq.lol.app.dao.impl.HeroDaoImpl;
 import com.qq.lol.app.services.LolHeroService;
 import com.qq.lol.dto.HeroDto;
 import com.qq.lol.utils.NetRequestUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -36,18 +36,20 @@ public class LolHeroServiceImpl implements LolHeroService {
      */
     @Override
     public HeroDto getHeroInfoByChampionId(String championId) {
+        if(championId == null || StringUtils.equals("", championId))
+            return new HeroDto();
+
         return heroDao.getHeroByChampionId(championId);
     }
 
     /**
-     * @Description: 从客户端获取所有英雄基础信息，包含英雄名称和头像 url
-     * 保存到数据库
-     * @return java.lang.Integer
+     * @Description: 从客户端获取所有英雄基础信息，包含英雄名称和头像 url,保存到数据库
+     * @return java.lang.Integer >1英雄信息更新到了数据库，=1英雄数量未改变，<1更新数据库失败
      * @Auther: null
      * @Date: 2023/12/6 - 19:12
      */
     @Override
-    public Integer getHeroes() {
+    public Integer updateHeroes() {
         String json = netRequestUtil.doGet("/lol-game-data/assets/v1/champion-summary.json");
         List<HeroDto> heroes = JSON.parseArray(json).toJavaList(HeroDto.class);
 

@@ -7,6 +7,7 @@ import com.qq.lol.dto.RankDto;
 import com.qq.lol.enums.GameQueueType;
 import com.qq.lol.enums.RankTier;
 import com.qq.lol.utils.NetRequestUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,9 @@ public class RankServiceImpl implements RankService {
      */
     @Override
     public List<RankDto> getRankByPuuid(String puuid) {
+        if(puuid == null || StringUtils.equals("", puuid))
+            return new ArrayList<>();
+
         String rankedJson = netRequestUtil.doGet("/lol-ranked/v1/ranked-stats/" + puuid);
         List<RankDto> list = new ArrayList<>();
 
@@ -60,6 +64,9 @@ public class RankServiceImpl implements RankService {
      *
      */
     private static RankDto tierToCN(JSONObject jsonObject, String EnumName){
+        if(jsonObject == null || EnumName == null || StringUtils.equals("", EnumName))
+            return new RankDto();
+
         RankDto rankDto = jsonObject.getObject(EnumName, RankDto.class);
 
 //        从枚举中取出段位和游戏模式中文显示

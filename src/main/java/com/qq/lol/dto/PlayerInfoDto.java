@@ -38,8 +38,8 @@ public class PlayerInfoDto {
     // 13.23版本之前没更改的游戏 id
     private String summonerName;
 
-    // 楼层？
-//    private String teamParticipantId;
+    // 大区
+    private String platformId;
 
 
 

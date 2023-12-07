@@ -37,7 +37,6 @@ public class LolClientServiceImpl implements LolClientService {
      */
     @Override
     public ClientStatusEnum getClientStatus() {
-        System.out.println("ssss");
         // 获取客户端返回的 json
         String statusJson = netRequestUtil.doGet("/lol-gameflow/v1/gameflow-phase");
         // 解析到 status

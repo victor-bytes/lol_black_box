@@ -1,5 +1,6 @@
 package com.qq.lol.app.services;
 
+import com.qq.lol.app.services.impl.LolHeroServiceImpl;
 import com.qq.lol.app.services.impl.LolPlayerServiceImpl;
 import com.qq.lol.dto.SummonerInfoDto;
 import com.qq.lol.utils.NetRequestUtil;
@@ -14,10 +15,25 @@ public class GlobalService {
     private final NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
     private static final GlobalService globalService = new GlobalService();
     private static final LolPlayerService lolPlayerService = LolPlayerServiceImpl.getLolPlayerService();
+    private static final LolHeroService lolHeroService = LolHeroServiceImpl.getLolHeroService();
     /**
      * 全局的当前已登录召唤师信息，使用该信息不会频繁调用 LCU
      */
     private static SummonerInfoDto summonerInfo = null;
+
+    static {
+        // 初始化英雄列表
+        Integer i = lolHeroService.updateHeroes();
+        if(i > 1)
+            System.out.println("------ 有新增英雄，已更新到数据库 ------");
+        else if(i == 1)
+            System.out.println("------ 未新增英雄 ------");
+        else
+            System.out.println("------ 同步英雄信息失败 ------");
+        // 获取召唤师信息
+        globalService.getLoginSummoner();
+
+    }
 
     private GlobalService(){}
 
@@ -35,7 +51,7 @@ public class GlobalService {
     public SummonerInfoDto getLoginSummoner() {
         if(summonerInfo == null) {
             summonerInfo = lolPlayerService.getCurrentSummoner();
-            System.out.println("====第一次获取当前已登录游戏客户端的召唤师信息===");
+            System.out.println("------ 第一次获取当前已登录游戏客户端的召唤师信息 ------");
         }
 
         return summonerInfo;

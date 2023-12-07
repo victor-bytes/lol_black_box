@@ -1,8 +1,7 @@
 package com.qq.lol.app.services;
 
 import com.qq.lol.dto.BlackPlayerDto;
-
-import java.util.List;
+import com.qq.lol.dto.PageResult;
 
 /**
  * @Date: 2023/11/29 - 11 - 29 - 19:08
@@ -12,9 +11,18 @@ import java.util.List;
 public interface BlackListService {
 
     /**
+     * @Description: 修改黑名单中玩家信息
+     * @param player:
+     * @return java.lang.Integer返回 1 成功，0 失败
+     * @Auther: null
+     * @Date: 2023/12/7 - 18:25
+     */
+    Integer updateBlackPlayer(BlackPlayerDto player);
+
+    /**
      * @Description: 将玩家加入黑名单
      * @param player:
-     * @return int
+     * @return  =2添加成功，否则添加失败
      * @throws
      * @Auther: null
      * @Date: 2023/11/29 - 19:25
@@ -24,7 +32,7 @@ public interface BlackListService {
     /**
      * @Description: 通过 puuid删除黑名单玩家
      * @param puuid:
-     * @return void
+     * @return  >1移除成功，<=1移除失败
      * @throws
      * @Auther: null
      * @Date: 2023/11/29 - 19:41
@@ -35,7 +43,7 @@ public interface BlackListService {
      * @Description: 通过 puuid查询玩家是否在黑名单
      * 不存在返回 null
      * @param puuid:
-     * @return com.qq.lol.dto.BlackPlayer
+     * @return com.qq.lol.dto.BlackPlayer 返回 null则不在黑名单中
      * @throws
      * @Auther: null
      * @Date: 2023/11/29 - 19:26
@@ -49,5 +57,5 @@ public interface BlackListService {
      * @Auther: null
      * @Date: 2023/11/29 - 19:33
      */
-    List<BlackPlayerDto> selectBlackPlayerByPage(int begin, int limit);
+    PageResult<BlackPlayerDto> selectBlackPlayerByPage(long pageNo, long pageSize);
 }

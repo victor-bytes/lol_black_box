@@ -14,7 +14,7 @@ public interface HeroDao {
 
     /**
      * @Description: 保存所有英雄信息
-     * @return java.lang.Integer
+     * @return java.lang.Integer >1英雄信息更新到了数据库，=1英雄数量未改变，<1更新数据库失败
      * @Auther: null
      * @Date: 2023/12/6 - 20:19
      */

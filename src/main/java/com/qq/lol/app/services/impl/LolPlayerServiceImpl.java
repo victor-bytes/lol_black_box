@@ -70,6 +70,9 @@ public class LolPlayerServiceImpl implements LolPlayerService {
      */
     @Override
     public PlayerInfoDto getPlayerInfoByPuuid(String puuid) {
+        if(puuid == null || StringUtils.equals("", puuid))
+            return new PlayerInfoDto();
+
         String playerInfoJson = netRequestUtil.doGet("/lol-summoner/v2/summoners/puuid/" + puuid);
         PlayerInfoDto playerInfo = JSON.parseObject(playerInfoJson, PlayerInfoDto.class);
 
