@@ -30,7 +30,9 @@ public class GameRoomInfoDto {
     private String gameQueueName;
 
     // 用于查询十个玩家历史战绩
-    private TeamPuuidDto teamPuuidDto;
+    private List<String> teamPuuidOne;
+
+    private List<String> teamPuuidTwo;
 
     // 游戏中双方玩家信息
     private List<PlayerInfoDto> teamOnePlayers;

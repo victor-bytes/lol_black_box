@@ -27,6 +27,7 @@ public class InitGameData {
         gameQueueIdToName.put("830", "人机入门");
         gameQueueIdToName.put("840", "人机新手");
         gameQueueIdToName.put("850", "人机一般");
+        gameQueueIdToName.put("1700", "斗魂竞技场");
         gameQueueIdToName.put("-1", "未知队列类型");
     }
 

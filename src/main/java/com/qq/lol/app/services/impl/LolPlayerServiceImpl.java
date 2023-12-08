@@ -2,8 +2,10 @@ package com.qq.lol.app.services.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.qq.lol.app.services.LolHeroService;
 import com.qq.lol.app.services.LolPlayerService;
-import com.qq.lol.dto.*;
+import com.qq.lol.dto.PlayerInfoDto;
+import com.qq.lol.dto.SummonerInfoDto;
 import com.qq.lol.utils.NetRequestUtil;
 import org.apache.commons.lang3.StringUtils;
 
@@ -17,6 +19,7 @@ public class LolPlayerServiceImpl implements LolPlayerService {
     // 饿汉式单例模式
     private static final LolPlayerServiceImpl lolPlayerService = new LolPlayerServiceImpl();
     private static final NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
+    private static final LolHeroService lolHeroService = LolHeroServiceImpl.getLolHeroService();
 
     private LolPlayerServiceImpl() {}
 
@@ -75,6 +78,7 @@ public class LolPlayerServiceImpl implements LolPlayerService {
 
         String playerInfoJson = netRequestUtil.doGet("/lol-summoner/v2/summoners/puuid/" + puuid);
         PlayerInfoDto playerInfo = JSON.parseObject(playerInfoJson, PlayerInfoDto.class);
+        playerInfo.setMasteryChampion(lolHeroService.getMasteryChampion(playerInfo.getSummonerId()));
 
         return playerInfo;
     }

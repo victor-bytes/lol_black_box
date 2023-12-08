@@ -1,6 +1,7 @@
 package com.qq.lol.app.services;
 
 import com.qq.lol.dto.HeroDto;
+import com.qq.lol.dto.MasteryChampion;
 
 import java.util.List;
 
@@ -28,6 +29,15 @@ public interface LolHeroService {
      * @Date: 2023/12/6 - 19:12
      */
     Integer updateHeroes();
+
+    /**
+     * @Description: 查询玩家精通的十个英雄
+     * @param summonerId:
+     * @return java.util.List<MasteryChampion> 评分S+、S、7级、6级的前十个英雄，不足返回实际个数
+     * @Auther: null
+     * @Date: 2023/12/8 - 15:12
+     */
+    List<MasteryChampion> getMasteryChampion(String summonerId);
 
     /**
      * @Description: 获取用户已拥有英雄

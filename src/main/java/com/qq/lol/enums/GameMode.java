@@ -15,6 +15,7 @@ public enum GameMode {
     TFT("云顶之弈"),
     URF("无限火力"),
     PRACTICETOOL("自定义&训练模式"),
+    CHERRY("斗魂竞技场"),
     DEFAULT_MODE("未知游戏模式");
 
     private String gameMode;

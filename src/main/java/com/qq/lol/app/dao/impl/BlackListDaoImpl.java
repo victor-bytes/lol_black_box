@@ -135,9 +135,11 @@ public class BlackListDaoImpl implements BlackListDao {
                 blackPlayer.setIsPlayWithFriend(rs.getString("is_play_with_friend"));
                 blackPlayer.setFriendPuuid(rs.getString("friend_puuid"));
                 blackPlayer.setCreated_at
-                        (StandardOutTime.timestampToStr(rs.getTimestamp("created_at"), "yyyy-MM-dd"));
+                        (StandardOutTime.timestampToStr(rs.getTimestamp("created_at"),
+                                "yyyy-MM-dd HH:mm:ss"));
                 blackPlayer.setLast_update_time
-                        (StandardOutTime.timestampToStr(rs.getTimestamp("last_update_time"), "yyyy-MM-dd"));
+                        (StandardOutTime.timestampToStr(rs.getTimestamp("last_update_time"),
+                                "yyyy-MM-dd HH:mm:ss"));
             }
 
             ps = connection.prepareStatement(playerSql);
@@ -323,9 +325,11 @@ public class BlackListDaoImpl implements BlackListDao {
                 blackPlayer.setIsPlayWithFriend(rs.getString("is_play_with_friend"));
                 blackPlayer.setFriendPuuid(rs.getString("friend_puuid"));
                 blackPlayer.setCreated_at
-                        (StandardOutTime.timestampToStr(rs.getTimestamp("created_at"), "yyyy-MM-dd"));
+                        (StandardOutTime.timestampToStr(rs.getTimestamp("created_at"),
+                                "yyyy-MM-dd HH:mm:ss"));
                 blackPlayer.setLast_update_time
-                        (StandardOutTime.timestampToStr(rs.getTimestamp("last_update_time"), "yyyy-MM-dd"));
+                        (StandardOutTime.timestampToStr(rs.getTimestamp("last_update_time"),
+                                "yyyy-MM-dd HH:mm:ss"));
                 blackPlayer.setGameName(rs.getString("game_name"));
                 blackPlayer.setTagLine(rs.getString("tag_line"));
                 blackPlayer.setSelectedPosition(rs.getString("selected_position"));

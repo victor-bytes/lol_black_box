@@ -1,7 +1,6 @@
 package com.qq.lol.enums;
 
 import com.google.common.base.Enums;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @Auther: null
@@ -21,6 +20,7 @@ public enum GameQueueType {
     RANKED_TFT_TURBO("云顶狂暴模式"),
     PRACTICETOOL("自定义"),
     PRACTICE_GAME("训练模式"),
+    CHERRY("斗魂竞技场"),
     DEAAULT_TYPE("未知队列模式");
 
     private String gameQueueType;

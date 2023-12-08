@@ -2,6 +2,8 @@ package com.qq.lol.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @Date: 2023/11/29 - 11 - 29 - 16:21
  * @Description: 玩家信息
@@ -41,6 +43,7 @@ public class PlayerInfoDto {
     // 大区
     private String platformId;
 
-
+    // 玩家精通的英雄
+    private List<MasteryChampion> masteryChampion;
 
 }

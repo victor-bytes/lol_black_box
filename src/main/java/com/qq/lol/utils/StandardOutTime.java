@@ -29,9 +29,7 @@ public class StandardOutTime {
         DateTimeFormatter df2 = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
         LocalDateTime currentTime = LocalDateTime.now();
 
-        String str = df2.format(currentTime);
-
-        return str + "  ";
+        return df2.format(currentTime);
     }
 
     // 将 UTC 转成北京时间

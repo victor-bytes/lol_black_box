@@ -5,10 +5,13 @@ import com.qq.lol.app.dao.HeroDao;
 import com.qq.lol.app.dao.impl.HeroDaoImpl;
 import com.qq.lol.app.services.LolHeroService;
 import com.qq.lol.dto.HeroDto;
+import com.qq.lol.dto.MasteryChampion;
 import com.qq.lol.utils.NetRequestUtil;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Auther: null
@@ -54,6 +57,33 @@ public class LolHeroServiceImpl implements LolHeroService {
         List<HeroDto> heroes = JSON.parseArray(json).toJavaList(HeroDto.class);
 
         return heroDao.saveHeroes(heroes);
+    }
+
+    /**
+     * @param summonerId :
+     * @return java.util.List<MasteryChampion> 评分S+、S、7级、6级的前十个英雄，不足返回实际个数
+     * @Description: 查询玩家精通的十个英雄
+     * @Auther: null
+     * @Date: 2023/12/8 - 15:12
+     */
+    @Override
+    public List<MasteryChampion> getMasteryChampion(String summonerId) {
+        if(summonerId == null || StringUtils.equals("", summonerId))
+            return new ArrayList<>();
+
+        List<MasteryChampion> masteryChampions;
+        String json = netRequestUtil.doGet("/lol-collections/v1/inventories/" + summonerId
+                + "/champion-mastery/top?limit=10");
+        masteryChampions = JSON.parseObject(json).getJSONArray("masteries")
+                .toJavaList(MasteryChampion.class)
+                .stream()
+                .filter(i -> StringUtils.equals("S+", i.getHighestGrade())
+                        || StringUtils.equals("S", i.getHighestGrade())
+                        || i.getChampionLevel() == 7
+                        || i.getChampionLevel() == 6)
+                .collect(Collectors.toList());
+
+        return masteryChampions;
     }
 
     /**

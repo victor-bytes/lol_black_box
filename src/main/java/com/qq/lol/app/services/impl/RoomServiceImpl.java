@@ -8,7 +8,6 @@ import com.qq.lol.app.services.LolHeroService;
 import com.qq.lol.app.services.RoomService;
 import com.qq.lol.dto.GameRoomInfoDto;
 import com.qq.lol.dto.PlayerInfoDto;
-import com.qq.lol.dto.TeamPuuidDto;
 import com.qq.lol.enums.ClientStatusEnum;
 import com.qq.lol.enums.GameMode;
 import com.qq.lol.enums.GameQueueType;
@@ -19,8 +18,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.qq.lol.enums.GameQueueType.*;
 
 /**
  * @Auther: null
@@ -52,22 +49,12 @@ public class RoomServiceImpl implements RoomService {
     public GameRoomInfoDto getRoomInfo() {
         // 获取当前客户端状态
         ClientStatusEnum clientStatus = lolClientService.getClientStatus();
-        // 获取当前大区 TW2台服 HN1 艾欧尼亚
-        String platformId = global_service.getLoginSummoner().getPlatformId();
-
         /**
-         * 获取当前游戏阶段
-         * 台服在选英雄阶段无法获取双方信息,马服在选英雄阶段可以获取到我方队员信息
          * 并且台服在选英雄阶段，会返回上一局的 gameData数据，选英雄阶段的 gameId是 0
          *  只适配台服、马服
          */
-        if(ClientStatusEnum.InProgress != clientStatus && StringUtils.equals("TW2", platformId)) {
-            System.out.println("------台服必须进入游戏才可以获取双方玩家信息------");
-            return null;
-        }
-        // 适配马服任意大区
         if(clientStatus != ClientStatusEnum.ChampSelect && ClientStatusEnum.InProgress != clientStatus) {
-            System.out.println("------马服" + platformId + "未进入游戏房间------");
+            System.out.println("------ 未进入游戏房间 ------");
             return null;
         }
 
@@ -76,10 +63,23 @@ public class RoomServiceImpl implements RoomService {
 
     private GameRoomInfoDto parseRoomInfo() {
         GameRoomInfoDto gameRoomInfoDto = new GameRoomInfoDto();
+        // 队伍一 puuid
+        List<String> teamPuuidOne = new ArrayList<>();
+        // 队伍一玩家信息
+        List<PlayerInfoDto> teamOnePlayers = new ArrayList<>();
+        // 队伍二 puuid
+        List<String> teamPuuidTwo = new ArrayList<>();
+        // 队伍二玩家信息
+        List<PlayerInfoDto> teamTwoPlayers = new ArrayList<>();
+        // 先初始化，以免调用处引发 NullIndexException
+        gameRoomInfoDto.setTeamOnePlayers(teamOnePlayers);
+        gameRoomInfoDto.setTeamTwoPlayers(teamTwoPlayers);
+        gameRoomInfoDto.setTeamPuuidOne(teamPuuidOne);
+        gameRoomInfoDto.setTeamPuuidTwo(teamPuuidTwo);
+
         // 开始解析
         String json = netRequestUtil.doGet("/lol-gameflow/v1/session");
         JSONObject jsonObject = JSON.parseObject(json);
-
         JSONObject gameData = jsonObject.getJSONObject("gameData");
         // gameId
         String gameId = gameData.getString("gameId");
@@ -88,6 +88,12 @@ public class RoomServiceImpl implements RoomService {
 
         // queue里面可以获取到房间的信息
         JSONObject queue = gameData.getJSONObject("queue");
+        // gameQueueType
+        String gameQueueType = queue.getString("type");
+        // 设置 gameQueueType、gameQueueTypeName
+        GameQueueType gQT = GameQueueType.getEnumIfPresent(gameQueueType);
+        gameRoomInfoDto.setGameQueueType(gQT);
+        gameRoomInfoDto.setGameQueueTypeName(gQT.getGameQueueTypeMsg());
         // gameMode
         String gameMode = queue.getString("gameMode");
         // 设置 gameMode、gameModeName
@@ -95,12 +101,6 @@ public class RoomServiceImpl implements RoomService {
         GameMode gM = GameMode.getEnumIfPresent(gameMode);
         gameRoomInfoDto.setGameMode(gM);
         gameRoomInfoDto.setGameModeName(gM.getGameModeMsg());
-        // gameQueueType
-        String gameQueueType = queue.getString("type");
-        // 设置 gameQueueType、gameQueueTypeName
-        GameQueueType gQT = GameQueueType.getEnumIfPresent(gameQueueType);
-        gameRoomInfoDto.setGameQueueType(gQT);
-        gameRoomInfoDto.setGameQueueTypeName(gQT.getGameQueueTypeMsg());
         // 设置 gameQueueId、gameQueueName
         String gameQueueId = queue.getString("id");
         String gameQueueName = InitGameData.gameQueueIdToName.get(gameQueueId);
@@ -116,17 +116,30 @@ public class RoomServiceImpl implements RoomService {
         System.out.println("gameQueueId       --> " + gameQueueId);
         System.out.println("gameQueueName     --> " + gameQueueName);
 
-        // 只获取 排位、大乱斗、匹配的玩家信息
-        if(gQT != RANKED_SOLO_5x5 && gQT != RANKED_FLEX_SR && gQT != ARAM_UNRANKED_5x5 && gQT != NORMAL)
-            return gameRoomInfoDto;
-
-        List<String> teamPuuidOne = new ArrayList<>();
-        List<PlayerInfoDto> teamOnePlayers;
-        List<String> teamPuuidTwo = new ArrayList<>();
-        List<PlayerInfoDto> teamTwoPlayers;
-
         // 房间信息解析完毕，开始解析双方玩家信息
-        // teamOne
+        if(gQT != GameQueueType.RANKED_SOLO_5x5 && gQT != GameQueueType.RANKED_FLEX_SR
+                && gQT != GameQueueType.NORMAL && gQT != GameQueueType.ARAM_UNRANKED_5x5) {
+            /**
+             * 只获取 排位、匹配、大乱斗玩家信息
+             * 其他游戏模式获取房间信息，但不获取队伍信息
+             * 返回 gameRoomInfoDto，List属性 size() = 0，以免引发 NullIndexException
+             */
+            return gameRoomInfoDto;
+        }
+        /**
+         * 台服 排位 在选英雄阶段无法获取双方信息,马服在选英雄阶段可以获取到我方队员信息
+         */
+        // 获取当前客户端状态
+        ClientStatusEnum clientStatus = lolClientService.getClientStatus();
+        // 获取当前大区 TW2台服 HN1 艾欧尼亚
+        String platformId = global_service.getLoginSummoner().getPlatformId();
+        if((gQT == GameQueueType.RANKED_FLEX_SR || gQT == GameQueueType.RANKED_SOLO_5x5) &&
+                ClientStatusEnum.InProgress != clientStatus && StringUtils.equals("TW2", platformId)) {
+            System.out.println("------ 台服排位必须进入游戏才可以获取玩家信息 ------");
+            return gameRoomInfoDto;
+        }
+
+        // 获取 teamOne玩家信息
         teamOnePlayers = gameData.getJSONArray("teamOne")
                 .toJavaList(JSONObject.class)
                 .stream()
@@ -137,7 +150,7 @@ public class RoomServiceImpl implements RoomService {
             teamPuuidOne.add(player.getPuuid());
         }
 
-        // teamTwo
+        // 获取 teamTwo玩家信息
         teamTwoPlayers = gameData.getJSONArray("teamTwo")
                 .toJavaList(JSONObject.class)
                 .stream()
@@ -152,11 +165,9 @@ public class RoomServiceImpl implements RoomService {
         gameRoomInfoDto.setTeamOnePlayers(teamOnePlayers);
         gameRoomInfoDto.setTeamTwoPlayers(teamTwoPlayers);
 
-        // 设置 teamPuuidDto
-        TeamPuuidDto teamPuuidDto = new TeamPuuidDto();
-        teamPuuidDto.setTeamPuuidOne(teamPuuidOne);
-        teamPuuidDto.setTeamPuuidTwo(teamPuuidTwo);
-        gameRoomInfoDto.setTeamPuuidDto(teamPuuidDto);
+        // 设置 teamPuuid
+        gameRoomInfoDto.setTeamPuuidOne(teamPuuidOne);
+        gameRoomInfoDto.setTeamPuuidTwo(teamPuuidTwo);
 
         return gameRoomInfoDto;
     }
@@ -182,6 +193,7 @@ public class RoomServiceImpl implements RoomService {
         playerInfoDto.setSummonerName(summonerName);
         playerInfoDto.setSelectedPosition(selectedPosition);
         playerInfoDto.setHero(lolHeroService.getHeroInfoByChampionId(championId));
+        playerInfoDto.setMasteryChampion(lolHeroService.getMasteryChampion(summonerId));
 
         return playerInfoDto;
     }
