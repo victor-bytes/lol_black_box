@@ -19,9 +19,9 @@ public class InitGameData {
     public static final Map<String, String> gameQueueIdToName = new HashMap<>();
 
     static {
-        gameQueueIdToName.put("420", "单排");
+        gameQueueIdToName.put("420", "单双排");
         gameQueueIdToName.put("430", "匹配");
-        gameQueueIdToName.put("440", "组排");
+        gameQueueIdToName.put("440", "灵活组排");
         gameQueueIdToName.put("450", "大乱斗");
         gameQueueIdToName.put("900", "无限火力");
         gameQueueIdToName.put("830", "人机入门");

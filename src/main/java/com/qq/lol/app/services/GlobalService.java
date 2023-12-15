@@ -20,6 +20,8 @@ public class GlobalService {
      * 全局的当前已登录召唤师信息，使用该信息不会频繁调用 LCU
      */
     private static SummonerInfoDto summonerInfo = null;
+    // TODO 当前神话精粹数量
+    private static Integer mythicCount;
 
     static {
         // 初始化英雄列表

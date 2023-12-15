@@ -14,110 +14,39 @@ import java.util.Map;
  */
 public interface GameHistoryService {
 
-//    /**
-//     * @Description: 通过 gameId查询对局信息
-//     * @return com.qq.lol.dto.GameScoreInfoDto
-//     * @throws
-//     * @Auther: null
-//     * @Date: 2023/12/4 - 20:48
-//     */
-//    GameScoreInfoDto getGameScoreById();
+    Map<String, List<GameScoreInfoDto>> recentGameScoreByQueueType(GameQueueType queueType, Integer size, List<String> puuids);
 
     /**
-     * @Description: 根据  GameQueueType查询队伍玩家近期 30场战绩
-     * @param queueType:
-     * @param puuids:
-     * @return java.util.Map<java.lang.String,java.util.List<com.qq.lol.dto.GameScoreInfoDto>> 最近 30场战绩中 queueType类型战绩
+     * @Description: 通过 puuid查询玩家最近战绩
+     * @param puuids: 队伍 puuid
+     * @param queueId: 队列类型
+     * @param size: 查询场数
+     * @return java.util.Map<java.lang.String,java.util.List<com.qq.lol.dto.GameScoreInfoDto>>
      * @Auther: null
-     * @Date: 2023/12/8 - 16:45
+     * @Date: 2023/12/14 - 17:55
      */
-    Map<String, List<GameScoreInfoDto>> recentGameScoreByQueueType(GameQueueType queueType, List<String> puuids);
+    Map<String, List<GameScoreInfoDto>> recentScores(List<String> puuids, String queueId, Integer size);
 
     /**
-     * @Description: 查询队伍五个玩家的近 30场战绩中的匹配战绩
-     * @param puuids: 队伍玩家的 puuid
-     * @return java.util.Map<java.lang.String,java.util.List<com.qq.lol.dto.GameScoreInfoDto>> 队伍每个玩家最近 30场战绩中的匹配战绩
-     *     key：puuid，value：战绩List
-     * @Auther: null
-     * @Date: 2023/12/8 - 11:17
-     */
-    Map<String, List<GameScoreInfoDto>> recentNormalScores(List<String> puuids);
-
-    /**
-     * @Description: 通过 puuid查询玩家最近 30场匹配绩
+     * @Description: 通过 puuid查询玩家最近战绩
      * @param puuid:
-     * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto> 玩家最近 30场战绩中的匹配战绩
+     * @param queueId: 队列类型
+     * @param size: 查询场数
+     * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto>
      * @Auther: null
-     * @Date: 2023/12/8 - 15:22
+     * @Date: 2023/12/14 - 17:53
      */
-    List<GameScoreInfoDto> recentNormalScore(String puuid);
+    List<GameScoreInfoDto> recentScores(String puuid, String queueId, Integer size);
 
     /**
-     * @Description: 查询队伍五个玩家的近 30场战绩中的大乱斗战绩
-     * @param puuids: 队伍玩家的 puuid
-     * @return java.util.Map<java.lang.String,java.util.List<com.qq.lol.dto.GameScoreInfoDto>> 队伍每个玩家最近 30场战绩中的大乱斗战绩
-     *     key：puuid，value：战绩List
-     * @Auther: null
-     * @Date: 2023/12/8 - 11:17
-     */
-    Map<String, List<GameScoreInfoDto>> recentARAMScores(List<String> puuids);
-
-    /**
-     * @Description: 通过 puuid查询玩家最近 30场大乱斗战绩
+     * @Description: 通过 puuid查询玩家近期 size 场战绩
      * @param puuid:
-     * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto> 玩家最近 30场战绩中的大乱斗战绩
+     * @param size: 要查询的场数
+     * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto>
      * @Auther: null
-     * @Date: 2023/12/8 - 15:22
+     * @Date: 2023/12/14 - 16:38
      */
-    List<GameScoreInfoDto> recentARAMScore(String puuid);
-
-    /**
-     * @Description: 查询队伍五个玩家的近 30场战绩中的单排战绩
-     * @param puuids: 队伍玩家的 puuid
-     * @return java.util.Map<java.lang.String,java.util.List<com.qq.lol.dto.GameScoreInfoDto>> 队伍每个玩家最近 30场战绩中的单排战绩
-     *     key：puuid，value：战绩List
-     * @Auther: null
-     * @Date: 2023/12/8 - 11:17
-     */
-    Map<String, List<GameScoreInfoDto>> recentSoloRankScores(List<String> puuids);
-
-    /**
-     * @Description: 通过 puuid查询玩家最近 30场单排战绩
-     * @param puuid:
-     * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto> 玩家最近 30场战绩中的单排战绩
-     * @Auther: null
-     * @Date: 2023/12/8 - 15:22
-     */
-    List<GameScoreInfoDto> recentSoloRankScore(String puuid);
-
-    /**
-     * @Description: 查询队伍五个玩家最近 30场战绩中的组排战绩
-     * @param puuids:
-     * @return java.util.Map<java.lang.String,java.util.List<com.qq.lol.dto.GameScoreInfoDto>> 队伍每个玩家最近 30场战绩中的组排战绩
-     *     key：puuid，value：战绩List
-     * @Auther: null
-     * @Date: 2023/12/8 - 12:13
-     */
-    Map<String, List<GameScoreInfoDto>> recentFlexRankScores(List<String> puuids);
-
-    /**
-     * @Description: 通过 puuid查询玩家最近 30场战绩中的组排战绩
-     * @param puuid:
-     * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto> 玩家最近 30场战绩中的组排战绩
-     * @Auther: null
-     * @Date: 2023/12/8 - 15:20
-     */
-    List<GameScoreInfoDto> recentFlexRankScore(String puuid);
-
-    /**
-     * @Description: 通过 puuid查询玩家近期 30 场战绩
-     * @param puuid: puuid
-     * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto> 最近 30场战绩
-     * @throws
-     * @Auther: null
-     * @Date: 2023/12/4 - 14:22
-     */
-    List<GameScoreInfoDto> recentThirtyScores(String puuid);
+    List<GameScoreInfoDto> recentScores(String puuid, Integer size);
 
     /**
      * @Description: 通过 puuid查询玩家战绩（所有模式）

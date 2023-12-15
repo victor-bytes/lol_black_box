@@ -43,7 +43,7 @@ public class HeroDaoImpl implements HeroDao {
             return 1;
 
         // 保存英雄信息
-        String deleteTable = "truncate table `hero`";
+        String deleteTable = "truncate table `hero`";   // truncate操作无法回滚
         String insertSql = "insert into `hero`(`champion_id`,`champion_name`,`alias`,`square_portrait_path`)" +
                 " values(?, ?, ?, ?)";
         Connection connection = JdbcUtils.getConnection();

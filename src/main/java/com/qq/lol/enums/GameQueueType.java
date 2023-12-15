@@ -11,7 +11,7 @@ import com.google.common.base.Enums;
 public enum GameQueueType {
     NORMAL("匹配"),
     RANKED_SOLO_5x5("单双排"),
-    RANKED_FLEX_SR("组排"),
+    RANKED_FLEX_SR("灵活组排"),
     ARAM_UNRANKED_5x5("大乱斗5v5"),
     URF("无限火力"),
     BOT("人机"),

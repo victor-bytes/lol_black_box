@@ -50,7 +50,6 @@ public class RoomServiceImpl implements RoomService {
         // 获取当前客户端状态
         ClientStatusEnum clientStatus = lolClientService.getClientStatus();
         /**
-         * 并且台服在选英雄阶段，会返回上一局的 gameData数据，选英雄阶段的 gameId是 0
          *  只适配台服、马服
          */
         if(clientStatus != ClientStatusEnum.ChampSelect && ClientStatusEnum.InProgress != clientStatus) {
@@ -117,18 +116,19 @@ public class RoomServiceImpl implements RoomService {
         System.out.println("gameQueueName     --> " + gameQueueName);
 
         // 房间信息解析完毕，开始解析双方玩家信息
-        if(gQT != GameQueueType.RANKED_SOLO_5x5 && gQT != GameQueueType.RANKED_FLEX_SR
+/*        if(gQT != GameQueueType.RANKED_SOLO_5x5 && gQT != GameQueueType.RANKED_FLEX_SR
                 && gQT != GameQueueType.NORMAL && gQT != GameQueueType.ARAM_UNRANKED_5x5) {
-            /**
+            *
              * 只获取 排位、匹配、大乱斗玩家信息
              * 其他游戏模式获取房间信息，但不获取队伍信息
              * 返回 gameRoomInfoDto，List属性 size() = 0，以免引发 NullIndexException
-             */
+
             return gameRoomInfoDto;
-        }
-        /**
-         * 台服 排位 在选英雄阶段无法获取双方信息,马服在选英雄阶段可以获取到我方队员信息
-         */
+        }*/
+        /*
+        台服 排位 在选英雄阶段无法获取双方信息,马服在选英雄阶段可以获取到我方队员信息
+        并且台服在选英雄阶段，会返回上一局的 gameData数据
+        */
         // 获取当前客户端状态
         ClientStatusEnum clientStatus = lolClientService.getClientStatus();
         // 获取当前大区 TW2台服 HN1 艾欧尼亚
@@ -174,7 +174,8 @@ public class RoomServiceImpl implements RoomService {
 
     // 解析 teamOne、teamTwo
     private static PlayerInfoDto parsePlayer(JSONObject player) {
-        if(player == null)
+        // TODO 此处可能会出 bug
+        if(player == null || player.size() == 0)
             return new PlayerInfoDto();
 
         String championId = player.getString("championId");

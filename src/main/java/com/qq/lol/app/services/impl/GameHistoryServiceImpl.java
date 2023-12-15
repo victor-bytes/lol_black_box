@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -36,31 +37,34 @@ public class GameHistoryServiceImpl implements GameHistoryService {
     }
 
     /**
-     * @Description: 根据  GameQueueType查询队伍玩家近期 30场战绩
+     * @Description: 根据  GameQueueType查询队伍玩家近期战绩
      * @param queueType :
      * @param puuids    :
-     * @return java.util.Map<java.lang.String, java.util.List < com.qq.lol.dto.GameScoreInfoDto>> 最近 30场战绩中 queueType类型战绩
+     * @return java.util.Map<java.lang.String, java.util.List < com.qq.lol.dto.GameScoreInfoDto>>
      * @Auther: null
      * @Date: 2023/12/8 - 16:45
      */
     @Override
-    public Map<String, List<GameScoreInfoDto>> recentGameScoreByQueueType(GameQueueType queueType, List<String> puuids) {
+    public Map<String, List<GameScoreInfoDto>> recentGameScoreByQueueType(GameQueueType queueType, Integer size, List<String> puuids) {
         if(queueType == null || puuids == null || puuids.size() == 0)
             return new HashMap<>();
 
         Map<String, List<GameScoreInfoDto>> playerGameScore = new HashMap<>();
         switch (queueType) {
             case NORMAL :
-                playerGameScore = recentNormalScores(puuids);
+                playerGameScore = recentScores(puuids, "430", size);
                 break;
             case RANKED_SOLO_5x5 :
-                playerGameScore = recentSoloRankScores(puuids);
+                playerGameScore = recentScores(puuids, "420", size);
                 break;
             case RANKED_FLEX_SR :
-                playerGameScore = recentFlexRankScores(puuids);
+                playerGameScore = recentScores(puuids, "440", size);
                 break;
             case ARAM_UNRANKED_5x5 :
-                playerGameScore = recentARAMScores(puuids);
+                playerGameScore = recentScores(puuids, "450", size);
+                break;
+            case DEAAULT_TYPE: // 其他类型不查战绩
+                playerGameScore = recentScores(puuids, "-1", size);
                 break;
         }
 
@@ -68,115 +72,7 @@ public class GameHistoryServiceImpl implements GameHistoryService {
     }
 
     /**
-     * @param puuids : 队伍玩家的 puuid
-     * @return java.util.Map<java.lang.String, java.util.List < com.qq.lol.dto.GameScoreInfoDto>> 队伍每个玩家最近 30场战绩中的匹配战绩
-     * key：puuid，value：战绩List
-     * @Description: 查询队伍五个玩家的近 30场战绩中的匹配战绩
-     * @Auther: null
-     * @Date: 2023/12/8 - 11:17
-     */
-    @Override
-    public Map<String, List<GameScoreInfoDto>> recentNormalScores(List<String> puuids) {
-        if(puuids == null || puuids.size() == 0)
-            return new HashMap<>();
-        Map<String, List<GameScoreInfoDto>> recentNormalScores = new HashMap<>();
-        for (String puuid : puuids) {
-            recentNormalScores.put(puuid, recentNormalScore(puuid));
-        }
-
-        return recentNormalScores;
-    }
-
-    /**
-     * @Description: 通过 puuid查询玩家最近 30场匹配绩
-     * @param puuid :
-     * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto> 玩家最近 30场战绩中的匹配战绩
-     * @Auther: null
-     * @Date: 2023/12/8 - 15:22
-     */
-    @Override
-    public List<GameScoreInfoDto> recentNormalScore(String puuid) {
-        if(puuid == null || StringUtils.equals("", puuid))
-            return new ArrayList<>();
-        List<GameScoreInfoDto> gameScoreInfoDtos = recentThirtyScores(puuid);
-
-        return gameScoreInfoFilter("430", gameScoreInfoDtos);
-    }
-
-    /**
-     * @Description: 查询队伍五个玩家的近 30场战绩中的大乱斗战绩
-     * @param puuids : 队伍玩家的 puuid
-     * @return java.util.Map<java.lang.String, java.util.List < com.qq.lol.dto.GameScoreInfoDto>> 队伍每个玩家最近 30场战绩中的大乱斗战绩
-     * key：puuid，value：战绩List
-     * @Auther: null
-     * @Date: 2023/12/8 - 11:17
-     */
-    @Override
-    public Map<String, List<GameScoreInfoDto>> recentARAMScores(List<String> puuids) {
-        if(puuids == null || puuids.size() == 0)
-            return new HashMap<>();
-        Map<String, List<GameScoreInfoDto>> recentARAMScores = new HashMap<>();
-        for (String puuid : puuids) {
-            recentARAMScores.put(puuid, recentARAMScore(puuid));
-        }
-
-        return recentARAMScores;
-    }
-
-    /**
-     * @Description: 通过 puuid查询玩家最近 30场大乱斗战绩
-     * @param puuid :
-     * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto> 玩家最近 30场战绩中的大乱斗战绩
-     * @Auther: null
-     * @Date: 2023/12/8 - 15:22
-     */
-    @Override
-    public List<GameScoreInfoDto> recentARAMScore(String puuid) {
-        if(puuid == null || StringUtils.equals("", puuid))
-            return new ArrayList<>();
-        List<GameScoreInfoDto> gameScoreInfoDtos = recentThirtyScores(puuid);
-
-        return gameScoreInfoFilter("450", gameScoreInfoDtos);
-    }
-
-    /**
-     * @Description: 查询队伍五个玩家的近 30场战绩中的单排战绩
-     * @param puuids : 队伍玩家的 puuid
-     * @return java.util.Map<java.lang.String, java.util.List < com.qq.lol.dto.GameScoreInfoDto>> 队伍每个玩家最近 30场战绩中的单排战绩
-     * key：puuid，value：战绩List
-     * @Auther: null
-     * @Date: 2023/12/8 - 11:17
-     */
-    @Override
-    public Map<String, List<GameScoreInfoDto>> recentSoloRankScores(List<String> puuids) {
-        if(puuids == null || puuids.size() == 0)
-            return new HashMap<>();
-        Map<String, List<GameScoreInfoDto>> recentSoloRankScores = new HashMap<>();
-        for (String puuid : puuids) {
-            recentSoloRankScores.put(puuid, recentSoloRankScore(puuid));
-        }
-
-        return recentSoloRankScores;
-    }
-
-    /**
-     * @Description: 通过 puuid查询玩家最近 30场单排战绩
-     * @param puuid :
-     * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto> 玩家最近 30场战绩中的单排战绩
-     * @Auther: null
-     * @Date: 2023/12/8 - 15:22
-     */
-    @Override
-    public List<GameScoreInfoDto> recentSoloRankScore(String puuid) {
-        if(puuid == null || StringUtils.equals("", puuid))
-            return new ArrayList<>();
-        List<GameScoreInfoDto> gameScoreInfoDtos = recentThirtyScores(puuid);
-
-        return gameScoreInfoFilter("420", gameScoreInfoDtos);
-    }
-
-    /**
-     * @Description: 通过 puuid查询玩家最近 30场战绩中的组排战绩
+     * @Description: 通过 puuid查询玩家最近战绩
      * @param puuids : 队伍玩家的 puuid
      * @return java.util.Map<java.lang.String, java.util.List < com.qq.lol.dto.GameScoreInfoDto>>
      * key：puuid，value：10场战绩
@@ -184,32 +80,44 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      * @Date: 2023/12/8 - 11:17
      */
     @Override
-    public Map<String, List<GameScoreInfoDto>> recentFlexRankScores(List<String> puuids) {
+    public Map<String, List<GameScoreInfoDto>> recentScores(List<String> puuids, String queueId, Integer size) {
         if(puuids == null || puuids.size() == 0)
             return new HashMap<>();
 
         Map<String, List<GameScoreInfoDto>> recentFlexRankScores = new HashMap<>();
         for (String puuid : puuids) {
-            recentFlexRankScores.put(puuid, recentFlexRankScore(puuid));
+            recentFlexRankScores.put(puuid, recentScores(puuid, queueId, size));
         }
 
         return recentFlexRankScores;
     }
 
     /**
-     * @Description: 通过 puuid查询玩家最近 30场战绩中的组排战绩
+     * @Description: 通过 puuid查询玩家最近战绩
      * @param puuid :
-     * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto> 玩家最近 30场战绩中的组排战绩
+     * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto>
      * @Auther: null
      * @Date: 2023/12/8 - 15:20
      */
     @Override
-    public List<GameScoreInfoDto> recentFlexRankScore(String puuid) {
-        if(puuid == null || StringUtils.equals("", puuid))
+    public List<GameScoreInfoDto> recentScores(String puuid, String queueId, Integer size) {
+        if(puuid == null || StringUtils.equals("", puuid) || queueId == null || StringUtils.equals("", queueId))
             return new ArrayList<>();
-        List<GameScoreInfoDto> gameScoreInfoDtos = recentThirtyScores(puuid);
 
-        return gameScoreInfoFilter("440", gameScoreInfoDtos);
+        List<GameScoreInfoDto> gameScoreInfoDtos = recentScores(puuid, size);
+        return recentScores(gameScoreInfoDtos, scores -> gameScoreInfoFilter(queueId, gameScoreInfoDtos));
+    }
+
+    /**
+     * @Description: 过滤战绩
+     * @param scores:
+     * @param filter: 过滤规则
+     * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto>
+     * @Auther: null
+     * @Date: 2023/12/14 - 17:22
+     */
+    private List<GameScoreInfoDto> recentScores(List<GameScoreInfoDto> scores, Function<List<GameScoreInfoDto>, List<GameScoreInfoDto>> filter) {
+        return filter.apply(scores);
     }
 
     /**
@@ -237,18 +145,19 @@ public class GameHistoryServiceImpl implements GameHistoryService {
     }
 
     /**
-     * @Description: 通过 puuid查询玩家近期 30 场战绩
-     * @param puuid: puuid
+     * @Description: 通过 puuid查询玩家近期 size 场战绩
+     * @param puuid :
+     * @param size  : 要查询的场数
      * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto>
      * @Auther: null
-     * @Date: 2023/12/4 - 14:22
+     * @Date: 2023/12/14 - 16:38
      */
     @Override
-    public List<GameScoreInfoDto> recentThirtyScores(String puuid) {
+    public List<GameScoreInfoDto> recentScores(String puuid, Integer size) {
         if(puuid == null || StringUtils.equals("", puuid))
             return new ArrayList<>();
 
-        return getScoreInfoByPuuid(puuid, 0, 29);
+        return getScoreInfoByPuuid(puuid, 0, size);
     }
 
     /**

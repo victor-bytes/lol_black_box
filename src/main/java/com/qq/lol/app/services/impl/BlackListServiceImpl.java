@@ -22,9 +22,9 @@ public class BlackListServiceImpl implements BlackListService {
     public static BlackListService getBlackListService(){return blackListService;}
 
     /**
+     * @Description: 修改黑名单中玩家信息, 返回 1 成功，0 失败
      * @param player :
      * @return java.lang.Integer
-     * @Description: 修改黑名单中玩家信息, 返回 1 成功，0 失败
      * @Auther: null
      * @Date: 2023/12/7 - 18:25
      */
@@ -37,10 +37,10 @@ public class BlackListServiceImpl implements BlackListService {
     }
 
     /**
+     * @Description: 将玩家加入黑名单 =2添加成功，否则添加失败
      * @param player :
      * @return int
      * @throws
-     * @Description: 将玩家加入黑名单 =2添加成功，否则添加失败
      * @Auther: null
      * @Date: 2023/11/29 - 19:25
      */
@@ -53,10 +53,10 @@ public class BlackListServiceImpl implements BlackListService {
     }
 
     /**
+     * @Description: 通过 puuid删除黑名单玩家 >1移除成功，<=1移除失败
      * @param puuid :
      * @return void
      * @throws
-     * @Description: 通过 puuid删除黑名单玩家 >1移除成功，<=1移除失败
      * @Auther: null
      * @Date: 2023/11/29 - 19:41
      */
@@ -69,11 +69,11 @@ public class BlackListServiceImpl implements BlackListService {
     }
 
     /**
+     * @Description: 通过 puuid查询玩家是否在黑名单 返回 null则不在黑名单中
+     * 不存在返回 null
      * @param puuid :
      * @return com.qq.lol.dto.BlackPlayer
      * @throws
-     * @Description: 通过 puuid查询玩家是否在黑名单 返回 null则不在黑名单中
-     * 不存在返回 null
      * @Auther: null
      * @Date: 2023/11/29 - 19:26
      */
@@ -86,9 +86,9 @@ public class BlackListServiceImpl implements BlackListService {
     }
 
     /**
+     * @Description: 分页查询黑名单玩家
      * @return java.util.List<com.qq.lol.dto.BlackPlayer>
      * @throws
-     * @Description: 分页查询黑名单玩家
      * @Auther: null
      * @Date: 2023/11/29 - 19:33
      */
