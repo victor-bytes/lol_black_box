@@ -6,6 +6,8 @@ import com.qq.lol.app.services.LootService;
 import com.qq.lol.utils.NetRequestUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Auther: null
@@ -33,11 +35,17 @@ public class LootServiceImpl implements LootService {
     @Override
     public Integer mythicToOrange(Integer count) {
         try {
-            String currency_mythic = netRequestUtil.doPost("/lol-loot/v1/recipes/CURRENCY_mythic_forge_15/craft?repeat=" + count,
-                    "CURRENCY_mythic");
+            // 构造 body
+            List<String> list = new ArrayList<>();
+            list.add("CURRENCY_mythic");
+            String body = JSON.toJSONString(list);
+            String currency_mythic = netRequestUtil
+                    .doPost("/lol-loot/v1/recipes/CURRENCY_mythic_forge_15/craft?repeat=" + count, body);
+
             JSONObject jsonObject = JSON.parseObject(currency_mythic);
             String remainedCount = jsonObject.getJSONArray("removed")
-                    .getJSONObject(0)
+                    .toJavaList(JSONObject.class)
+                    .get(0)
                     .getJSONObject("playerLoot")
                     .getString("count");
 

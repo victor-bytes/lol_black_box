@@ -19,7 +19,7 @@
         <jnativehook.version>2.1.0</jnativehook.version>
         <hutool.version>5.8.4</hutool.version>
         <!-- 在这里定义程序入口类 -->
-        <mainClass>yalong.site.LeagueClientHelper</mainClass>
+        <mainClass>com.qq.lol.frame.Main</mainClass>
     </properties>
 
     <dependencies>
