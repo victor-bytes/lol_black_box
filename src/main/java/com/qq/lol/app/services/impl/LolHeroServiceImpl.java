@@ -7,6 +7,8 @@ import com.qq.lol.app.services.LolHeroService;
 import com.qq.lol.dto.HeroDto;
 import com.qq.lol.dto.MasteryChampion;
 import com.qq.lol.utils.NetRequestUtil;
+import javafx.scene.image.Image;
+import okhttp3.Response;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -42,7 +44,29 @@ public class LolHeroServiceImpl implements LolHeroService {
         if(championId == null || StringUtils.equals("", championId))
             return new HeroDto();
 
-        return heroDao.getHeroByChampionId(championId);
+        HeroDto hero = heroDao.getHeroByChampionId(championId);
+        // 设置英雄头像
+        hero.setChampionIcon(getProfileIcon(championId));
+
+        return hero;
+    }
+
+    // 获取英雄头像
+    private Image getProfileIcon(String imgId) {
+        //数据库中没有需要从客户端获取
+        Image championIcon = heroDao.getChampionIcon(imgId);
+        if(championIcon != null)
+            return championIcon;
+
+        Response response = netRequestUtil.doGetV2("/lol-game-data/assets/v1/champion-icons/" + imgId + ".png");
+        // 先保存到数据库
+        Integer i = heroDao.saveChampionIcon(response.body().byteStream(), imgId);
+        if(i == -1) {
+            System.out.println("--- 获取英雄头像失败 ---");
+            return null;
+        }
+        // 再获取
+        return heroDao.getChampionIcon(imgId);
     }
 
     /**

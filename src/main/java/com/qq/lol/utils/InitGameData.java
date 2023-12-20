@@ -1,7 +1,7 @@
 package com.qq.lol.utils;
 
-import com.qq.lol.app.services.impl.LolHeroServiceImpl;
 import com.qq.lol.app.services.LolHeroService;
+import com.qq.lol.app.services.impl.LolHeroServiceImpl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +14,7 @@ import java.util.Map;
  */
 public class InitGameData {
     private static LolHeroService lolHeroService = LolHeroServiceImpl.getLolHeroService();
+    private static final NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
 
     //    游戏队列id，用于识别战绩中游戏类型
     public static final Map<String, String> gameQueueIdToName = new HashMap<>();
@@ -33,11 +34,5 @@ public class InitGameData {
 
     private InitGameData() {}
 
-    /**
-     * 初始化英雄信息
-     */
-    public static void initHeroData() {
-
-    }
 
 }

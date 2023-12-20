@@ -3,8 +3,11 @@ package com.qq.lol.app.dao.impl;
 import com.qq.lol.app.dao.HeroDao;
 import com.qq.lol.dto.HeroDto;
 import com.qq.lol.utils.JdbcUtils;
+import javafx.scene.image.Image;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -192,5 +195,146 @@ public class HeroDaoImpl implements HeroDao {
         }
 
         return hero;
+    }
+
+    /**
+     * @Description: 保存召唤师头像到数据库
+     * @param inputStream:
+     * @param imgId: 图片名
+     * @return java.lang.Integer -1表示保存失败
+     * @Auther: null
+     * @Date: 2023/12/20 - 17:52
+     */
+    @Override
+    public Integer saveProfileIcon(InputStream inputStream, String imgId) {
+        String sql = "insert into `profile_icon`(`data`,`img_id`) values(?, ?)";
+        return saveImg(inputStream, imgId, sql);
+    }
+
+    /**
+     * @Description: 保存英雄头像到数据库
+     * @param inputStream :
+     * @param imgId       :
+     * @return java.lang.Integer
+     * @Auther: null
+     * @Date: 2023/12/20 - 17:59
+     */
+    @Override
+    public Integer saveChampionIcon(InputStream inputStream, String imgId) {
+        String sql = "insert into `champion_icon`(`data`,`img_id`) values(?, ?)";
+        return saveImg(inputStream, imgId, sql);
+    }
+
+    /**
+     * @Description: 获取召唤师头像
+     * @param imgId :
+     * @return javafx.scene.image.Image
+     * @Auther: null
+     * @Date: 2023/12/20 - 18:36
+     */
+    @Override
+    public Image getProfileIcon(String imgId) {
+        String sql = "select `data` from `profile_icon` where `img_id` = ?";
+
+        return getImg(imgId, sql);
+    }
+
+    /**
+     * @Description: 获取英雄头像
+     * @param imgId :
+     * @return javafx.scene.image.Image
+     * @Auther: null
+     * @Date: 2023/12/20 - 18:37
+     */
+    @Override
+    public Image getChampionIcon(String imgId) {
+        String sql = "select `data` from `champion_icon` where `img_id` = ?";
+
+        return getImg(imgId, sql);
+    }
+
+    /**
+     * @Description: 保存图片到数据库
+     * @param inputStream:
+     * @param imgId:
+     * @param sql:
+     * @return java.lang.Integer
+     * @Auther: null
+     * @Date: 2023/12/20 - 17:57
+     */
+    private Integer saveImg(InputStream inputStream, String imgId, String sql) {
+        Connection connection = JdbcUtils.getConnection();
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement(sql);
+            connection.setAutoCommit(false);
+            ps.setBlob(1, inputStream);
+            ps.setString(2, imgId);
+
+            int i = ps.executeUpdate();
+            connection.commit();
+            inputStream.close();
+            return i;
+        } catch (SQLException | IOException e) {
+            System.out.println("执行过程发生了异常，撤销执行的 sql语句。");
+            try {
+                connection.rollback();
+            } catch (SQLException throwAbles) {
+                throwAbles.printStackTrace();
+            }
+
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            JdbcUtils.release(ps, connection);
+        }
+
+        return -1;
+    }
+
+    private Image getImg(String imgId, String sql) {
+        Connection connection = JdbcUtils.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Image image = null;
+        try {
+            ps = connection.prepareStatement(sql);
+            connection.setAutoCommit(false);
+            ps.setString(1, imgId);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                InputStream binaryStream = rs.getBinaryStream("data");
+                image = new Image(binaryStream);
+                binaryStream.close();
+            }
+
+            connection.commit();
+            return image;
+        } catch (SQLException | IOException e) {
+            System.out.println("执行过程发生了异常，撤销执行的 sql语句。");
+            try {
+                connection.rollback();
+            } catch (SQLException throwAbles) {
+                throwAbles.printStackTrace();
+            }
+
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            JdbcUtils.release(rs, ps, connection);
+        }
+
+        return image;
     }
 }

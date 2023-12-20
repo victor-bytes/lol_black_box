@@ -26,6 +26,28 @@ public class LootServiceImpl implements LootService {
     }
 
     /**
+     * @return java.lang.Integer
+     * @Description: 获取当前神话精粹数量
+     * @Auther: null
+     * @Date: 2023/12/18 - 12:03
+     */
+    @Override
+    public Integer getMythicCount() {
+        String json = netRequestUtil.doGet("/lol-loot/v1/player-loot/CURRENCY_mythic");
+
+        Integer count = 0;
+        try {
+            count = JSON.parseObject(json).getInteger("count");
+            return count;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("获取神话精粹异常");
+        }
+
+        return -1;
+    }
+
+    /**
      * @param count : 要兑换的神话精粹个数
      * @return java.lang.Integer，返回剩余的神话精粹个数
      * @Description: 神话精粹兑换橙色精粹

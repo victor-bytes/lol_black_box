@@ -72,6 +72,22 @@ public class NetRequestUtil {
         return response.body().string();
     }
 
+    // 主要用户获取图片
+    public Response doGetV2(String endpoint) {
+        Request request = new Request.Builder()
+                .url(defaultHost + endpoint)
+                .get()
+                .headers(defaultHeaders)
+                .build();
+        try {
+            return client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     /**
      * 使用默认主机
      * @param endpoint

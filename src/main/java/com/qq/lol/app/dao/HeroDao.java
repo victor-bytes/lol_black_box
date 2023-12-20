@@ -1,7 +1,9 @@
 package com.qq.lol.app.dao;
 
 import com.qq.lol.dto.HeroDto;
+import javafx.scene.image.Image;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -36,6 +38,44 @@ public interface HeroDao {
      * @Date: 2023/12/6 - 20:21
      */
     HeroDto getHeroByChampionId(String championId);
+
+    /**
+     * @Description: 保存召唤师头像到数据库
+     * @param inputStream:
+     * @param imgId: 图片名
+     * @return java.lang.Integer -1表示保存失败
+     * @Auther: null
+     * @Date: 2023/12/20 - 17:52
+     */
+    Integer saveProfileIcon(InputStream inputStream, String imgId);
+
+    /**
+     * @Description: 保存英雄头像到数据库
+     * @param inputStream:
+     * @param imgId:
+     * @return java.lang.Integer 返回 -1 失败
+     * @Auther: null
+     * @Date: 2023/12/20 - 17:59
+     */
+    Integer saveChampionIcon(InputStream inputStream, String imgId);
+
+    /**
+     * @Description: 获取召唤师头像
+     * @param imgId:
+     * @return javafx.scene.image.Image
+     * @Auther: null
+     * @Date: 2023/12/20 - 18:36
+     */
+    Image getProfileIcon(String imgId);
+
+    /**
+     * @Description: 获取英雄头像
+     * @param imgId:
+     * @return javafx.scene.image.Image
+     * @Auther: null
+     * @Date: 2023/12/20 - 18:37
+     */
+    Image getChampionIcon(String imgId);
 
 
 }

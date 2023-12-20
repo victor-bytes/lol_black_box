@@ -1,5 +1,6 @@
 package com.qq.lol.dto;
 
+import javafx.scene.image.Image;
 import lombok.Data;
 
 /**
@@ -14,6 +15,10 @@ public class SummonerInfoDto {
     private String platformId;
 
     private String puuid;
+
+    private Integer profileIconId;
+
+    private Image profileIcon;
 
     private String accountId;
 

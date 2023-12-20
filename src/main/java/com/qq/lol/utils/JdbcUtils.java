@@ -41,7 +41,7 @@ public class JdbcUtils {
         try {
             //返回的是DataSource
             dataSource = DruidDataSourceFactory.createDataSource(prop);
-            System.out.println("------ 初始化数据库连接池 ------");
+            System.out.println(StandardOutTime.getCurrentTime() + " ------ 初始化数据库连接池 ------");
         } catch (Exception e) {
             e.printStackTrace();
         }

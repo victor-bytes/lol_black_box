@@ -2,11 +2,15 @@ package com.qq.lol.app.services.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.qq.lol.app.dao.HeroDao;
+import com.qq.lol.app.dao.impl.HeroDaoImpl;
 import com.qq.lol.app.services.LolHeroService;
 import com.qq.lol.app.services.LolPlayerService;
 import com.qq.lol.dto.PlayerInfoDto;
 import com.qq.lol.dto.SummonerInfoDto;
 import com.qq.lol.utils.NetRequestUtil;
+import javafx.scene.image.Image;
+import okhttp3.Response;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -20,6 +24,7 @@ public class LolPlayerServiceImpl implements LolPlayerService {
     private static final LolPlayerServiceImpl lolPlayerService = new LolPlayerServiceImpl();
     private static final NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
     private static final LolHeroService lolHeroService = LolHeroServiceImpl.getLolHeroService();
+    private static final HeroDao heroDao = HeroDaoImpl.getHeroDao();
 
     private LolPlayerServiceImpl() {}
 
@@ -61,6 +66,9 @@ public class LolPlayerServiceImpl implements LolPlayerService {
                 summonerInfo.setPlatformId("未知大区");
         }
 
+        // 添加召唤师头像
+        summonerInfo.setProfileIcon(getProfileIcon(summonerInfo.getProfileIconId().toString()));
+
         return summonerInfo;
     }
 
@@ -83,17 +91,29 @@ public class LolPlayerServiceImpl implements LolPlayerService {
         return playerInfo;
     }
 
-//    /**
-//     * @Description: 获取游戏中十个玩家的信息,不包含战绩
-//     * 战绩、信息分开获取
-//     * @return java.util.List<com.qq.lol.dto.PlayerInfoDto>
-//     * @throws
-//     * @Auther: null
-//     * @Date: 2023/12/4 - 14:24
-//     */
-//    @Override
-//    public List<PlayerInfoDto> getPlayersInfoByPuuid() {
-//        return null;
-//    }
+    /**
+     * @Description: 获取召唤师头像
+     * @param imgId :
+     * @return javafx.scene.image.Image
+     * @Auther: null
+     * @Date: 2023/12/20 - 19:08
+     */
+    private Image getProfileIcon(String imgId) {
+        //数据库中没有需要从客户端获取
+        Image profileIcon = heroDao.getProfileIcon(imgId);
+        if(profileIcon != null)
+            return profileIcon;
+
+        Response response = netRequestUtil.doGetV2("/lol-game-data/assets/v1/profile-icons/" + imgId + ".jpg");
+        // 先保存到数据库
+        Integer i = heroDao.saveProfileIcon(response.body().byteStream(), imgId);
+        if(i == -1) {
+            System.out.println("--- 获取召唤师头像失败 ---");
+            return null;
+        }
+        // 再获取
+        return heroDao.getProfileIcon(imgId);
+    }
+
 
 }

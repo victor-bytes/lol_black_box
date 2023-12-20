@@ -1,8 +1,7 @@
 package com.qq.lol.dto;
 
+import javafx.scene.image.Image;
 import lombok.Data;
-
-import java.util.List;
 
 /**
  * @Date: 2023/11/29 - 11 - 29 - 17:05
@@ -24,6 +23,8 @@ public class HeroDto {
 
     // 英雄头像 url
     private String squarePortraitPath;
+
+    private Image championIcon;
 
     // 英雄定位
 //    private List<String> roles;

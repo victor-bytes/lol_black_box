@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorPane" prefHeight="660.0" prefWidth="1240.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qq.lol.frame.controller.MainPageController">
+   <children>
+      <VBox prefHeight="660.0" prefWidth="1240.0">
+         <children>
+            <HBox>
+               <children>
+                  <Button fx:id="refreshSummoner" contentDisplay="CENTER" mnemonicParsing="false" onAction="#refresh" prefHeight="43.0" prefWidth="141.0" text="刷新召唤师信息" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold Italic" size="13.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                     </padding>
+                  </Button>
+                  <Label fx:id="platform" alignment="CENTER" contentDisplay="CENTER" prefHeight="43.0" prefWidth="201.0" text="当前大区" textAlignment="CENTER" textFill="#240be3">
+                     <font>
+                        <Font name="System Bold Italic" size="13.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
+            <GridPane alignment="CENTER" prefWidth="1240.0" style="-fx-background-color: #CFCFCF;">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="61.0" minHeight="10.0" prefHeight="53.0" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="57.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="51.0" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fx:id="summonerIcon" fitHeight="50.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <Label fx:id="summonerID" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="616.0" text="Label" textAlignment="CENTER" textFill="#240be3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold Italic" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="originID" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="720.0" textAlignment="CENTER" textFill="#240be3" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="summonerLevel" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="151.0" textAlignment="CENTER" textFill="#240be3" GridPane.halignment="CENTER" GridPane.rowIndex="6">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="levelPercent" alignment="CENTER" contentDisplay="CENTER" prefHeight="29.0" prefWidth="535.0" textAlignment="CENTER" textFill="#240be3" GridPane.halignment="CENTER" GridPane.rowIndex="8">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="mythicCount" alignment="CENTER" contentDisplay="CENTER" prefHeight="49.0" prefWidth="168.0" textAlignment="CENTER" textFill="#240be3" GridPane.halignment="CENTER" GridPane.rowIndex="10">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="42.0" prefWidth="57.0" text="原始ID" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="555.0" layoutY="275.0" prefHeight="40.0" prefWidth="38.0" text="等级" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="296.0" layoutY="318.0" prefHeight="38.0" prefWidth="184.0" text="下一等级经验值百分比" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="7">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="546.0" layoutY="374.0" prefHeight="33.0" prefWidth="112.0" text="神话精粹数量" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="9">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="rank" alignment="CENTER" contentDisplay="CENTER" layoutX="477.0" layoutY="59.0" prefHeight="40.0" prefWidth="1052.0" text="Label" textAlignment="CENTER" textFill="#240be3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
