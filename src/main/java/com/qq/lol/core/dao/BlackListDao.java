@@ -1,4 +1,4 @@
-package com.qq.lol.app.dao;
+package com.qq.lol.core.dao;
 
 import com.qq.lol.dto.BlackPlayerDto;
 import com.qq.lol.dto.PageResult;
@@ -23,7 +23,7 @@ public interface BlackListDao {
     /**
      * @Description: 查询玩家是否在黑名单中
      * @param puuid:
-     * @return com.qq.lol.dto.BlackPlayerDto 返回 null则不在黑名单中
+     * @return com.qq.lol.dto.BlackPlayerDto 若在黑名单中，则返回 BlackPlayerDto
      * @Auther: null
      * @Date: 2023/12/7 - 13:46
      */

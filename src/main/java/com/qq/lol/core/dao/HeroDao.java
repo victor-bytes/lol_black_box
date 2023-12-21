@@ -1,4 +1,4 @@
-package com.qq.lol.app.dao;
+package com.qq.lol.core.dao;
 
 import com.qq.lol.dto.HeroDto;
 import javafx.scene.image.Image;

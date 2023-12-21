@@ -9,7 +9,7 @@
 
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qq.lol.frame.controller.MainWindowController">
    <top>
-      <HBox prefHeight="40.0" prefWidth="1280.0" style="-fx-background-color: #828282;" BorderPane.alignment="CENTER">
+      <HBox prefHeight="40.0" prefWidth="1280.0" style="-fx-background-color: #90EE90;" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="mainButtonOne" mnemonicParsing="false" onAction="#mainButtonOne" prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #B0E0E6;" text="主页">
                <font>
@@ -55,7 +55,7 @@
       </HBox>
    </top>
    <center>
-      <AnchorPane fx:id="mainCenterPage" prefHeight="660.0" prefWidth="1240.0" style="-fx-background-color: #4F4F4F;" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="mainCenterPage" prefHeight="660.0" prefWidth="1240.0" style="-fx-background-color: #90EE90;" BorderPane.alignment="CENTER">
       </AnchorPane>
    </center>
 </BorderPane>

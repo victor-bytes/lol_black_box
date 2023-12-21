@@ -1,9 +1,9 @@
-package com.qq.lol.app.services.impl;
+package com.qq.lol.core.services.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.qq.lol.app.dao.HeroDao;
-import com.qq.lol.app.dao.impl.HeroDaoImpl;
-import com.qq.lol.app.services.LolHeroService;
+import com.qq.lol.core.dao.HeroDao;
+import com.qq.lol.core.dao.impl.HeroDaoImpl;
+import com.qq.lol.core.services.LolHeroService;
 import com.qq.lol.dto.HeroDto;
 import com.qq.lol.dto.MasteryChampion;
 import com.qq.lol.utils.NetRequestUtil;

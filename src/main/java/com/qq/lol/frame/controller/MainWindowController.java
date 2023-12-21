@@ -1,6 +1,6 @@
 package com.qq.lol.frame.controller;
 
-import com.qq.lol.app.services.GlobalService;
+import com.qq.lol.core.services.GlobalService;
 import com.qq.lol.dto.SummonerInfoDto;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -81,7 +81,9 @@ public class MainWindowController {
         ControllerManager.mainPageController.showMainPage(loginSummoner);
         // 先清除控件再添加，否则会引发异常
         mainCenterPage.getChildren().clear();
-        mainCenterPage.getChildren().add(ControllerManager.mainPageController.anchorPane);
+        AnchorPane anchorPane = ControllerManager.mainPageController.getAnchorPane();
+        AnchorPane.setLeftAnchor(anchorPane, 20.0);
+        mainCenterPage.getChildren().add(anchorPane);
     }
 
     /**
@@ -95,6 +97,9 @@ public class MainWindowController {
 //        mainButtonTwo.setOnMouseClicked(e -> System.out.println("对局 按钮被选择"));
         System.out.println("对局 按钮被选择");
         mainCenterPage.getChildren().clear();
+        mainCenterPage.getChildren().add(ControllerManager.gameHistoryPageController.getGridPane());
+        // 填充内容
+        ControllerManager.gameHistoryPageController.showGameHistory();
     }
 
     /**

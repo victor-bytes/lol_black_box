@@ -1,9 +1,9 @@
-package com.qq.lol.app.services.impl;
+package com.qq.lol.core.services.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.qq.lol.app.services.GameHistoryService;
-import com.qq.lol.app.services.LolHeroService;
+import com.qq.lol.core.services.GameHistoryService;
+import com.qq.lol.core.services.LolHeroService;
 import com.qq.lol.dto.GameScoreInfoDto;
 import com.qq.lol.enums.GameMode;
 import com.qq.lol.enums.GameQueueType;
@@ -72,7 +72,7 @@ public class GameHistoryServiceImpl implements GameHistoryService {
     }
 
     /**
-     * @Description: 通过 puuid查询玩家最近战绩
+     * @Description: 通过 queueId查询玩家最近战绩
      * @param puuids : 队伍玩家的 puuid
      * @return java.util.Map<java.lang.String, java.util.List < com.qq.lol.dto.GameScoreInfoDto>>
      * key：puuid，value：10场战绩
@@ -93,7 +93,7 @@ public class GameHistoryServiceImpl implements GameHistoryService {
     }
 
     /**
-     * @Description: 通过 puuid查询玩家最近战绩
+     * @Description: 通过 queueId查询玩家最近战绩
      * @param puuid :
      * @return java.util.List<com.qq.lol.dto.GameScoreInfoDto>
      * @Auther: null
@@ -157,7 +157,7 @@ public class GameHistoryServiceImpl implements GameHistoryService {
         if(puuid == null || StringUtils.equals("", puuid))
             return new ArrayList<>();
 
-        return getScoreInfoByPuuid(puuid, 0, size);
+        return getAllTypeScore(puuid, 0, size);
     }
 
     /**
@@ -170,7 +170,7 @@ public class GameHistoryServiceImpl implements GameHistoryService {
      * @Date: 2023/12/4 - 14:21
      */
     @Override
-    public List<GameScoreInfoDto> getScoreInfoByPuuid(String puuid, int begIndex, int endIndex) {
+    public List<GameScoreInfoDto> getAllTypeScore(String puuid, int begIndex, int endIndex) {
         if(puuid == null || StringUtils.equals("", puuid))
             return new ArrayList<>();
 

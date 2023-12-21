@@ -1,6 +1,6 @@
 package com.qq.lol.frame.controller;
 
-import com.qq.lol.app.services.GlobalService;
+import com.qq.lol.core.services.GlobalService;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;

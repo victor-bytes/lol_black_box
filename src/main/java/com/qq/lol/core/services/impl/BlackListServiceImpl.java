@@ -1,8 +1,8 @@
-package com.qq.lol.app.services.impl;
+package com.qq.lol.core.services.impl;
 
-import com.qq.lol.app.dao.BlackListDao;
-import com.qq.lol.app.dao.impl.BlackListDaoImpl;
-import com.qq.lol.app.services.BlackListService;
+import com.qq.lol.core.dao.BlackListDao;
+import com.qq.lol.core.dao.impl.BlackListDaoImpl;
+import com.qq.lol.core.services.BlackListService;
 import com.qq.lol.dto.BlackPlayerDto;
 import com.qq.lol.dto.PageResult;
 import org.apache.commons.lang3.StringUtils;
@@ -69,10 +69,10 @@ public class BlackListServiceImpl implements BlackListService {
     }
 
     /**
-     * @Description: 通过 puuid查询玩家是否在黑名单 返回 null则不在黑名单中
+     * @Description: 通过 puuid查询玩家是否在黑名单
      * 不存在返回 null
      * @param puuid :
-     * @return com.qq.lol.dto.BlackPlayer
+     * @return com.qq.lol.dto.BlackPlayer 若在黑名单中，则返回 BlackPlayerDto
      * @throws
      * @Auther: null
      * @Date: 2023/11/29 - 19:26

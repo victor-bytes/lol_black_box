@@ -1,8 +1,8 @@
-package com.qq.lol.app.services.impl;
+package com.qq.lol.core.services.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.qq.lol.app.services.LootService;
+import com.qq.lol.core.services.LootService;
 import com.qq.lol.utils.NetRequestUtil;
 
 import java.io.IOException;

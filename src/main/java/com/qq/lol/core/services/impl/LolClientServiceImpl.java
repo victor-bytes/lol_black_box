@@ -1,7 +1,7 @@
-package com.qq.lol.app.services.impl;
+package com.qq.lol.core.services.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.qq.lol.app.services.LolClientService;
+import com.qq.lol.core.services.LolClientService;
 import com.qq.lol.enums.ClientStatusEnum;
 import com.qq.lol.utils.NetRequestUtil;
 

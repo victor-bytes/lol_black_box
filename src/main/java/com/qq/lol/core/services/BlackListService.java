@@ -1,4 +1,4 @@
-package com.qq.lol.app.services;
+package com.qq.lol.core.services;
 
 import com.qq.lol.dto.BlackPlayerDto;
 import com.qq.lol.dto.PageResult;
@@ -43,7 +43,7 @@ public interface BlackListService {
      * @Description: 通过 puuid查询玩家是否在黑名单
      * 不存在返回 null
      * @param puuid:
-     * @return com.qq.lol.dto.BlackPlayer 返回 null则不在黑名单中
+     * @return com.qq.lol.dto.BlackPlayer 若在黑名单中，则返回 BlackPlayerDto
      * @throws
      * @Auther: null
      * @Date: 2023/11/29 - 19:26

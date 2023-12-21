@@ -1,6 +1,6 @@
 package com.qq.lol.dto;
 
-import com.qq.lol.app.dao.HeroDao;
+import com.qq.lol.core.dao.HeroDao;
 import lombok.Data;
 
 

@@ -1,8 +1,8 @@
-package com.qq.lol.app.services;
+package com.qq.lol.core.services;
 
-import com.qq.lol.app.services.impl.LolHeroServiceImpl;
-import com.qq.lol.app.services.impl.LolPlayerServiceImpl;
-import com.qq.lol.app.services.impl.LootServiceImpl;
+import com.qq.lol.core.services.impl.LolHeroServiceImpl;
+import com.qq.lol.core.services.impl.LolPlayerServiceImpl;
+import com.qq.lol.core.services.impl.LootServiceImpl;
 import com.qq.lol.dto.SummonerInfoDto;
 import com.qq.lol.utils.StandardOutTime;
 
@@ -24,6 +24,8 @@ public class GlobalService {
     private static SummonerInfoDto summonerInfo = null;
     // TODO 当前神话精粹数量
     private static Integer mythicCount = -1;
+    // 默认查询战绩数量
+    private static Integer historySize = 9;
 
     static {
         // 初始化英雄列表
@@ -47,6 +49,14 @@ public class GlobalService {
 
     public static GlobalService getGlobalService() {
         return globalService;
+    }
+
+    public static Integer getHistorySize() {
+        return historySize;
+    }
+
+    public static void setHistorySize(Integer historySize) {
+        GlobalService.historySize = historySize;
     }
 
     /**

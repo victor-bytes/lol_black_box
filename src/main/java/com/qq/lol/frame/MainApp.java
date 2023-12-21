@@ -1,6 +1,6 @@
 package com.qq.lol.frame;
 
-import com.qq.lol.app.services.GlobalService;
+import com.qq.lol.core.services.GlobalService;
 import com.qq.lol.frame.controller.MainWindowController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,8 +18,17 @@ public class MainApp extends Application {
         launch(args);
     }
 
+    // 暴露 primaryStage给其他 Controller使用
+    private static Stage primaryStage;
+
+    public static Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
     @Override
     public void start(Stage primaryStage) throws IOException {
+        MainApp.primaryStage = primaryStage;
+
         // 加载主窗口
         FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/com/qq/lol/frame/view/main_window.fxml")); // 必须使用绝对路径
         Parent mainRoot = mainLoader.load();

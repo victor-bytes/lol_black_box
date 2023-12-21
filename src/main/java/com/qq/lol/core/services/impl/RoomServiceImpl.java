@@ -1,11 +1,11 @@
-package com.qq.lol.app.services.impl;
+package com.qq.lol.core.services.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.qq.lol.app.services.GlobalService;
-import com.qq.lol.app.services.LolClientService;
-import com.qq.lol.app.services.LolHeroService;
-import com.qq.lol.app.services.RoomService;
+import com.qq.lol.core.services.GlobalService;
+import com.qq.lol.core.services.LolClientService;
+import com.qq.lol.core.services.LolHeroService;
+import com.qq.lol.core.services.RoomService;
 import com.qq.lol.dto.GameRoomInfoDto;
 import com.qq.lol.dto.PlayerInfoDto;
 import com.qq.lol.enums.ClientStatusEnum;

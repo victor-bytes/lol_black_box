@@ -1,8 +1,8 @@
-package com.qq.lol.app.services.impl;
+package com.qq.lol.core.services.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.qq.lol.app.services.RankService;
+import com.qq.lol.core.services.RankService;
 import com.qq.lol.dto.RankDto;
 import com.qq.lol.enums.GameQueueType;
 import com.qq.lol.enums.RankTier;

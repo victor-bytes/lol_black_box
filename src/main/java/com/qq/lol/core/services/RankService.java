@@ -1,4 +1,4 @@
-package com.qq.lol.app.services;
+package com.qq.lol.core.services;
 
 import com.qq.lol.dto.RankDto;
 

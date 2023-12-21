@@ -46,4 +46,7 @@ public class PlayerInfoDto {
     // 玩家精通的英雄
     private List<MasteryChampion> masteryChampion;
 
+    // 是否在黑名单中
+    private Boolean inBlackList;
+
 }

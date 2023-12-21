@@ -1,11 +1,13 @@
-package com.qq.lol.app.services.impl;
+package com.qq.lol.core.services.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.qq.lol.app.dao.HeroDao;
-import com.qq.lol.app.dao.impl.HeroDaoImpl;
-import com.qq.lol.app.services.LolHeroService;
-import com.qq.lol.app.services.LolPlayerService;
+import com.qq.lol.core.dao.HeroDao;
+import com.qq.lol.core.dao.impl.HeroDaoImpl;
+import com.qq.lol.core.services.BlackListService;
+import com.qq.lol.core.services.LolHeroService;
+import com.qq.lol.core.services.LolPlayerService;
+import com.qq.lol.dto.BlackPlayerDto;
 import com.qq.lol.dto.PlayerInfoDto;
 import com.qq.lol.dto.SummonerInfoDto;
 import com.qq.lol.utils.NetRequestUtil;
@@ -25,6 +27,7 @@ public class LolPlayerServiceImpl implements LolPlayerService {
     private static final NetRequestUtil netRequestUtil = NetRequestUtil.getNetRequestUtil();
     private static final LolHeroService lolHeroService = LolHeroServiceImpl.getLolHeroService();
     private static final HeroDao heroDao = HeroDaoImpl.getHeroDao();
+    private static final BlackListService blackListService = BlackListServiceImpl.getBlackListService();
 
     private LolPlayerServiceImpl() {}
 
@@ -86,7 +89,11 @@ public class LolPlayerServiceImpl implements LolPlayerService {
 
         String playerInfoJson = netRequestUtil.doGet("/lol-summoner/v2/summoners/puuid/" + puuid);
         PlayerInfoDto playerInfo = JSON.parseObject(playerInfoJson, PlayerInfoDto.class);
+        // 查询精通英雄
         playerInfo.setMasteryChampion(lolHeroService.getMasteryChampion(playerInfo.getSummonerId()));
+        // 是否在黑名单中
+        BlackPlayerDto blackPlayerDto = blackListService.inBlackList(puuid);
+        playerInfo.setInBlackList(StringUtils.equals(blackPlayerDto.getPuuid(), puuid));
 
         return playerInfo;
     }

@@ -1,6 +1,6 @@
-package com.qq.lol.app.dao.impl;
+package com.qq.lol.core.dao.impl;
 
-import com.qq.lol.app.dao.BlackListDao;
+import com.qq.lol.core.dao.BlackListDao;
 import com.qq.lol.dto.BlackPlayerDto;
 import com.qq.lol.dto.PageResult;
 import com.qq.lol.utils.JdbcUtils;
@@ -98,7 +98,7 @@ public class BlackListDaoImpl implements BlackListDao {
 
     /**
      * @param puuid :
-     * @return com.qq.lol.dto.BlackPlayerDto 返回 null则不在黑名单中
+     * @return com.qq.lol.dto.BlackPlayerDto 若在黑名单中，则返回 BlackPlayerDto
      * @Description: 查询玩家是否在黑名单中
      * @Auther: null
      * @Date: 2023/12/7 - 13:46
