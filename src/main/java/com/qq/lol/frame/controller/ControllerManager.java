@@ -16,6 +16,8 @@ public class ControllerManager {
 
     public static MainWindowController mainWindowController;
 
+    public static AddBlackListController addBlackListController;
+
     private ControllerManager(){}
 
 }

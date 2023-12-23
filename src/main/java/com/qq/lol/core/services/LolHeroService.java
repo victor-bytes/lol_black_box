@@ -2,6 +2,7 @@ package com.qq.lol.core.services;
 
 import com.qq.lol.dto.HeroDto;
 import com.qq.lol.dto.MasteryChampion;
+import javafx.scene.image.Image;
 
 import java.util.List;
 
@@ -11,6 +12,15 @@ import java.util.List;
  * @version: 1.0
  */
 public interface LolHeroService {
+
+    /**
+     * @Description: 获取英雄头像
+     * @param imgId:
+     * @return javafx.scene.image.Image
+     * @Auther: null
+     * @Date: 2023/12/22 - 13:55
+     */
+    Image getChampionIcon(String imgId);
 
     /**
      * @Description: 根据 championId 获取英雄信息

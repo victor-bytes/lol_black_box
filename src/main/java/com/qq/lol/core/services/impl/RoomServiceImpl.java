@@ -52,8 +52,10 @@ public class RoomServiceImpl implements RoomService {
         /**
          *  只适配台服、马服
          */
-        if(clientStatus != ClientStatusEnum.ChampSelect && ClientStatusEnum.InProgress != clientStatus) {
-            System.out.println("------ 未进入游戏房间 ------");
+        if(clientStatus != ClientStatusEnum.ChampSelect
+                && ClientStatusEnum.InProgress != clientStatus
+                && clientStatus != ClientStatusEnum.inGame) {
+            //未进入游戏房间
             return null;
         }
 
@@ -133,10 +135,12 @@ public class RoomServiceImpl implements RoomService {
         ClientStatusEnum clientStatus = lolClientService.getClientStatus();
         // 获取当前大区 TW2台服 HN1 艾欧尼亚
         String platformId = global_service.getLoginSummoner().getPlatformId();
-        if((gQT == GameQueueType.RANKED_FLEX_SR || gQT == GameQueueType.RANKED_SOLO_5x5) &&
-                ClientStatusEnum.InProgress != clientStatus && StringUtils.equals("TW2", platformId)) {
+        if((gQT == GameQueueType.RANKED_FLEX_SR || gQT == GameQueueType.RANKED_SOLO_5x5)
+                && ClientStatusEnum.InProgress != clientStatus
+                && clientStatus != ClientStatusEnum.inGame
+                && StringUtils.equals("TW2", platformId)) {
             System.out.println("------ 台服排位必须进入游戏才可以获取玩家信息 ------");
-            return gameRoomInfoDto;
+            return gameRoomInfoDto; // 返回房间信息，但不带有玩家信息
         }
 
         // 获取 teamOne玩家信息

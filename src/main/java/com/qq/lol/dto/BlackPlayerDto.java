@@ -1,6 +1,5 @@
 package com.qq.lol.dto;
 
-import com.qq.lol.core.dao.HeroDao;
 import lombok.Data;
 
 
@@ -11,6 +10,18 @@ import lombok.Data;
  */
 @Data
 public class BlackPlayerDto {
+
+    public BlackPlayerDto() {
+    }
+
+    public BlackPlayerDto(String puuid, String gameName, String tagLine, String championId, String gameId, String platformId) {
+        this.puuid = puuid;
+        this.gameName = gameName;
+        this.tagLine = tagLine;
+        this.championId = championId;
+        this.gameId = gameId;
+        this.platformId = platformId;
+    }
 
     // 主键
     private String id;
@@ -23,7 +34,7 @@ public class BlackPlayerDto {
 
     private String championId;
 
-    private HeroDao hero;
+//    private HeroDao hero;
 
     // 默认预选位置，加入黑名单时应当可以改
     private String selectedPosition;

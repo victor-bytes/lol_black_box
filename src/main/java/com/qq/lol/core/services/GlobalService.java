@@ -4,7 +4,6 @@ import com.qq.lol.core.services.impl.LolHeroServiceImpl;
 import com.qq.lol.core.services.impl.LolPlayerServiceImpl;
 import com.qq.lol.core.services.impl.LootServiceImpl;
 import com.qq.lol.dto.SummonerInfoDto;
-import com.qq.lol.utils.StandardOutTime;
 
 /**
  * @Auther: null
@@ -22,16 +21,16 @@ public class GlobalService {
      * 全局的当前已登录召唤师信息，使用该信息不会频繁调用 LCU
      */
     private static SummonerInfoDto summonerInfo = null;
-    // TODO 当前神话精粹数量
+    // 当前神话精粹数量
     private static Integer mythicCount = -1;
-    // 默认查询战绩数量
+    // 默认查询战绩数量 10条
     private static Integer historySize = 9;
 
     static {
-        // 初始化英雄列表
-        Integer i = lolHeroService.updateHeroes();
-        if(i < 1)
-            System.out.println(StandardOutTime.getCurrentTime() + " 同步英雄信息失败 ");
+        // TODO 初始化英雄列表,做到设置界面里，由用户更新
+//        Integer i = lolHeroService.updateHeroes();
+//        if(i < 1)
+//            System.out.println(StandardOutTime.getCurrentTime() + " 同步英雄信息失败 ");
 //        if(i > 1)
 //            System.out.println("------ 有新增英雄，已更新到数据库 ------");
 //        else if(i == 1)
@@ -39,9 +38,9 @@ public class GlobalService {
 //        else
 //            System.out.println("------ 同步英雄信息失败 ------");
         // 获取召唤师信息
-        globalService.getLoginSummoner();
+//        globalService.getLoginSummoner();
         // 获取神话精粹数量
-        globalService.getMythicCount();
+//        globalService.getMythicCount();
 
     }
 

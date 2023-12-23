@@ -2,6 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -51,6 +53,24 @@
                   <Insets bottom="3.0" left="2.0" right="2.0" top="3.0" />
                </HBox.margin>
             </Button>
+            <Label prefHeight="40.0" prefWidth="82.0" style="-fx-background-color: #66CD00;" text="客户端状态：">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <padding>
+                  <Insets left="3.0" />
+               </padding>
+            </Label>
+            <Label fx:id="clientStatus" layoutX="481.0" layoutY="10.0" prefHeight="40.0" prefWidth="116.0" style="-fx-background-color: #66CD00;" text="InProgress游戏中" />
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
+            <Label fx:id="queueType" alignment="CENTER" layoutX="555.0" layoutY="10.0" prefHeight="40.0" prefWidth="268.0" style="-fx-background-color: #66CD00;" text="未在游戏中">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
       </HBox>
    </top>

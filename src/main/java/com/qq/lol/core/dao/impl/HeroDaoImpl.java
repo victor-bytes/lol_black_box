@@ -122,13 +122,12 @@ public class HeroDaoImpl implements HeroDao {
         } catch (SQLException e) {
             System.out.println("执行过程发生了异常，撤销执行的 sql语句。");
             // ============回滚事务==========
-            // 程序在执行过程中如果出现了异常，就会tiao到这个地方，此时就需要回滚事务
+            // 程序在执行过程中如果出现了异常，就会跳到这个地方，此时就需要回滚事务
             try {
                 connection.rollback();
             } catch (SQLException throwAbles) {
                 throwAbles.printStackTrace();
             }
-
             e.printStackTrace();
         } finally {
             try {

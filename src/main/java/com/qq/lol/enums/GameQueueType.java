@@ -12,7 +12,7 @@ public enum GameQueueType {
     NORMAL("匹配"),
     RANKED_SOLO_5x5("单双排"),
     RANKED_FLEX_SR("灵活组排"),
-    ARAM_UNRANKED_5x5("大乱斗5v5"),
+    ARAM_UNRANKED_5x5("大乱斗"),
     URF("无限火力"),
     BOT("人机"),
     RANKED_TFT("云顶单排"),

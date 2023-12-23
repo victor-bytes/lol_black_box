@@ -46,13 +46,20 @@ public class LolHeroServiceImpl implements LolHeroService {
 
         HeroDto hero = heroDao.getHeroByChampionId(championId);
         // 设置英雄头像
-        hero.setChampionIcon(getProfileIcon(championId));
+        hero.setChampionIcon(getChampionIcon(championId));
 
         return hero;
     }
 
-    // 获取英雄头像
-    private Image getProfileIcon(String imgId) {
+    /**
+     * @Description: 获取英雄头像
+     * @param imgId:
+     * @return javafx.scene.image.Image
+     * @Auther: null
+     * @Date: 2023/12/22 - 13:55
+     */
+    @Override
+    public Image getChampionIcon(String imgId) {
         //数据库中没有需要从客户端获取
         Image championIcon = heroDao.getChampionIcon(imgId);
         if(championIcon != null)

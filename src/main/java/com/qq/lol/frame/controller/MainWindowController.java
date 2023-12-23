@@ -1,11 +1,19 @@
 package com.qq.lol.frame.controller;
 
 import com.qq.lol.core.services.GlobalService;
+import com.qq.lol.core.services.LolClientService;
+import com.qq.lol.core.services.RoomService;
+import com.qq.lol.core.services.impl.LolClientServiceImpl;
+import com.qq.lol.core.services.impl.RoomServiceImpl;
+import com.qq.lol.dto.GameRoomInfoDto;
 import com.qq.lol.dto.SummonerInfoDto;
+import com.qq.lol.enums.ClientStatusEnum;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import lombok.Data;
 
 import java.io.IOException;
 
@@ -15,8 +23,11 @@ import java.io.IOException;
  * @Description: 主窗口控制器
  * @version: 1.0
  */
+@Data
 public class MainWindowController {
     private static final GlobalService globalService = GlobalService.getGlobalService();
+    private static final RoomService roomService = RoomServiceImpl.getRoomService();
+    private static final LolClientService lolClientService = LolClientServiceImpl.getLolClientService();
 
     @FXML
     public AnchorPane mainCenterPage;
@@ -38,6 +49,12 @@ public class MainWindowController {
 
     @FXML
     private Button mainButtonFive;
+
+    @FXML
+    private Label clientStatus;
+
+    @FXML
+    private Label queueType;
 
     /**
      * initialize()在 fxml加载后实例化 MainWindowController 之后执行
@@ -70,20 +87,30 @@ public class MainWindowController {
      */
     @FXML
     public void mainButtonOne() {
-//        mainButtonOne.setOnMouseClicked(e -> {
-            System.out.println("主页 按钮被选择");
-            showMainPage(globalService.getLoginSummoner());
-//        });
+        System.out.println("主页 按钮被选择");
+        showMainPage(globalService.getLoginSummoner());
     }
 
     // 显示主页内容
     public void showMainPage(SummonerInfoDto loginSummoner) {
+        refreshClientStatus();
         ControllerManager.mainPageController.showMainPage(loginSummoner);
         // 先清除控件再添加，否则会引发异常
         mainCenterPage.getChildren().clear();
         AnchorPane anchorPane = ControllerManager.mainPageController.getAnchorPane();
         AnchorPane.setLeftAnchor(anchorPane, 20.0);
         mainCenterPage.getChildren().add(anchorPane);
+    }
+
+    // 刷新客户端状态 Label
+    public void refreshClientStatus() {
+        ClientStatusEnum clientStatus = lolClientService.getClientStatus();
+        this.clientStatus.setText(clientStatus.getClientStatusMsg());
+        // 如果不在游戏中，也需要刷新 queueType
+        if(clientStatus != ClientStatusEnum.InProgress
+                && clientStatus != ClientStatusEnum.ChampSelect
+                && clientStatus != ClientStatusEnum.inGame)
+            queueType.setText("未在游戏中");
     }
 
     /**
@@ -94,12 +121,21 @@ public class MainWindowController {
      */
     @FXML
     public void mainButtonTwo() {
-//        mainButtonTwo.setOnMouseClicked(e -> System.out.println("对局 按钮被选择"));
         System.out.println("对局 按钮被选择");
+        refreshClientStatus();
+        GameRoomInfoDto roomInfo = roomService.getRoomInfo();
+//        if(roomInfo == null) {
+//            Alert alert = new Alert(Alert.AlertType.WARNING);
+//            alert.setHeaderText("客户端未进入游戏阶段！");
+//            alert.show();
+//
+//            return;
+//        }
+
         mainCenterPage.getChildren().clear();
         mainCenterPage.getChildren().add(ControllerManager.gameHistoryPageController.getGridPane());
         // 填充内容
-        ControllerManager.gameHistoryPageController.showGameHistory();
+        ControllerManager.gameHistoryPageController.showGameHistory(roomInfo);
     }
 
     /**
@@ -110,8 +146,8 @@ public class MainWindowController {
      */
     @FXML
     public void mainButtonThree() {
-//        mainButtonThree.setOnMouseClicked(e -> System.out.println("黑名单 按钮被选择"));
         System.out.println("黑名单 按钮被选择");
+        refreshClientStatus();
         mainCenterPage.getChildren().clear();
     }
 
@@ -123,8 +159,8 @@ public class MainWindowController {
      */
     @FXML
     public void mainButtonFour() {
-//        mainButtonFour.setOnMouseClicked(e -> System.out.println("工具 按钮被选择"));
         System.out.println("工具 按钮被选择");
+        refreshClientStatus();
         mainCenterPage.getChildren().clear();
     }
 
@@ -136,8 +172,8 @@ public class MainWindowController {
      */
     @FXML
     public void mainButtonFive() {
-//        mainButtonFive.setOnMouseClicked(e -> System.out.println("设置 按钮被选择"));
         System.out.println("设置 按钮被选择");
+        refreshClientStatus();
         mainCenterPage.getChildren().clear();
     }
 

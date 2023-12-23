@@ -81,7 +81,6 @@ public class BlackListDaoImpl implements BlackListDao {
             } catch (SQLException throwAbles) {
                 throwAbles.printStackTrace();
             }
-
             e.printStackTrace();
         } finally {
             try {
@@ -161,7 +160,6 @@ public class BlackListDaoImpl implements BlackListDao {
             } catch (SQLException throwAbles) {
                 throwAbles.printStackTrace();
             }
-
             e.printStackTrace();
         } finally {
             try {
@@ -352,7 +350,6 @@ public class BlackListDaoImpl implements BlackListDao {
             } catch (SQLException throwAbles) {
                 throwAbles.printStackTrace();
             }
-
             e.printStackTrace();
         } finally {
             try {

@@ -37,15 +37,24 @@ public class NetRequestUtil {
                 .build();
     }
 
+    private NetRequestUtil(){}
+
     // 懒汉式单例模式
     public static NetRequestUtil getNetRequestUtil(){
         try {
             if(netRequestUtil == null) {
-                System.out.println(StandardOutTime.getCurrentTime() + "---第一次初始化NetRequestUtil---");
+                System.out.println(StandardOutTime.getCurrentTime()+ " 第一次初始化NetRequestUtil---");
 
                 // 获取 Port和 Token
                 LolClientDto riotClientDto = ProcessUtil.getClientProcess();
                 // 实例化 NetRequestUtil，用于返回
+                if(riotClientDto.equals(new LolClientDto())) {
+                    /*
+                    此处当客户端未启动时，会返回 无参构造的NetRequestUtil，以供 service初始化静态变量
+                    MainAPP中会检测到客户端未启动，并给出弹窗提示。
+                     */
+                    return new NetRequestUtil();
+                }
                 netRequestUtil = new NetRequestUtil(riotClientDto);
             }
         } catch (IOException e) {
