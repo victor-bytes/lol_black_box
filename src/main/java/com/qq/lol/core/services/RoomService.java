@@ -13,7 +13,7 @@ public interface RoomService {
     /**
      * @Description: 获取对局开始后房间信息，包含玩家信息（只适配台服、马服）
      *
-     * @return com.qq.lol.dto.GameRoomInfoDto 返回 null表明客户端未进入选英雄或游戏阶段，
+     * @return com.qq.lol.dto.GameRoomInfoDto 返回 null表明客户端未进入游戏
      * @Auther: null
      * @Date: 2023/12/5 - 17:48
      */

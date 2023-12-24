@@ -105,6 +105,9 @@ public class GameHistoryServiceImpl implements GameHistoryService {
             return new ArrayList<>();
 
         List<GameScoreInfoDto> gameScoreInfoDtos = recentScores(puuid, size);
+        if(gameScoreInfoDtos == null)
+            return new ArrayList<>();
+
         return recentScores(gameScoreInfoDtos, scores -> gameScoreInfoFilter(queueId, gameScoreInfoDtos));
     }
 

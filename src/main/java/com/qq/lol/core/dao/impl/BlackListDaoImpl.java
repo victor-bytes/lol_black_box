@@ -226,7 +226,7 @@ public class BlackListDaoImpl implements BlackListDao {
     /**
      * @param blackPlayer :
      * @return java.lang.Integer
-     * @Description: 修改黑名单中玩家信息,返回 1 成功，0 失败
+     * @Description: 修改黑名单中玩家信息,返回 2 成功，0 失败
      * @Auther: null
      * @Date: 2023/12/7 - 13:50
      */
@@ -236,7 +236,7 @@ public class BlackListDaoImpl implements BlackListDao {
             return 0;
 
         String blackListSql = "update `black_list` set `kill` = ?,  `deaths` = ?, " +
-                "`assists` = ?, `reason` = ?, `meet_count` = ? where `puuid` = ?";
+                "`assists` = ?, `reason` = ?, `meet_count` = ?, `win` = ? where `puuid` = ?";
 
         Connection connection = JdbcUtils.getConnection();
         PreparedStatement ps = null;
@@ -254,11 +254,12 @@ public class BlackListDaoImpl implements BlackListDao {
             ps.setInt(3, blackPlayer.getAssists());
             ps.setString(4, blackPlayer.getReason());
             ps.setString(5, blackPlayer.getMeetCount());
-            ps.setString(6, blackPlayer.getPuuid());
+            ps.setString(6, String.valueOf(blackPlayer.getWin()));
+            ps.setString(7, blackPlayer.getPuuid());
             int i = ps.executeUpdate();
 
             connection.commit();
-            return i;
+            return i + 1;
         } catch (SQLException e) {
             System.out.println("执行过程发生了异常，撤销执行的 sql语句。");
             try {

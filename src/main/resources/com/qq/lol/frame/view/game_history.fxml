@@ -39,7 +39,7 @@
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="52.0" prefWidth="246.0">
                <children>
-                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" text="黑" />
+                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" />
                   <Button id="blackBtn" mnemonicParsing="false" style="-fx-background-color: red;" text="拉黑" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
@@ -55,7 +55,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background-color: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -64,7 +64,7 @@
                </font>
             </TextField>
             <Label id="rankLabel" fx:id="rank" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="246.0" text="等级 + 段位" textAlignment="CENTER" />
-            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" />
+            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
       <VBox id="player2" fx:id="playerOne1" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
@@ -77,7 +77,7 @@
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="52.0" prefWidth="246.0">
                <children>
-                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" text="黑" />
+                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" />
                   <Button id="blackBtn" mnemonicParsing="false" style="-fx-background-color: red;" text="拉黑" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
@@ -93,7 +93,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background-color: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -102,7 +102,7 @@
                </font>
             </TextField>
             <Label id="rankLabel" fx:id="rank1" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="246.0" text="等级 + 段位" textAlignment="CENTER" />
-            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" />
+            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
       <VBox id="player3" fx:id="playerOne11" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
@@ -115,7 +115,7 @@
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="52.0" prefWidth="246.0">
                <children>
-                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" text="黑" />
+                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" />
                   <Button id="blackBtn" mnemonicParsing="false" style="-fx-background-color: red;" text="拉黑" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
@@ -131,7 +131,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background-color: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -140,7 +140,7 @@
                </font>
             </TextField>
             <Label id="rankLabel" fx:id="rank11" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="246.0" text="等级 + 段位" textAlignment="CENTER" />
-            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" />
+            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
       <VBox id="player4" fx:id="playerOne111" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3">
@@ -153,7 +153,7 @@
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="52.0" prefWidth="246.0">
                <children>
-                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" text="黑" />
+                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" />
                   <Button id="blackBtn" mnemonicParsing="false" style="-fx-background-color: red;" text="拉黑" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
@@ -169,7 +169,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background-color: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -178,7 +178,7 @@
                </font>
             </TextField>
             <Label id="rankLabel" fx:id="rank111" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="246.0" text="等级 + 段位" textAlignment="CENTER" />
-            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" />
+            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
       <VBox id="player5" fx:id="playerOne1111" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4">
@@ -191,7 +191,7 @@
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="52.0" prefWidth="246.0">
                <children>
-                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" text="黑" />
+                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" />
                   <Button id="blackBtn" mnemonicParsing="false" style="-fx-background-color: red;" text="拉黑" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
@@ -207,7 +207,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background-color: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -216,7 +216,7 @@
                </font>
             </TextField>
             <Label id="rankLabel" fx:id="rank1111" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="246.0" text="等级 + 段位" textAlignment="CENTER" />
-            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" />
+            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
       <VBox id="player6" fx:id="playerOne11111" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
@@ -229,7 +229,7 @@
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="52.0" prefWidth="246.0">
                <children>
-                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" text="黑" />
+                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" />
                   <Button id="blackBtn" mnemonicParsing="false" style="-fx-background-color: red;" text="拉黑" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
@@ -245,7 +245,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background-color: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -254,7 +254,7 @@
                </font>
             </TextField>
             <Label id="rankLabel" fx:id="rank11111" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="246.0" text="等级 + 段位" textAlignment="CENTER" />
-            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" />
+            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
       <VBox id="player7" fx:id="playerOne111111" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -267,7 +267,7 @@
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="52.0" prefWidth="246.0">
                <children>
-                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" text="黑" />
+                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" />
                   <Button id="blackBtn" mnemonicParsing="false" style="-fx-background-color: red;" text="拉黑" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
@@ -283,7 +283,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background-color: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -292,7 +292,7 @@
                </font>
             </TextField>
             <Label id="rankLabel" fx:id="rank111111" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="246.0" text="等级 + 段位" textAlignment="CENTER" />
-            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" />
+            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
       <VBox id="player8" fx:id="playerOne1111111" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
@@ -305,7 +305,7 @@
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="52.0" prefWidth="246.0">
                <children>
-                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" text="黑" />
+                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" />
                   <Button id="blackBtn" mnemonicParsing="false" style="-fx-background-color: red;" text="拉黑" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
@@ -321,7 +321,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background-color: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -330,7 +330,7 @@
                </font>
             </TextField>
             <Label id="rankLabel" fx:id="rank1111111" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="246.0" text="等级 + 段位" textAlignment="CENTER" />
-            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" />
+            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
       <VBox id="player9" fx:id="playerOne11111111" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
@@ -343,7 +343,7 @@
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="52.0" prefWidth="246.0">
                <children>
-                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" text="黑" />
+                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" />
                   <Button id="blackBtn" mnemonicParsing="false" style="-fx-background-color: red;" text="拉黑" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
@@ -359,7 +359,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background-color: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -368,7 +368,7 @@
                </font>
             </TextField>
             <Label id="rankLabel" fx:id="rank11111111" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="246.0" text="等级 + 段位" textAlignment="CENTER" />
-            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" />
+            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
       <VBox id="player10" fx:id="playerOne111111111" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
@@ -381,7 +381,7 @@
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="52.0" prefWidth="246.0">
                <children>
-                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" text="黑" />
+                  <Button id="inBlack" mnemonicParsing="false" prefHeight="23.0" prefWidth="39.0" />
                   <Button id="blackBtn" mnemonicParsing="false" style="-fx-background-color: red;" text="拉黑" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
@@ -397,7 +397,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background-color: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -406,7 +406,7 @@
                </font>
             </TextField>
             <Label id="rankLabel" fx:id="rank111111111" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="246.0" text="等级 + 段位" textAlignment="CENTER" />
-            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" />
+            <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
    </children>

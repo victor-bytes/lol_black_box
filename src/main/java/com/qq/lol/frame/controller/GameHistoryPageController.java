@@ -10,9 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -76,24 +74,92 @@ public class GameHistoryPageController {
     }
 
     // 填充数据
-    public void showGameHistory(GameRoomInfoDto roomInfo) {
-//        ControllerManager.mainWindowController.getQueueType()
-//                .setText(roomInfo.getGameModeName() + " " + roomInfo.getGameQueueTypeName());
-        // 假数据
-        PlayerInfoDto me = lolPlayerService.getPlayerInfoByPuuid("ee639917-6a3c-5726-949f-537d341e5022");
-        HeroDto hero = lolHeroService.getHeroInfoByChampionId("888");
+    public void showPlayers(GameRoomInfoDto roomInfo) {
+        ControllerManager.mainWindowController.getQueueType()
+                .setText(roomInfo.getGameModeName() + " " + roomInfo.getGameQueueTypeName());
 
-        VBox playerOne = (VBox)gridPane.lookup("#player1");
+        List<PlayerInfoDto> teamOne = roomInfo.getTeamOnePlayers();
+        List<PlayerInfoDto> teamTwo = roomInfo.getTeamTwoPlayers();
+
+        int i = 1;
+        for (PlayerInfoDto player : teamOne) {
+            showPlayer(player, i++, roomInfo);
+        }
+        for (PlayerInfoDto player : teamTwo) {
+            showPlayer(player, i++, roomInfo);
+        }
+
+    }
+
+    private void showPlayer(PlayerInfoDto player, Integer vBox, GameRoomInfoDto roomInfo) {
+        VBox playerVBox = (VBox)gridPane.lookup("#player" + vBox);
+        AddBlackListController addBlackListController = ControllerManager.addBlackListController;
 
         // 用 css id查找控件
-        Button inBlack = (Button) playerOne.lookup("#inBlack");
-        Button blackBtn = (Button) playerOne.lookup("#blackBtn");
+        Button inBlack = (Button) playerVBox.lookup("#inBlack");
+        Button blackBtn = (Button) playerVBox.lookup("#blackBtn");
+
+        // 是否在黑名单--------------------------------------------------------
+        if(player.getInBlackList()) {
+            // 在黑名单中   不显示拉黑按钮，并且显示红色背景用作提示
+//            playerVBox.setStyle("-fx-background-color:red");  // 太刺眼了，不用了
+            Image image = new Image("com/qq/lol/frame/static/enemy.png");
+            BackgroundImage backgroundImage = new BackgroundImage(image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    BackgroundSize.DEFAULT);
+            Background background = new Background(backgroundImage);
+            inBlack.setBackground(background);
+            blackBtn.setManaged(!blackBtn.isManaged());
+        } else {
+            // 不在黑名单中   不显示已在黑名单按钮
+            inBlack.setManaged(!inBlack.isManaged());
+//            playerVBox.setStyle("-fx-background-color:#90EE90");
+        }
+
         // 设置按钮事件---------------------------------------------------
-        DialogPane dialogPane = new DialogPane();
         //显示拉黑信息
         inBlack.setOnMouseClicked(event -> {
-            System.out.println("显示拉黑信息 按钮被触发");
+            DialogPane dialogPane = new DialogPane();
+            dialogPane.setContent(addBlackListController.getAnchorPane());
+            Scene scene = new Scene(dialogPane);
             Stage stage = new Stage();
+            stage.getIcons().add(new Image("com/qq/lol/frame/static/icon.jpg"));
+            stage.setTitle("修改拉黑信息");
+            stage.initOwner(MainApp.getPrimaryStage()); // 设置窗口所有者
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.setResizable(false);  // 禁止拉伸窗口
+            stage.setScene(scene);
+            // 添加 确认 取消 按钮---------------------------------------
+            dialogPane.getButtonTypes().add(ButtonType.OK); // 确认添加 按钮
+            Button okBtn = (Button)dialogPane.lookupButton(ButtonType.OK);
+            dialogPane.getButtonTypes().add(ButtonType.CANCEL); // 取消 按钮
+            Button cancelBtn = (Button)dialogPane.lookupButton(ButtonType.CANCEL);
+            // 获取已在黑名单中的玩家信息
+            BlackPlayerDto blackPlayer = blackListService.inBlackList(player.getPuuid());
+            if(blackPlayer != null && !blackPlayer.equals(new BlackPlayerDto())) {
+                addBlackListController.showInBlackPlayer(blackPlayer);  // 填充已在黑名单中的玩家信息
+                // TODO Bug
+            }
+            // 设置 确认 取消 按钮事件-------------------------------------
+            okBtn.setOnAction(event1 -> {
+                // 将修改过的黑名单玩家 再次加入数据库
+                BlackPlayerDto bp = addBlackListController.getBlackPlayer();
+                // 提取页面中修改后的信息
+                blackPlayer.setMeetCount(bp.getMeetCount());
+                blackPlayer.setReason(bp.getReason());
+                blackPlayer.setKills(bp.getKills());
+                blackPlayer.setDeaths(bp.getDeaths());
+                blackPlayer.setAssists(bp.getAssists());
+                blackPlayer.setWin(bp.getWin());
+
+                Integer i = blackListService.updateBlackPlayer(blackPlayer);
+                stage.close();
+                // 添加完成后提示框
+                showTip(blackPlayer, i);
+            });
+            cancelBtn.setOnAction(event1 -> stage.close());
 
             // 设置窗口所有者
             stage.initOwner(MainApp.getPrimaryStage());
@@ -102,77 +168,75 @@ public class GameHistoryPageController {
 
         });
 
-        AddBlackListController addBlackListController = ControllerManager.addBlackListController;
         // 拉黑按钮事件   setOnMouseClicked()鼠标点击(左键、右键、滚轮)就触发事件,setOnAction()是 Button事件，鼠标左键点击触发事件
         blackBtn.setOnMouseClicked(event -> {
-            System.out.println("拉黑 按钮被触发");
+            DialogPane dialogPane = new DialogPane();
             // 设置拉黑 DialogPane窗口-----------------------------------
             dialogPane.setContent(addBlackListController.getAnchorPane());    // 放入拉黑页面
+
+            BlackPlayerDto blackPlayerDto = blackListService.inBlackList(player.getPuuid());
+            if(StringUtils.equals(blackPlayerDto.getPuuid(), player.getPuuid())) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("玩家已在黑名单中！");
+                alert.show();
+                return;
+            }
             // 构造拉黑玩家
             BlackPlayerDto blackPlayer = new BlackPlayerDto(
-                    me.getPuuid(),
-                    me.getGameName(),
-                    me.getTagLine(),
-                    "31",   // me.getChampionId(),
-                    "123456", //roomInfo.getGameId(),
-                    "TW2"//me.getPlatformId()
+                    player.getPuuid(),
+                    player.getGameName(),
+                    player.getTagLine(),
+                    player.getChampionId(),
+                    roomInfo.getGameId(),
+                    player.getPlatformId()
             );
-            addBlackListController.getBlackPlayer(blackPlayer); // 显示拉黑玩家
+            addBlackListController.showAddBlackPlayer(blackPlayer); // 填充拉黑玩家信息
 
             Scene scene = new Scene(dialogPane);
             //Stage --------------------------------------
             Stage stage = new Stage();
+            stage.getIcons().add(new Image("com/qq/lol/frame/static/icon.jpg"));
             stage.setTitle("拉黑玩家");
             stage.setScene(scene);
             stage.initOwner(MainApp.getPrimaryStage()); // 设置窗口所有者
             stage.initModality(Modality.WINDOW_MODAL);
             stage.setResizable(false);  // 禁止拉伸窗口
-            // 设置事件---------------------------------------
-            dialogPane.getButtonTypes().add(ButtonType.CANCEL); // 取消 按钮
+            // 设置 确认 取消 按钮事件---------------------------------------
+            dialogPane.getButtonTypes().add(ButtonType.CANCEL); // 添加取消 按钮
             Button cancelBtn = (Button)dialogPane.lookupButton(ButtonType.CANCEL);
-            cancelBtn.setOnAction(event1 -> {                   // 取消 事件
-                System.out.println("取消 添加到黑名单按钮被触发");
-
-                stage.close();
-            });
-            dialogPane.getButtonTypes().add(ButtonType.OK); // 确认添加 按钮
+            cancelBtn.setOnAction(event1 -> stage.close());     // 取消 事件
+            dialogPane.getButtonTypes().add(ButtonType.OK);     // 确认添加 按钮
             Button okBtn = (Button)dialogPane.lookupButton(ButtonType.OK);
-            okBtn.setOnAction(event1 -> {                   // 确认 事件
-                System.out.println("确认 添加到黑名单按钮被触发");
-                blackPlayer.setKills(addBlackListController.getKill().getValue());
-                blackPlayer.setDeaths(addBlackListController.getDeath().getValue());
-                blackPlayer.setAssists(addBlackListController.getAssistant().getValue());
-                blackPlayer.setMeetCount(addBlackListController.getMeetCount().getValue().toString());
-                blackPlayer.setSelectedPosition(addBlackListController.getPosition().getValue());
-                blackPlayer.setPlatformId(addBlackListController.getPlatform().getText());
-                blackPlayer.setWin(StringUtils.equals("赢", addBlackListController.getWin().getValue()) ? 1 : 0);
-                blackPlayer.setReason(addBlackListController.getReason().getText());
-                System.out.println(blackPlayer);
-                blackListService.addBlackList(blackPlayer);
+            okBtn.setOnAction(event1 -> {                       // 确认 事件
+                BlackPlayerDto bp = addBlackListController.getBlackPlayer();
+                blackPlayer.setKills(bp.getKills());
+                blackPlayer.setDeaths(bp.getDeaths());
+                blackPlayer.setAssists(bp.getAssists());
+                blackPlayer.setMeetCount(bp.getMeetCount());
+                blackPlayer.setSelectedPosition(bp.getSelectedPosition());
+                blackPlayer.setPlatformId(bp.getPlatformId());
+                blackPlayer.setWin(bp.getWin());
+                blackPlayer.setReason(bp.getReason());
+
+                Integer i = blackListService.addBlackList(blackPlayer); // 添加到数据库
                 stage.close();
+                // 添加完成后提示框
+                showTip(blackPlayer, i);
             });
 
             stage.show();
         });
 
-        // 是否在黑名单--------------------------------------------------------
-        if(me.getInBlackList()) {
-            // 在黑名单中不显示拉黑按钮，并且显示红色背景用作提示
-            playerOne.setStyle("-fx-background-color:red");
-            blackBtn.setManaged(false);
-        } else {
-            // 不在黑名单中不显示已在黑名单按钮
-            inBlack.setManaged(false);
-        }
-
         // 填充英雄头像-----------------------------------------------------------
-        ImageView imageView = (ImageView) playerOne.lookup("#heroIcon");
-        imageView.setImage(hero.getChampionIcon());
+        ImageView imageView = (ImageView) playerVBox.lookup("#heroIcon");
+        imageView.setImage(player.getHero().getChampionIcon());
         // 填充 id---------------------------------------------------------------
-        TextField idText = (TextField) playerOne.lookup("#idText");
-        idText.setText(me.getGameName() + "#" + me.getTagLine());
+        TextField idText = (TextField) playerVBox.lookup("#idText");
+        String name = player.getGameName() + "#" + player.getTagLine();
+        idText.setText(name);
+        idText.setTooltip(new Tooltip(name));
         // 填充 等级和段位----------------------------------------------------------
-        Label rankLabel = (Label) playerOne.lookup("#rankLabel");
+        Label rankLabel = (Label) playerVBox.lookup("#rankLabel");
         List<RankDto> rank = rankService.getRankByPuuid("ee639917-6a3c-5726-949f-537d341e5022");
         String rankSOLO = null;
         String rankFlEX = null;
@@ -185,12 +249,11 @@ public class GameHistoryPageController {
                 rankFlEX = "组:" + rankDto.getTier() + rankDto.getDivision() + "(" + rankDto.getLeaguePoints() + ")";
             }
         }
-        rankLabel.setText("Lv." + me.getSummonerLevel() + " " + rankSOLO + " " + rankFlEX);
+        rankLabel.setText("Lv." + player.getSummonerLevel() + " " + rankSOLO + " " + rankFlEX);
 
         // 擅长英雄-------------------------------------------------------------
-        ScrollPane masteryHeroPane = (ScrollPane) playerOne.lookup("#masteryHero");
-        List<MasteryChampion> masteryChampion = me.getMasteryChampion();
-        System.out.println("masteryHero的 size = " + masteryChampion.size());
+        ScrollPane masteryHeroPane = (ScrollPane) playerVBox.lookup("#masteryHero");
+        List<MasteryChampion> masteryChampion = player.getMasteryChampion();
         if(masteryChampion.size() != 0) {
             VBox masteryBox = showMasteryChampion(masteryChampion);
             masteryHeroPane.setContent(masteryBox);
@@ -199,16 +262,27 @@ public class GameHistoryPageController {
 
         // 战绩-----------------------------------------------------------------
 //        List<GameScoreInfoDto> scores = gameHistoryService.recentScores("ee639917-6a3c-5726-949f-537d341e5022", "450", 10);
-        List<GameScoreInfoDto> scores = gameHistoryService.getAllTypeScore("ee639917-6a3c-5726-949f-537d341e5022",
-                0, GlobalService.getHistorySize() + 5);
-        ScrollPane historyScrollPane = (ScrollPane) playerOne.lookup("#historyScrollPane");
-        System.out.println(scores.get(0).getPuuid() + " 的战绩条数 = " + scores.size());
+        List<GameScoreInfoDto> scores = gameHistoryService
+                .recentScores(player.getPuuid(), roomInfo.getGameQueueId(), GlobalService.getHistorySize());
+        ScrollPane historyScrollPane = (ScrollPane) playerVBox.lookup("#historyScrollPane");
         if(scores.size() != 0) {
             // 近期没有对应战绩则不必填充数据
             VBox historyBox = showGameHistory(scores);
             historyScrollPane.setContent(historyBox);
         }
+    }
 
+    private void showTip(BlackPlayerDto blackPlayer, Integer i) {
+        Alert alert;
+        if (i == 2) {
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("添加成功！");
+            alert.setContentText("玩家：" + blackPlayer.getGameName() + "#" + blackPlayer.getTagLine());
+        } else {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("添加失败！");
+        }
+        alert.show();
     }
 
     // 生成精通英雄
@@ -218,7 +292,7 @@ public class GameHistoryPageController {
         for (MasteryChampion mChampion : masteryChampion) {
             HBox hBox = new HBox(); // 用于存放一条精通的英雄
             hBox.setPrefHeight(22);
-            hBox.setStyle("-fx-background-color:#96CDCD");
+            hBox.setStyle("-fx-background-color:#AEEEEE");
 
             Image championIcon = lolHeroService.getChampionIcon(mChampion.getChampionId());
             ImageView icon = new ImageView(championIcon);
@@ -256,7 +330,6 @@ public class GameHistoryPageController {
         VBox vBox = new VBox(); // 存放战绩
         for (GameScoreInfoDto score : scores) {
             HBox hBox = new HBox(); // 用于存放一条战绩
-//                hBox.setPrefWidth(350);   // 无需设置，自适应即可
             hBox.setPrefHeight(30);
 
             Image championIcon = score.getHero().getChampionIcon();

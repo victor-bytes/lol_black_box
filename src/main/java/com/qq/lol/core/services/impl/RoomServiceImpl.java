@@ -2,10 +2,7 @@ package com.qq.lol.core.services.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.qq.lol.core.services.GlobalService;
-import com.qq.lol.core.services.LolClientService;
-import com.qq.lol.core.services.LolHeroService;
-import com.qq.lol.core.services.RoomService;
+import com.qq.lol.core.services.*;
 import com.qq.lol.dto.GameRoomInfoDto;
 import com.qq.lol.dto.PlayerInfoDto;
 import com.qq.lol.enums.ClientStatusEnum;
@@ -13,7 +10,6 @@ import com.qq.lol.enums.GameMode;
 import com.qq.lol.enums.GameQueueType;
 import com.qq.lol.utils.InitGameData;
 import com.qq.lol.utils.NetRequestUtil;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +26,7 @@ public class RoomServiceImpl implements RoomService {
     private static final RoomService roomService = new RoomServiceImpl();
     private static final LolClientService lolClientService = LolClientServiceImpl.getLolClientService();
     private static final LolHeroService lolHeroService = LolHeroServiceImpl.getLolHeroService();
-    private static final GlobalService global_service = GlobalService.getGlobalService();
+    private static final LolPlayerService lolPlayerService = LolPlayerServiceImpl.getLolPlayerService();
 
     private RoomServiceImpl() {}
 
@@ -52,10 +48,8 @@ public class RoomServiceImpl implements RoomService {
         /**
          *  只适配台服、马服
          */
-        if(clientStatus != ClientStatusEnum.ChampSelect
-                && ClientStatusEnum.InProgress != clientStatus
-                && clientStatus != ClientStatusEnum.inGame) {
-            //未进入游戏房间
+        if(ClientStatusEnum.InProgress != clientStatus && clientStatus != ClientStatusEnum.inGame) {
+            //未进入游戏
             return null;
         }
 
@@ -132,16 +126,16 @@ public class RoomServiceImpl implements RoomService {
         并且台服在选英雄阶段，会返回上一局的 gameData数据
         */
         // 获取当前客户端状态
-        ClientStatusEnum clientStatus = lolClientService.getClientStatus();
+//        ClientStatusEnum clientStatus = lolClientService.getClientStatus();
         // 获取当前大区 TW2台服 HN1 艾欧尼亚
-        String platformId = global_service.getLoginSummoner().getPlatformId();
-        if((gQT == GameQueueType.RANKED_FLEX_SR || gQT == GameQueueType.RANKED_SOLO_5x5)
-                && ClientStatusEnum.InProgress != clientStatus
-                && clientStatus != ClientStatusEnum.inGame
-                && StringUtils.equals("TW2", platformId)) {
-            System.out.println("------ 台服排位必须进入游戏才可以获取玩家信息 ------");
-            return gameRoomInfoDto; // 返回房间信息，但不带有玩家信息
-        }
+//        String platformId = global_service.getLoginSummoner().getPlatformId();
+//        if((gQT == GameQueueType.RANKED_FLEX_SR || gQT == GameQueueType.RANKED_SOLO_5x5)
+//                && ClientStatusEnum.InProgress != clientStatus
+//                && clientStatus != ClientStatusEnum.inGame
+//                && StringUtils.equals("TW2", platformId)) {
+//            System.out.println("------ 台服排位必须进入游戏才可以获取玩家信息 ------");
+//            return gameRoomInfoDto; // 返回房间信息，但不带有玩家信息
+//        }
 
         // 获取 teamOne玩家信息
         teamOnePlayers = gameData.getJSONArray("teamOne")
@@ -189,16 +183,24 @@ public class RoomServiceImpl implements RoomService {
         String summonerName = player.getString("summonerName");
         String selectedPosition = player.getString("selectedPosition");
 
-//        teamPuuid.add(puuid);
+        PlayerInfoDto newPlayerInfo = lolPlayerService.getPlayerInfoByPuuid(puuid);
+
         PlayerInfoDto playerInfoDto = new PlayerInfoDto();
         playerInfoDto.setPuuid(puuid);
+        playerInfoDto.setGameName(newPlayerInfo.getGameName());
+        playerInfoDto.setTagLine(newPlayerInfo.getTagLine());
+        playerInfoDto.setSummonerLevel(newPlayerInfo.getSummonerLevel());
         playerInfoDto.setChampionId(championId);
         playerInfoDto.setProfileIconId(profileIconId);
         playerInfoDto.setSummonerId(summonerId);
         playerInfoDto.setSummonerName(summonerName);
         playerInfoDto.setSelectedPosition(selectedPosition);
+        playerInfoDto.setPlatformId(lolPlayerService.getCurrentSummoner().getPlatformId());
         playerInfoDto.setHero(lolHeroService.getHeroInfoByChampionId(championId));
         playerInfoDto.setMasteryChampion(lolHeroService.getMasteryChampion(summonerId));
+        playerInfoDto.setInBlackList(newPlayerInfo.getInBlackList());
+
+        System.out.println("room player = " + playerInfoDto);
 
         return playerInfoDto;
     }

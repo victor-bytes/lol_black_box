@@ -9,10 +9,12 @@ import com.qq.lol.dto.GameRoomInfoDto;
 import com.qq.lol.dto.SummonerInfoDto;
 import com.qq.lol.enums.ClientStatusEnum;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import lombok.Data;
 
 import java.io.IOException;
@@ -124,18 +126,20 @@ public class MainWindowController {
         System.out.println("对局 按钮被选择");
         refreshClientStatus();
         GameRoomInfoDto roomInfo = roomService.getRoomInfo();
-//        if(roomInfo == null) {
-//            Alert alert = new Alert(Alert.AlertType.WARNING);
-//            alert.setHeaderText("客户端未进入游戏阶段！");
-//            alert.show();
-//
-//            return;
-//        }
+        if(roomInfo == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("客户端未进入游戏阶段！");
+            alert.show();
+
+            return;
+        }
 
         mainCenterPage.getChildren().clear();
-        mainCenterPage.getChildren().add(ControllerManager.gameHistoryPageController.getGridPane());
+        GridPane gridPane = ControllerManager.gameHistoryPageController.getGridPane();
+        AnchorPane.setLeftAnchor(gridPane, 20.0);
+        mainCenterPage.getChildren().add(gridPane);
         // 填充内容
-        ControllerManager.gameHistoryPageController.showGameHistory(roomInfo);
+        ControllerManager.gameHistoryPageController.showPlayers(roomInfo);
     }
 
     /**
@@ -148,6 +152,8 @@ public class MainWindowController {
     public void mainButtonThree() {
         System.out.println("黑名单 按钮被选择");
         refreshClientStatus();
+
+//        AnchorPane.setLeftAnchor(gridPane, 20.0);
         mainCenterPage.getChildren().clear();
     }
 
@@ -161,6 +167,7 @@ public class MainWindowController {
     public void mainButtonFour() {
         System.out.println("工具 按钮被选择");
         refreshClientStatus();
+//        AnchorPane.setLeftAnchor(gridPane, 20.0);
         mainCenterPage.getChildren().clear();
     }
 
@@ -174,6 +181,7 @@ public class MainWindowController {
     public void mainButtonFive() {
         System.out.println("设置 按钮被选择");
         refreshClientStatus();
+//        AnchorPane.setLeftAnchor(gridPane, 20.0);
         mainCenterPage.getChildren().clear();
     }
 

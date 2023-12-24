@@ -22,7 +22,7 @@ public class BlackListServiceImpl implements BlackListService {
     public static BlackListService getBlackListService(){return blackListService;}
 
     /**
-     * @Description: 修改黑名单中玩家信息, 返回 1 成功，0 失败
+     * @Description: 修改黑名单中玩家信息, 返回 2 成功，0 失败
      * @param player :
      * @return java.lang.Integer
      * @Auther: null

@@ -40,7 +40,7 @@ public interface BlackListDao {
 
     /**
      * @Description: 修改黑名单中玩家信息
-     * 只准修改 meetCount、kill、deaths、assists、reason
+     * 只准修改 meetCount、kill、deaths、assists、reason，win
      * @param blackPlayer:
      * @return java.lang.Integer
      * @Auther: null
