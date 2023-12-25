@@ -75,6 +75,7 @@ public class GameHistoryPageController {
 
     // 填充数据
     public void showPlayers(GameRoomInfoDto roomInfo) {
+        // 设置菜单栏中当前游戏模式显示
         ControllerManager.mainWindowController.getQueueType()
                 .setText(roomInfo.getGameModeName() + " " + roomInfo.getGameQueueTypeName());
 
@@ -91,7 +92,7 @@ public class GameHistoryPageController {
 
     }
 
-    private void showPlayer(PlayerInfoDto player, Integer vBox, GameRoomInfoDto roomInfo) {
+    public void showPlayer(PlayerInfoDto player, Integer vBox, GameRoomInfoDto roomInfo) {
         VBox playerVBox = (VBox)gridPane.lookup("#player" + vBox);
         AddBlackListController addBlackListController = ControllerManager.addBlackListController;
 
@@ -102,7 +103,7 @@ public class GameHistoryPageController {
         // 是否在黑名单--------------------------------------------------------
         if(player.getInBlackList()) {
             // 在黑名单中   不显示拉黑按钮，并且显示红色背景用作提示
-//            playerVBox.setStyle("-fx-background-color:red");  // 太刺眼了，不用了
+//            playerVBox.setStyle("-fx-background-color:#FF4040");
             Image image = new Image("com/qq/lol/frame/static/enemy.png");
             BackgroundImage backgroundImage = new BackgroundImage(image,
                     BackgroundRepeat.NO_REPEAT,
@@ -111,15 +112,18 @@ public class GameHistoryPageController {
                     BackgroundSize.DEFAULT);
             Background background = new Background(backgroundImage);
             inBlack.setBackground(background);
-            blackBtn.setManaged(!blackBtn.isManaged());
+
+            inBlack.setVisible(true);
+            blackBtn.setVisible(false);
+
         } else {
             // 不在黑名单中   不显示已在黑名单按钮
-            inBlack.setManaged(!inBlack.isManaged());
-//            playerVBox.setStyle("-fx-background-color:#90EE90");
+            inBlack.setVisible(false);
+            blackBtn.setVisible(true);
         }
 
         // 设置按钮事件---------------------------------------------------
-        //显示拉黑信息
+        //已在黑名单中，显示拉黑信息
         inBlack.setOnMouseClicked(event -> {
             DialogPane dialogPane = new DialogPane();
             dialogPane.setContent(addBlackListController.getAnchorPane());
@@ -140,7 +144,6 @@ public class GameHistoryPageController {
             BlackPlayerDto blackPlayer = blackListService.inBlackList(player.getPuuid());
             if(blackPlayer != null && !blackPlayer.equals(new BlackPlayerDto())) {
                 addBlackListController.showInBlackPlayer(blackPlayer);  // 填充已在黑名单中的玩家信息
-                // TODO Bug
             }
             // 设置 确认 取消 按钮事件-------------------------------------
             okBtn.setOnAction(event1 -> {
@@ -168,12 +171,12 @@ public class GameHistoryPageController {
 
         });
 
-        // 拉黑按钮事件   setOnMouseClicked()鼠标点击(左键、右键、滚轮)就触发事件,setOnAction()是 Button事件，鼠标左键点击触发事件
+        // 不在黑名单中，设置拉黑按钮事件   setOnMouseClicked()鼠标点击(左键、右键、滚轮)就触发事件,setOnAction()是 Button事件，鼠标左键点击触发事件
         blackBtn.setOnMouseClicked(event -> {
             DialogPane dialogPane = new DialogPane();
             // 设置拉黑 DialogPane窗口-----------------------------------
             dialogPane.setContent(addBlackListController.getAnchorPane());    // 放入拉黑页面
-
+            // 检查玩家是否已在黑名单中
             BlackPlayerDto blackPlayerDto = blackListService.inBlackList(player.getPuuid());
             if(StringUtils.equals(blackPlayerDto.getPuuid(), player.getPuuid())) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -237,7 +240,7 @@ public class GameHistoryPageController {
         idText.setTooltip(new Tooltip(name));
         // 填充 等级和段位----------------------------------------------------------
         Label rankLabel = (Label) playerVBox.lookup("#rankLabel");
-        List<RankDto> rank = rankService.getRankByPuuid("ee639917-6a3c-5726-949f-537d341e5022");
+        List<RankDto> rank = rankService.getRankByPuuid(player.getPuuid());
         String rankSOLO = null;
         String rankFlEX = null;
         for (RankDto rankDto : rank) {
@@ -258,7 +261,6 @@ public class GameHistoryPageController {
             VBox masteryBox = showMasteryChampion(masteryChampion);
             masteryHeroPane.setContent(masteryBox);
         }
-
 
         // 战绩-----------------------------------------------------------------
 //        List<GameScoreInfoDto> scores = gameHistoryService.recentScores("ee639917-6a3c-5726-949f-537d341e5022", "450", 10);
@@ -291,6 +293,7 @@ public class GameHistoryPageController {
         VBox masteryBox = new VBox(); // 存放精通英雄
         for (MasteryChampion mChampion : masteryChampion) {
             HBox hBox = new HBox(); // 用于存放一条精通的英雄
+            hBox.setPrefWidth(108);
             hBox.setPrefHeight(22);
             hBox.setStyle("-fx-background-color:#AEEEEE");
 
@@ -378,7 +381,5 @@ public class GameHistoryPageController {
         }
         return vBox;
     }
-
-
 
 }

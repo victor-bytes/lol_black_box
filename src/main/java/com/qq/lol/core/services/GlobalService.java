@@ -5,6 +5,9 @@ import com.qq.lol.core.services.impl.LolPlayerServiceImpl;
 import com.qq.lol.core.services.impl.LootServiceImpl;
 import com.qq.lol.dto.SummonerInfoDto;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * @Auther: null
  * @Date: 2023/12/6 - 12 - 06 - 14:23
@@ -16,6 +19,8 @@ public class GlobalService {
     private static final LolPlayerService lolPlayerService = LolPlayerServiceImpl.getLolPlayerService();
     private static final LolHeroService lolHeroService = LolHeroServiceImpl.getLolHeroService();
     private static final LootService lootService = LootServiceImpl.getLootService();
+    // 创建线程池，最大线程 3个，以免 LCU挂掉
+    public static final ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
 
     /**
      * 全局的当前已登录召唤师信息，使用该信息不会频繁调用 LCU

@@ -55,7 +55,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #828282;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -93,7 +93,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #828282;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -131,7 +131,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #828282;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -169,7 +169,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #828282;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -207,7 +207,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #828282;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -245,7 +245,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #828282;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -283,7 +283,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #828282;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -321,7 +321,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #828282;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -359,7 +359,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #828282;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">
@@ -397,7 +397,7 @@
                      </padding>
                   </Button>
                   <ImageView id="heroIcon" fitHeight="52.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #96CDCD;" />
+                  <ScrollPane id="masteryHero" prefHeight="49.0" prefWidth="108.0" style="-fx-background: #828282;" />
                </children>
             </HBox>
             <TextField id="idText" alignment="CENTER" style="-fx-background-color: transparent;" text="ID">

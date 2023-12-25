@@ -5,10 +5,13 @@ import com.qq.lol.dto.LolClientDto;
 import com.qq.lol.frame.controller.MainWindowController;
 import com.qq.lol.utils.ProcessUtil;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -40,6 +43,26 @@ public class MainApp extends Application {
             Thread.sleep(3000); // 等待 3s 自动关闭程序
             System.exit(0);
         }
+
+        // 设置关闭主窗口提示
+        Platform.setImplicitExit(false);
+        primaryStage.setOnCloseRequest(event -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("确定退出？");
+            alert.show();
+
+            Button okBtn = (Button)alert.getDialogPane().lookupButton(ButtonType.OK);
+            Button caBtn = (Button)alert.getDialogPane().lookupButton(ButtonType.CANCEL);
+            okBtn.setOnAction(event1 -> {
+                // 关闭线程池
+                GlobalService.fixedThreadPool.shutdown();
+                Platform.exit();
+            });
+            caBtn.setOnAction(event1 -> {
+                System.out.println("取消关闭主窗口");
+                primaryStage.show();
+            });
+        });
 
         // 加载主窗口
         FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/com/qq/lol/frame/view/main_window.fxml")); // 必须使用绝对路径

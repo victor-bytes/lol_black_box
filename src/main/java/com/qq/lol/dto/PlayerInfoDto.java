@@ -12,6 +12,24 @@ import java.util.List;
 @Data
 public class PlayerInfoDto {
 
+    public PlayerInfoDto(String puuid, String gameName, String tagLine, String summonerLevel
+            , String championId, HeroDto hero, String profileIconId, String selectedPosition
+            , String summonerId, String summonerName, String platformId) {
+        this.puuid = puuid;
+        this.gameName = gameName;
+        this.tagLine = tagLine;
+        this.summonerLevel = summonerLevel;
+        this.championId = championId;
+        this.hero = hero;
+        this.profileIconId = profileIconId;
+        this.selectedPosition = selectedPosition;
+        this.summonerId = summonerId;
+        this.summonerName = summonerName;
+        this.platformId = platformId;
+    }
+
+    public PlayerInfoDto() { }
+
     private String puuid;
 
     // 游戏内的名字

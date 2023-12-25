@@ -4,6 +4,7 @@ import com.qq.lol.core.services.LolHeroService;
 import com.qq.lol.core.services.impl.LolHeroServiceImpl;
 import com.qq.lol.dto.BlackPlayerDto;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,6 +14,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Set;
 
 @Data
 public class AddBlackListController {
@@ -166,7 +169,20 @@ public class AddBlackListController {
         platform.setTooltip(new Tooltip(platformID));
         // 清空 reasonText
         reason.clear();
+        // 重置原因词复选框
+        Set<Node> checkBox = hBox.lookupAll("CheckBox");
+        for (Node box : checkBox) {
+            CheckBox cb = (CheckBox)box;
+            cb.setSelected(false);
+        }
 
+        // 重置 KDA数量
+        kill.getValueFactory().setValue(0);
+        death.getValueFactory().setValue(0);
+        assistant.getValueFactory().setValue(0);
+
+        // 重置遇见次数
+        meetCount.getValueFactory().setValue(1);
     }
 
     public void showInBlackPlayer(BlackPlayerDto blackPlayer) {
@@ -184,8 +200,8 @@ public class AddBlackListController {
         meetCount.getValueFactory().setValue(count + 1);
         // 设置拉黑原因
         String oldReason = blackPlayer.getReason();
-        String newReason = oldReason + "\n" +blackPlayer.getGameName() + "#" + blackPlayer.getTagLine() +
-                " 第 " + count + "次遇见时，对局" + ((blackPlayer.getWin() == 1) ? "赢 " : "输 ")
+        String newReason = oldReason + "\n【" +blackPlayer.getGameName() + "#" + blackPlayer.getTagLine() +
+                "】 第【" + count + "】次遇见时，对局【" + ((blackPlayer.getWin() == 1) ? "赢】 " : "输】 ")
                 + "时间：" + blackPlayer.getLast_update_time();
         reason.setText(newReason);
     }
