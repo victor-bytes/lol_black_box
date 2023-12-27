@@ -80,6 +80,9 @@ public class AddBlackListController {
     private CheckBox cbSeven;
 
     @FXML
+    private CheckBox cbEight;
+
+    @FXML
     private HBox hBox;
 
     @FXML
@@ -111,6 +114,7 @@ public class AddBlackListController {
         checkBoxLis(cbFive);
         checkBoxLis(cbSix);
         checkBoxLis(cbSeven);
+        checkBoxLis(cbEight);
 
     }
 
@@ -200,9 +204,9 @@ public class AddBlackListController {
         meetCount.getValueFactory().setValue(count + 1);
         // 设置拉黑原因
         String oldReason = blackPlayer.getReason();
-        String newReason = oldReason + "\n【" +blackPlayer.getGameName() + "#" + blackPlayer.getTagLine() +
-                "】 第【" + count + "】次遇见时，对局【" + ((blackPlayer.getWin() == 1) ? "赢】 " : "输】 ")
-                + "时间：" + blackPlayer.getLast_update_time();
+        String newReason = oldReason + "\n第【" + count + "】次遇见时，对局【" + ((blackPlayer.getWin() == 1) ? "赢】 " : "输】 ")
+                + "K/D/A =【" + blackPlayer.getKills() + "/" + blackPlayer.getDeaths() + "/" + blackPlayer.getAssists()
+                + "】时间：" + blackPlayer.getLast_update_time();
         reason.setText(newReason);
     }
 

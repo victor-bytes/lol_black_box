@@ -34,33 +34,30 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException, InterruptedException {
         MainApp.primaryStage = primaryStage;
+        primaryStage.setResizable(false);
 
         if(ProcessUtil.getClientProcess().equals(new LolClientDto())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("客户端未启动！");
             alert.setContentText("未获取到 Port或 Token");
             alert.show();
-            Thread.sleep(3000); // 等待 3s 自动关闭程序
+            Thread.sleep(2500); // 等待 3s 自动关闭程序
             System.exit(0);
         }
 
         // 设置关闭主窗口提示
         Platform.setImplicitExit(false);
         primaryStage.setOnCloseRequest(event -> {
+            event.consume();    // 阻止窗口关闭，阻止事件传递
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("确定退出？");
             alert.show();
 
             Button okBtn = (Button)alert.getDialogPane().lookupButton(ButtonType.OK);
-            Button caBtn = (Button)alert.getDialogPane().lookupButton(ButtonType.CANCEL);
             okBtn.setOnAction(event1 -> {
                 // 关闭线程池
                 GlobalService.fixedThreadPool.shutdown();
                 Platform.exit();
-            });
-            caBtn.setOnAction(event1 -> {
-                System.out.println("取消关闭主窗口");
-                primaryStage.show();
             });
         });
 
@@ -72,15 +69,23 @@ public class MainApp extends Application {
 
         // 加载主页
         FXMLLoader mainPageLoader = new FXMLLoader(getClass().getResource("/com/qq/lol/frame/view/main_page.fxml")); // 必须使用绝对路径
-        Parent mainPageRoot = mainPageLoader.load();
+        mainPageLoader.load();
 
         // 加载对局页
         FXMLLoader gameHistoryLoader = new FXMLLoader(getClass().getResource("/com/qq/lol/frame/view/game_history.fxml")); // 必须使用绝对路径
-        Parent gameHistoryPageRoot = gameHistoryLoader.load();
+        gameHistoryLoader.load();
 
         // 加载 拉黑窗口
         FXMLLoader addBlackListLoader = new FXMLLoader(getClass().getResource("/com/qq/lol/frame/view/addBlackList.fxml")); // 必须使用绝对路径
-        Parent addBlackListPageRoot = addBlackListLoader.load();
+        addBlackListLoader.load();
+
+        // 加载 工具页
+        FXMLLoader ToolsLoader = new FXMLLoader(getClass().getResource("/com/qq/lol/frame/view/tools.fxml")); // 必须使用绝对路径
+        ToolsLoader.load();
+
+        // 加载 设置页
+        FXMLLoader settingsLoader = new FXMLLoader(getClass().getResource("/com/qq/lol/frame/view/settings.fxml")); // 必须使用绝对路径
+        settingsLoader.load();
 
         // 主窗口加入 scene
         Scene scene = new Scene(mainRoot);

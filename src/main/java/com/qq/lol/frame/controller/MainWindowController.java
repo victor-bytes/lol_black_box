@@ -152,9 +152,10 @@ public class MainWindowController {
     public void mainButtonThree() {
         System.out.println("黑名单 按钮被选择");
         refreshClientStatus();
+        mainCenterPage.getChildren().clear();
 
 //        AnchorPane.setLeftAnchor(gridPane, 20.0);
-        mainCenterPage.getChildren().clear();
+
     }
 
     /**
@@ -167,8 +168,11 @@ public class MainWindowController {
     public void mainButtonFour() {
         System.out.println("工具 按钮被选择");
         refreshClientStatus();
-//        AnchorPane.setLeftAnchor(gridPane, 20.0);
         mainCenterPage.getChildren().clear();
+
+        BorderPane borderPane = ControllerManager.toolsController.getBorderPane();
+        AnchorPane.setLeftAnchor(borderPane, 20.0);
+        mainCenterPage.getChildren().add(borderPane);
     }
 
     /**
@@ -181,8 +185,11 @@ public class MainWindowController {
     public void mainButtonFive() {
         System.out.println("设置 按钮被选择");
         refreshClientStatus();
-//        AnchorPane.setLeftAnchor(gridPane, 20.0);
         mainCenterPage.getChildren().clear();
+
+        BorderPane borderPane = ControllerManager.settingsController.getBorderPane();
+        AnchorPane.setLeftAnchor(borderPane, 20.0);
+        mainCenterPage.getChildren().add(borderPane);
     }
 
 

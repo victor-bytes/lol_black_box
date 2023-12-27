@@ -103,7 +103,7 @@ public class GameHistoryPageController {
         // 是否在黑名单--------------------------------------------------------
         if(player.getInBlackList()) {
             // 在黑名单中   不显示拉黑按钮，并且显示红色背景用作提示
-//            playerVBox.setStyle("-fx-background-color:#FF4040");
+            playerVBox.setStyle("-fx-background-color:#FF4040");
             Image image = new Image("com/qq/lol/frame/static/enemy.png");
             BackgroundImage backgroundImage = new BackgroundImage(image,
                     BackgroundRepeat.NO_REPEAT,
@@ -118,6 +118,7 @@ public class GameHistoryPageController {
 
         } else {
             // 不在黑名单中   不显示已在黑名单按钮
+            playerVBox.setStyle("-fx-background-color:#828282");
             inBlack.setVisible(false);
             blackBtn.setVisible(true);
         }
@@ -160,7 +161,7 @@ public class GameHistoryPageController {
                 Integer i = blackListService.updateBlackPlayer(blackPlayer);
                 stage.close();
                 // 添加完成后提示框
-                showTip(blackPlayer, i);
+                showTip(blackPlayer, i, "修改");
             });
             cancelBtn.setOnAction(event1 -> stage.close());
 
@@ -224,7 +225,7 @@ public class GameHistoryPageController {
                 Integer i = blackListService.addBlackList(blackPlayer); // 添加到数据库
                 stage.close();
                 // 添加完成后提示框
-                showTip(blackPlayer, i);
+                showTip(blackPlayer, i, "添加");
             });
 
             stage.show();
@@ -274,15 +275,15 @@ public class GameHistoryPageController {
         }
     }
 
-    private void showTip(BlackPlayerDto blackPlayer, Integer i) {
+    private void showTip(BlackPlayerDto blackPlayer, Integer i, String msg) {
         Alert alert;
         if (i == 2) {
             alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText("添加成功！");
+            alert.setHeaderText(msg + "成功！");
             alert.setContentText("玩家：" + blackPlayer.getGameName() + "#" + blackPlayer.getTagLine());
         } else {
             alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("添加失败！");
+            alert.setHeaderText(msg + "失败！");
         }
         alert.show();
     }

@@ -1,10 +1,15 @@
 package com.qq.lol.core.services;
 
-import com.qq.lol.core.services.impl.LolHeroServiceImpl;
 import com.qq.lol.core.services.impl.LolPlayerServiceImpl;
 import com.qq.lol.core.services.impl.LootServiceImpl;
 import com.qq.lol.dto.SummonerInfoDto;
+import com.qq.lol.utils.StandardOutTime;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -17,7 +22,6 @@ import java.util.concurrent.Executors;
 public class GlobalService {
     private static final GlobalService globalService = new GlobalService();
     private static final LolPlayerService lolPlayerService = LolPlayerServiceImpl.getLolPlayerService();
-    private static final LolHeroService lolHeroService = LolHeroServiceImpl.getLolHeroService();
     private static final LootService lootService = LootServiceImpl.getLootService();
     // 创建线程池，最大线程 3个，以免 LCU挂掉
     public static final ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
@@ -31,21 +35,29 @@ public class GlobalService {
     // 默认查询战绩数量 10条
     private static Integer historySize = 9;
 
+    private static final Properties prop;
+
     static {
-        // TODO 初始化英雄列表,做到设置界面里，由用户更新
-//        Integer i = lolHeroService.updateHeroes();
-//        if(i < 1)
-//            System.out.println(StandardOutTime.getCurrentTime() + " 同步英雄信息失败 ");
-//        if(i > 1)
-//            System.out.println("------ 有新增英雄，已更新到数据库 ------");
-//        else if(i == 1)
-//            System.out.println("------ 未新增英雄 ------");
-//        else
-//            System.out.println("------ 同步英雄信息失败 ------");
-        // 获取召唤师信息
-//        globalService.getLoginSummoner();
-        // 获取神话精粹数量
-//        globalService.getMythicCount();
+        prop = new Properties();
+        InputStream is = GlobalService.class.getClassLoader().getResourceAsStream("data.properties");
+        try {
+            prop.load(is);
+            // 初始化 historySize
+            String result = prop.getProperty("historySize", "9");   // 若没读取到，则设为默认值 9
+            historySize = Integer.parseInt(result);
+
+        } catch (IOException e) {
+            System.out.println("初始化 historySize失败");
+            e.printStackTrace();
+        } finally {
+            if(is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
     }
 
@@ -59,8 +71,19 @@ public class GlobalService {
         return historySize;
     }
 
-    public static void setHistorySize(Integer historySize) {
+    // 修改默认查询战绩数量
+    public void setHistorySize(Integer historySize) {
         GlobalService.historySize = historySize;
+        // 写入配置文件
+        prop.setProperty("historySize", historySize.toString());
+        try {
+            OutputStream os = new FileOutputStream("src/main/resources/data.properties");
+            prop.store(os, "更新配置时间" + StandardOutTime.getCurrentTime());    // 加一行注释
+            os.close();
+        } catch (IOException e) {
+            System.out.println("写入properties失败");
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -69,7 +92,7 @@ public class GlobalService {
      * @Auther: null
      * @Date: 2023/12/18 - 12:50
      */
-    public Integer getMythicCount(){
+    public static Integer getMythicCount(){
         if(mythicCount == -1)
             mythicCount = lootService.getMythicCount();
 
@@ -82,7 +105,7 @@ public class GlobalService {
      * @Auther: null
      * @Date: 2023/12/18 - 12:56
      */
-    public Integer refreshMythicCount(){
+    public static Integer refreshMythicCount(){
         mythicCount = lootService.getMythicCount();
 
         return mythicCount;

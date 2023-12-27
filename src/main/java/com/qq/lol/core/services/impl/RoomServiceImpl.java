@@ -201,10 +201,6 @@ public class RoomServiceImpl implements RoomService {
 //                .map(RoomServiceImpl::parsePlayer)
                 .collect(Collectors.toList());
 
-//        fixedThreadPool.submit(parsePlayer());
-        long endTime = System.currentTimeMillis();
-        System.out.println("【使用线程池获取完十个玩家信息所用时间】 = " + (endTime - startTime));
-
         // 获取 teamTwo的puuid
         for (PlayerInfoDto player : teamTwoPlayers) {
             teamPuuidTwo.add(player.getPuuid());

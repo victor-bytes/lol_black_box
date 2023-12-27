@@ -18,6 +18,10 @@ public class ControllerManager {
 
     public static AddBlackListController addBlackListController;
 
+    public static ToolsController toolsController;
+
+    public static SettingsController settingsController;
+
     private ControllerManager(){}
 
 }
