@@ -3,6 +3,7 @@ package com.qq.lol.frame;
 import com.qq.lol.core.services.GlobalService;
 import com.qq.lol.dto.LolClientDto;
 import com.qq.lol.frame.controller.MainWindowController;
+import com.qq.lol.utils.JdbcUtils;
 import com.qq.lol.utils.ProcessUtil;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -36,10 +37,20 @@ public class MainApp extends Application {
         MainApp.primaryStage = primaryStage;
         primaryStage.setResizable(false);
 
+        // 客户端是否启动检测
         if(ProcessUtil.getClientProcess().equals(new LolClientDto())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("客户端未启动！");
             alert.setContentText("未获取到 Port或 Token");
+            alert.show();
+            Thread.sleep(2500); // 等待 3s 自动关闭程序
+            System.exit(0);
+        }
+        // 数据库连接检测
+        if(JdbcUtils.getConnection() == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("未获取到数据库连接！");
+            alert.setContentText("可能是数据库未启动！");
             alert.show();
             Thread.sleep(2500); // 等待 3s 自动关闭程序
             System.exit(0);

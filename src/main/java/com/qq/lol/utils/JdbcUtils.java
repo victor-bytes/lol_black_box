@@ -3,7 +3,6 @@ package com.qq.lol.utils;
 import com.alibaba.druid.pool.DruidDataSourceFactory;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -26,8 +25,8 @@ public class JdbcUtils {
      */
     private JdbcUtils() { }
 
-    static {
-        //数据源配置
+/*    static {
+*//*        //数据源配置
         Properties prop = new Properties();
         //读取配置文件
         InputStream is = JdbcUtils.class.getClassLoader().getResourceAsStream("druid.properties");
@@ -44,9 +43,8 @@ public class JdbcUtils {
             System.out.println(StandardOutTime.getCurrentTime() + " ------ 初始化数据库连接池 ------");
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
+        }*//*
+    }*/
 
     /**
      * 获取数据库连接
@@ -54,8 +52,19 @@ public class JdbcUtils {
     public static Connection getConnection() {
         Connection conn = null;
         try {
+            if(dataSource == null) {
+                //数据源配置
+                Properties prop = new Properties();
+                //读取配置文件
+                InputStream is = JdbcUtils.class.getClassLoader().getResourceAsStream("druid.properties");
+                prop.load(is);
+                //返回的是DataSource
+                dataSource = DruidDataSourceFactory.createDataSource(prop);
+                System.out.println(StandardOutTime.getCurrentTime() + " ------ 初始化数据库连接池 ------");
+            }
             conn = dataSource.getConnection();
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            System.out.println("初始化数据库连接失败");
             e.printStackTrace();
         }
         return conn;

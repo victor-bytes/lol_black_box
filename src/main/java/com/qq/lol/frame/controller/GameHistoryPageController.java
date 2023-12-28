@@ -257,22 +257,18 @@ public class GameHistoryPageController {
 
         // 擅长英雄-------------------------------------------------------------
         ScrollPane masteryHeroPane = (ScrollPane) playerVBox.lookup("#masteryHero");
+        masteryHeroPane.getChildrenUnmodifiable().clear();
         List<MasteryChampion> masteryChampion = player.getMasteryChampion();
-        if(masteryChampion.size() != 0) {
-            VBox masteryBox = showMasteryChampion(masteryChampion);
-            masteryHeroPane.setContent(masteryBox);
-        }
+        VBox masteryBox = showMasteryChampion(masteryChampion);
+        masteryHeroPane.setContent(masteryBox);
 
         // 战绩-----------------------------------------------------------------
-//        List<GameScoreInfoDto> scores = gameHistoryService.recentScores("ee639917-6a3c-5726-949f-537d341e5022", "450", 10);
         List<GameScoreInfoDto> scores = gameHistoryService
                 .recentScores(player.getPuuid(), roomInfo.getGameQueueId(), GlobalService.getHistorySize());
         ScrollPane historyScrollPane = (ScrollPane) playerVBox.lookup("#historyScrollPane");
-        if(scores.size() != 0) {
-            // 近期没有对应战绩则不必填充数据
-            VBox historyBox = showGameHistory(scores);
-            historyScrollPane.setContent(historyBox);
-        }
+        historyScrollPane.getChildrenUnmodifiable().clear();    // 先清空一下
+        VBox historyBox = showGameHistory(scores);
+        historyScrollPane.setContent(historyBox);
     }
 
     private void showTip(BlackPlayerDto blackPlayer, Integer i, String msg) {
@@ -290,6 +286,10 @@ public class GameHistoryPageController {
 
     // 生成精通英雄
     private VBox showMasteryChampion(List<MasteryChampion> masteryChampion) {
+        if(masteryChampion.size() == 0) {
+            return new VBox();  // 没有精通的英雄，返回空的 VBox
+        }
+
         // 对 ScrollPane中填充一个 VBox，VBox中存放若干个HBox，每条精通英雄对应一个 HBox
         VBox masteryBox = new VBox(); // 存放精通英雄
         for (MasteryChampion mChampion : masteryChampion) {
@@ -330,6 +330,9 @@ public class GameHistoryPageController {
 
     // 生成一位玩家战绩显示的 VBox
     private VBox showGameHistory(List<GameScoreInfoDto> scores) {
+        if (scores.size() == 0)
+            return new VBox();  // 近期没有对应战绩则不必填充数据
+
         // 对 ScrollPane中填充一个 VBox，VBox中存放若干个HBox，每条战绩对应一个 HBox
         VBox vBox = new VBox(); // 存放战绩
         for (GameScoreInfoDto score : scores) {
