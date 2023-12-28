@@ -244,7 +244,7 @@ public class RoomServiceImpl implements RoomService {
         playerInfoDto.setSelectedPosition(selectedPosition);
         playerInfoDto.setPlatformId(lolPlayerService.getCurrentSummoner().getPlatformId());
         playerInfoDto.setHero(lolHeroService.getHeroInfoByChampionId(championId));
-        playerInfoDto.setMasteryChampion(lolHeroService.getMasteryChampion(summonerId));
+        playerInfoDto.setMasteryChampion(lolHeroService.getMasteryChampion(summonerId, 20));
         playerInfoDto.setInBlackList(newPlayerInfo.getInBlackList());
 
         System.out.println("room player = " + playerInfoDto);

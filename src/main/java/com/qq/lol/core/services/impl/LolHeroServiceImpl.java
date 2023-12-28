@@ -1,6 +1,7 @@
 package com.qq.lol.core.services.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.qq.lol.core.dao.HeroDao;
 import com.qq.lol.core.dao.impl.HeroDaoImpl;
 import com.qq.lol.core.services.LolHeroService;
@@ -91,20 +92,20 @@ public class LolHeroServiceImpl implements LolHeroService {
     }
 
     /**
+     * @Description: 查询玩家精通英雄
      * @param summonerId :
-     * @return java.util.List<MasteryChampion> 评分S+、S、7级、6级的前十个英雄，不足返回实际个数
-     * @Description: 查询玩家精通的十个英雄
+     * @return java.util.List<MasteryChampion> 评分S+、S、7级、6级的英雄
      * @Auther: null
      * @Date: 2023/12/8 - 15:12
      */
     @Override
-    public List<MasteryChampion> getMasteryChampion(String summonerId) {
+    public List<MasteryChampion> getMasteryChampion(String summonerId, Integer limit) {
         if(summonerId == null || StringUtils.equals("", summonerId))
             return new ArrayList<>();
 
         List<MasteryChampion> masteryChampions;
         String json = netRequestUtil.doGet("/lol-collections/v1/inventories/" + summonerId
-                + "/champion-mastery/top?limit=10");
+                + "/champion-mastery/top?limit=" + limit);
         masteryChampions = JSON.parseObject(json).getJSONArray("masteries")
                 .toJavaList(MasteryChampion.class)
                 .stream()
@@ -138,6 +139,20 @@ public class LolHeroServiceImpl implements LolHeroService {
      */
     @Override
     public Integer getOwnedHeroCount(String summonerId) {
-        return null;
+        String json = netRequestUtil.doGet("/lol-champions/v1/inventories/" + summonerId + "/champions-playable-count");
+        JSONObject jsonObject = JSON.parseObject(json);
+
+        return jsonObject.getInteger("championsOwned");
+    }
+
+    /**
+     * @return java.lang.Integer
+     * @Description: 获取数据库中英雄总量
+     * @Auther: null
+     * @Date: 2023/12/28 - 13:23
+     */
+    @Override
+    public Integer getHeroCount() {
+        return heroDao.getHeroCount();
     }
 }

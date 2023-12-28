@@ -41,7 +41,7 @@ public class HeroDaoImpl implements HeroDao {
             return 0;
 
         // 只有 riot 推出了新英雄，英雄总数增加的情况才会真的更新到数据库
-        Integer heroCount = heroDao.getHeroCount();
+        Integer heroCount = getHeroCount();
         if(heroes.size() == heroCount)
             return 1;
 

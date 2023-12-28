@@ -37,7 +37,7 @@
                   </Label>
                </children>
             </HBox>
-            <GridPane alignment="CENTER" prefHeight="522.0" prefWidth="1240.0" style="-fx-background-color: #CFCFCF;">
+            <GridPane alignment="CENTER" prefHeight="536.0" prefWidth="1240.0" style="-fx-background-color: #CFCFCF;">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
@@ -50,6 +50,7 @@
                   <RowConstraints maxHeight="51.0" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -112,6 +113,7 @@
                         <Font name="System Bold" size="21.0" />
                      </font>
                   </TextField>
+                  <Label fx:id="ownedHeroCount" alignment="CENTER" prefHeight="536.0" prefWidth="1240.0" text="Label" GridPane.rowIndex="12" />
                </children>
             </GridPane>
          </children>

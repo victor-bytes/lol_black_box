@@ -40,13 +40,13 @@ public interface LolHeroService {
     Integer updateHeroes();
 
     /**
-     * @Description: 查询玩家精通的十个英雄
+     * @Description: 查询玩家精通的英雄
      * @param summonerId:
-     * @return java.util.List<MasteryChampion> 评分S+、S、7级、6级的前十个英雄，不足返回实际个数
+     * @return java.util.List<MasteryChampion> 评分S+、S、7级、6级的英雄
      * @Auther: null
      * @Date: 2023/12/8 - 15:12
      */
-    List<MasteryChampion> getMasteryChampion(String summonerId);
+    List<MasteryChampion> getMasteryChampion(String summonerId, Integer limit);
 
     /**
      * @Description: 获取用户已拥有英雄
@@ -65,4 +65,12 @@ public interface LolHeroService {
      * @Date: 2023/12/6 - 19:14
      */
     Integer getOwnedHeroCount(String summonerId);
+
+    /**
+     * @Description: 获取数据库中英雄总量
+     * @return java.lang.Integer
+     * @Auther: null
+     * @Date: 2023/12/28 - 13:23
+     */
+    Integer getHeroCount();
 }

@@ -1,8 +1,10 @@
 package com.qq.lol.frame.controller;
 
 import com.qq.lol.core.services.GlobalService;
+import com.qq.lol.core.services.LolHeroService;
 import com.qq.lol.core.services.LolPlayerService;
 import com.qq.lol.core.services.RankService;
+import com.qq.lol.core.services.impl.LolHeroServiceImpl;
 import com.qq.lol.core.services.impl.LolPlayerServiceImpl;
 import com.qq.lol.core.services.impl.RankServiceImpl;
 import com.qq.lol.dto.RankDto;
@@ -29,6 +31,7 @@ public class MainPageController {
     private static final GlobalService globalService = GlobalService.getGlobalService();
     private static final RankService rankService = RankServiceImpl.getRankService();
     private static final LolPlayerService lolPlayerService = LolPlayerServiceImpl.getLolPlayerService();
+    private static final LolHeroService lolHeroService = LolHeroServiceImpl.getLolHeroService();
 
     @FXML
     private AnchorPane anchorPane;
@@ -64,25 +67,28 @@ public class MainPageController {
     private Label platform;
 
     @FXML
+    private Label ownedHeroCount;
+
+    @FXML
     public void initialize() {
         ControllerManager.mainPageController = this;
     }
 
     // 填充召唤师信息
     public void showMainPage(SummonerInfoDto loginSummoner) {
-        summonerIcon.setImage(loginSummoner.getProfileIcon());
+        summonerIcon.setImage(loginSummoner.getProfileIcon());  // Icon
 
         String platformId = loginSummoner.getPlatformId();
         if (StringUtils.equals("HN1", platformId)) {
             platformId = "艾欧尼亚";
         }
-        platform.setText("当前大区-" + platformId);
-        summonerID.setText(loginSummoner.getGameName() + "#" + loginSummoner.getTagLine());
-        originID.setText(loginSummoner.getDisplayName());
-        summonerLevel.setText("Lv." + loginSummoner.getSummonerLevel());
+        platform.setText("当前大区-" + platformId);             // 大区
+        summonerID.setText(loginSummoner.getGameName() + "#" + loginSummoner.getTagLine()); // ID
+        originID.setText(loginSummoner.getDisplayName());                                   // 原 ID
+        summonerLevel.setText("Lv." + loginSummoner.getSummonerLevel());                    // 等级
         levelPercent.setText(loginSummoner.getXpSinceLastLevel() + "/" + loginSummoner.getXpUntilNextLevel()
-                + " (" + loginSummoner.getPercentCompleteForNextLevel() + "%)");
-        mythicCount.setText("" + globalService.getMythicCount());
+                + " (" + loginSummoner.getPercentCompleteForNextLevel() + "%)");            // 等级百分比
+        mythicCount.setText("" + GlobalService.getMythicCount());                           // 神话精粹数量
         // 填充段位
         List<RankDto> ranks = rankService.getRankByPuuid(loginSummoner.getPuuid());
         String rankSOLO = null;
@@ -96,9 +102,12 @@ public class MainPageController {
                 rankFlEX = "灵活组排-" + getRankString(rankDto);
             }
         }
-        rankSolo.setText(rankSOLO);
+        rankSolo.setText(rankSOLO);     // 段位
         rankFlex.setText(rankFlEX);
 
+        Integer ownedCount = lolHeroService.getOwnedHeroCount(loginSummoner.getSummonerId());
+        Integer heroCount = lolHeroService.getHeroCount();
+        ownedHeroCount.setText("已拥有英雄数量：" + ownedCount + "/" + (heroCount - 1));  // 已拥有英雄总数
     }
 
     private String getRankString(RankDto rankDto) {
@@ -125,9 +134,7 @@ public class MainPageController {
 
     // 刷新召唤师信息
     public void refresh() {
-//        refreshSummoner.setOnMouseClicked(event -> {
             System.out.println("刷新召唤师信息 按钮被触发");
             showMainPage(globalService.refreshSummoner());
-//        });
     }
 }

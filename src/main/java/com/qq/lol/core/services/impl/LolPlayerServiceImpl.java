@@ -90,7 +90,7 @@ public class LolPlayerServiceImpl implements LolPlayerService {
         String playerInfoJson = netRequestUtil.doGet("/lol-summoner/v2/summoners/puuid/" + puuid);
         PlayerInfoDto playerInfo = JSON.parseObject(playerInfoJson, PlayerInfoDto.class);
         // 查询精通英雄
-        playerInfo.setMasteryChampion(lolHeroService.getMasteryChampion(playerInfo.getSummonerId()));
+        playerInfo.setMasteryChampion(lolHeroService.getMasteryChampion(playerInfo.getSummonerId(), 20));
         // 是否在黑名单中
         BlackPlayerDto blackPlayerDto = blackListService.inBlackList(puuid);
         playerInfo.setInBlackList(StringUtils.equals(blackPlayerDto.getPuuid(), puuid));
