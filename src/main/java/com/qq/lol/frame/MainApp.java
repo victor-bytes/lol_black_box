@@ -6,6 +6,7 @@ import com.qq.lol.frame.controller.MainWindowController;
 import com.qq.lol.utils.JdbcUtils;
 import com.qq.lol.utils.ProcessUtil;
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -28,13 +29,20 @@ public class MainApp extends Application {
     // 暴露 primaryStage给其他 Controller使用
     private static Stage primaryStage;
 
+    private static HostServices hostServices;
+
     public static Stage getPrimaryStage() {
         return primaryStage;
+    }
+
+    public static HostServices getHost() {
+        return hostServices;
     }
 
     @Override
     public void start(Stage primaryStage) throws IOException, InterruptedException {
         MainApp.primaryStage = primaryStage;
+        hostServices = MainApp.this.getHostServices();
         primaryStage.setResizable(false);
 
         // 客户端是否启动检测

@@ -3,6 +3,8 @@ package com.qq.lol.frame.controller;
 import com.qq.lol.core.services.GlobalService;
 import com.qq.lol.core.services.LootService;
 import com.qq.lol.core.services.impl.LootServiceImpl;
+import com.qq.lol.frame.MainApp;
+import javafx.application.HostServices;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -78,4 +80,23 @@ public class ToolsController {
 
     }
 
+    public void lolQQ(ActionEvent actionEvent) {
+        HostServices host = MainApp.getHost();
+        host.showDocument("https://lol.qq.com/main.shtml");
+    }
+
+    public void opgg(ActionEvent actionEvent) {
+        HostServices host = MainApp.getHost();
+        host.showDocument("https://www.op.gg/summoners/tw/%E9%9B%BB%E7%AB%B6%E8%98%87%E7%82%B3%E6%B7%BB-2311");
+    }
+
+    public void lolTW(ActionEvent actionEvent) {
+        HostServices host = MainApp.getHost();
+        host.showDocument("https://www.leagueoflegends.com/zh-tw/news/");
+    }
+
+    public void lolTWMsg(ActionEvent actionEvent) {
+        HostServices host = MainApp.getHost();
+        host.showDocument("https://status.riotgames.com/lol?region=tw2&locale=zh_TW");
+    }
 }

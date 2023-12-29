@@ -257,7 +257,6 @@ public class GameHistoryPageController {
 
         // 擅长英雄-------------------------------------------------------------
         ScrollPane masteryHeroPane = (ScrollPane) playerVBox.lookup("#masteryHero");
-        masteryHeroPane.getChildrenUnmodifiable().clear();
         List<MasteryChampion> masteryChampion = player.getMasteryChampion();
         VBox masteryBox = showMasteryChampion(masteryChampion);
         masteryHeroPane.setContent(masteryBox);
@@ -266,7 +265,6 @@ public class GameHistoryPageController {
         List<GameScoreInfoDto> scores = gameHistoryService
                 .recentScores(player.getPuuid(), roomInfo.getGameQueueId(), GlobalService.getHistorySize());
         ScrollPane historyScrollPane = (ScrollPane) playerVBox.lookup("#historyScrollPane");
-        historyScrollPane.getChildrenUnmodifiable().clear();    // 先清空一下
         VBox historyBox = showGameHistory(scores);
         historyScrollPane.setContent(historyBox);
     }
