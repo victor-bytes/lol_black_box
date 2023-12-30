@@ -75,7 +75,7 @@ public class MainApp extends Application {
             Button okBtn = (Button)alert.getDialogPane().lookupButton(ButtonType.OK);
             okBtn.setOnAction(event1 -> {
                 // 关闭线程池
-                GlobalService.fixedThreadPool.shutdown();
+//                GlobalService.fixedThreadPool.shutdown();
                 Platform.exit();
             });
         });

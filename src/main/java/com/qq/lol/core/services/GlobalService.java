@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @Auther: null
@@ -24,7 +22,7 @@ public class GlobalService {
     private static final LolPlayerService lolPlayerService = LolPlayerServiceImpl.getLolPlayerService();
     private static final LootService lootService = LootServiceImpl.getLootService();
     // 创建线程池，最大线程 3个，以免 LCU挂掉
-    public static final ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
+//    public static final ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
 
     /**
      * 全局的当前已登录召唤师信息，使用该信息不会频繁调用 LCU
@@ -34,6 +32,9 @@ public class GlobalService {
     private static Integer mythicCount = -1;
     // 默认查询战绩数量 10条
     private static Integer historySize = 9;
+
+    // 当前登录用户大区
+    private static String platform;
 
     private static final Properties prop;
 
@@ -69,6 +70,14 @@ public class GlobalService {
 
     public static Integer getHistorySize() {
         return historySize;
+    }
+
+    public static String getPlatform() {
+        return platform;
+    }
+
+    public static void setPlatform(String platform) {
+        GlobalService.platform = platform;
     }
 
     // 修改默认查询战绩数量

@@ -61,9 +61,9 @@
                   <Insets left="3.0" />
                </padding>
             </Label>
-            <Label fx:id="clientStatus" layoutX="481.0" layoutY="10.0" prefHeight="40.0" prefWidth="116.0" style="-fx-background-color: #66CD00;" text="InProgress游戏中" />
+            <Label fx:id="clientStatus" layoutX="481.0" layoutY="10.0" prefHeight="40.0" prefWidth="116.0" style="-fx-background-color: #66CD00;" text="TEST" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <Label fx:id="queueType" alignment="CENTER" layoutX="555.0" layoutY="10.0" prefHeight="40.0" prefWidth="268.0" style="-fx-background-color: #66CD00;" text="未在游戏中">
+            <Label fx:id="queueType" alignment="CENTER" layoutX="555.0" layoutY="10.0" prefHeight="40.0" prefWidth="268.0" style="-fx-background-color: #66CD00;" text="TEST">
                <HBox.margin>
                   <Insets />
                </HBox.margin>

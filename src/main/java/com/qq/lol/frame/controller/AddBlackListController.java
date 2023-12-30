@@ -3,6 +3,7 @@ package com.qq.lol.frame.controller;
 import com.qq.lol.core.services.LolHeroService;
 import com.qq.lol.core.services.impl.LolHeroServiceImpl;
 import com.qq.lol.dto.BlackPlayerDto;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -59,30 +60,6 @@ public class AddBlackListController {
     private TextArea reason;
 
     @FXML
-    private CheckBox cbOne;
-
-    @FXML
-    private CheckBox cbTwo;
-
-    @FXML
-    private CheckBox cbThree;
-
-    @FXML
-    private CheckBox cbFour;
-
-    @FXML
-    private CheckBox cbFive;
-
-    @FXML
-    private CheckBox cbSix;
-
-    @FXML
-    private CheckBox cbSeven;
-
-    @FXML
-    private CheckBox cbEight;
-
-    @FXML
     private HBox hBox;
 
     @FXML
@@ -107,14 +84,11 @@ public class AddBlackListController {
         meetCount.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10));
         meetCount.getValueFactory().setValue(1);
 
-        checkBoxLis(cbOne);
-        checkBoxLis(cbTwo);
-        checkBoxLis(cbThree);
-        checkBoxLis(cbFour);
-        checkBoxLis(cbFive);
-        checkBoxLis(cbSix);
-        checkBoxLis(cbSeven);
-        checkBoxLis(cbEight);
+        ObservableList<Node> children = hBox.getChildren();
+        for (Node child : children) {
+            CheckBox cb = (CheckBox)child;
+            checkBoxLis(cb);
+        }
 
     }
 

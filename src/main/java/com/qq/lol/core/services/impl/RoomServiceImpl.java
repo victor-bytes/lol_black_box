@@ -13,7 +13,6 @@ import com.qq.lol.utils.NetRequestUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 /**
@@ -140,34 +139,32 @@ public class RoomServiceImpl implements RoomService {
 //            return gameRoomInfoDto; // 返回房间信息，但不带有玩家信息
 //        }
 
-        long startTime = System.currentTimeMillis();
-
         // 获取 teamOne玩家信息
         teamOnePlayers = gameData.getJSONArray("teamOne")
                 .toJavaList(JSONObject.class)
                 .stream()
-                .map(jsonPlayer -> {
-                    Future<PlayerInfoDto> result = GlobalService.fixedThreadPool.submit(() -> parsePlayer(jsonPlayer));
-                    try {
-                        return result.get();
-                    } catch (InterruptedException | ExecutionException e) {
-                        e.printStackTrace();
-                    }
-                    return new PlayerInfoDto(
-                            "ee639917-6a3c-5726-949f-537d341e5022",
-                            "LCU获取玩家信息",
-                            "异常",
-                            "-1",
-                            "-1",
-                            lolHeroService.getHeroInfoByChampionId("-1"),
-                            "6",
-                            "NONE",
-                            "异常",
-                            "异常",
-                            "异常"
-                    );
-                })
-//                .map(RoomServiceImpl::parsePlayer)
+//                .map(jsonPlayer -> {
+//                    Future<PlayerInfoDto> result = GlobalService.fixedThreadPool.submit(() -> parsePlayer(jsonPlayer));
+//                    try {
+//                        return result.get();
+//                    } catch (InterruptedException | ExecutionException e) {
+//                        e.printStackTrace();
+//                    }
+//                    return new PlayerInfoDto(
+//                            "ee639917-6a3c-5726-949f-537d341e5022",
+//                            "LCU获取玩家信息",
+//                            "异常",
+//                            "-1",
+//                            "-1",
+//                            lolHeroService.getHeroInfoByChampionId("-1"),
+//                            "6",
+//                            "NONE",
+//                            "异常",
+//                            "异常",
+//                            "异常"
+//                    );
+//                })
+                .map(RoomServiceImpl::parsePlayer)
                 .collect(Collectors.toList());
         // 获取 teamOne的puuid
         for (PlayerInfoDto player : teamOnePlayers) {
@@ -177,28 +174,28 @@ public class RoomServiceImpl implements RoomService {
         teamTwoPlayers = gameData.getJSONArray("teamTwo")
                 .toJavaList(JSONObject.class)
                 .stream()
-                .map(jsonPlayer -> {
-                    Future<PlayerInfoDto> result = GlobalService.fixedThreadPool.submit(() -> parsePlayer(jsonPlayer));
-                    try {
-                        return result.get();
-                    } catch (InterruptedException | ExecutionException e) {
-                        e.printStackTrace();
-                    }
-                    return new PlayerInfoDto(
-                            "ee639917-6a3c-5726-949f-537d341e5022",
-                            "LCU获取玩家信息",
-                            "异常",
-                            "-1",
-                            "-1",
-                            lolHeroService.getHeroInfoByChampionId("-1"),
-                            "6",
-                            "NONE",
-                            "异常",
-                            "异常",
-                            "异常"
-                    ); // 返回异常玩家信息
-                })
-//                .map(RoomServiceImpl::parsePlayer)
+//                .map(jsonPlayer -> {
+//                    Future<PlayerInfoDto> result = GlobalService.fixedThreadPool.submit(() -> parsePlayer(jsonPlayer));
+//                    try {
+//                        return result.get();
+//                    } catch (InterruptedException | ExecutionException e) {
+//                        e.printStackTrace();
+//                    }
+//                    return new PlayerInfoDto(
+//                            "ee639917-6a3c-5726-949f-537d341e5022",
+//                            "LCU获取玩家信息",
+//                            "异常",
+//                            "-1",
+//                            "-1",
+//                            lolHeroService.getHeroInfoByChampionId("-1"),
+//                            "6",
+//                            "NONE",
+//                            "异常",
+//                            "异常",
+//                            "异常"
+//                    ); // 返回异常玩家信息
+//                })
+                .map(RoomServiceImpl::parsePlayer)
                 .collect(Collectors.toList());
 
         // 获取 teamTwo的puuid
@@ -242,7 +239,7 @@ public class RoomServiceImpl implements RoomService {
         playerInfoDto.setSummonerId(summonerId);
         playerInfoDto.setSummonerName(summonerName);
         playerInfoDto.setSelectedPosition(selectedPosition);
-        playerInfoDto.setPlatformId(lolPlayerService.getCurrentSummoner().getPlatformId());
+        playerInfoDto.setPlatformId(GlobalService.getPlatform());
         playerInfoDto.setHero(lolHeroService.getHeroInfoByChampionId(championId));
         playerInfoDto.setMasteryChampion(lolHeroService.getMasteryChampion(summonerId, 20));
         playerInfoDto.setInBlackList(newPlayerInfo.getInBlackList());

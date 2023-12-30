@@ -47,7 +47,7 @@
                </font>
             </Label>
             <ImageView fx:id="heroIcon" fitHeight="58.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="idName" alignment="CENTER" contentDisplay="CENTER" prefHeight="57.0" prefWidth="250.0" style="-fx-background-color: #CFCFCF;" text="Label" textAlignment="CENTER" GridPane.rowIndex="1" />
+            <Label fx:id="idName" alignment="CENTER" contentDisplay="CENTER" prefHeight="57.0" prefWidth="250.0" style="-fx-background-color: #CFCFCF;" textAlignment="CENTER" GridPane.rowIndex="1" />
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #CFCFCF;" text="位置" textAlignment="CENTER" GridPane.columnIndex="2">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -88,7 +88,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="platform" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="45.0" prefHeight="57.0" prefWidth="115.0" style="-fx-background-color: #CFCFCF;" text="艾欧尼亚" textAlignment="CENTER" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+            <Label fx:id="platform" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="45.0" prefHeight="57.0" prefWidth="115.0" style="-fx-background-color: #CFCFCF;" textAlignment="CENTER" GridPane.columnIndex="8" GridPane.rowIndex="1" />
          </children>
       </GridPane>
       <TextArea fx:id="reason" layoutY="119.0" prefHeight="181.0" prefWidth="920.0" promptText="请输入拉黑原因">
@@ -96,7 +96,7 @@
             <Font size="14.0" />
          </font>
       </TextArea>
-      <HBox fx:id="hBox" layoutY="96.0" prefHeight="25.0" prefWidth="604.0">
+      <HBox fx:id="hBox" layoutY="96.0" prefHeight="25.0" prefWidth="920.0">
          <children>
             <CheckBox fx:id="cbFour" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="台独" textAlignment="CENTER">
                <font>
@@ -134,6 +134,16 @@
                </font>
             </CheckBox>
             <CheckBox fx:id="cbSeven" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="纯菜" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="cbSeven1" contentDisplay="CENTER" layoutX="456.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="孤儿" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="cbSeven11" contentDisplay="CENTER" layoutX="532.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="NT" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

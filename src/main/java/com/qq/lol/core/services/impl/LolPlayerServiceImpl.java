@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.qq.lol.core.dao.HeroDao;
 import com.qq.lol.core.dao.impl.HeroDaoImpl;
 import com.qq.lol.core.services.BlackListService;
+import com.qq.lol.core.services.GlobalService;
 import com.qq.lol.core.services.LolHeroService;
 import com.qq.lol.core.services.LolPlayerService;
 import com.qq.lol.dto.BlackPlayerDto;
@@ -67,6 +68,8 @@ public class LolPlayerServiceImpl implements LolPlayerService {
                 summonerInfo.setPlatformId("艾欧尼亚");
             else
                 summonerInfo.setPlatformId("未知大区");
+
+            GlobalService.setPlatform(platformId);
         }
 
         // 添加召唤师头像
