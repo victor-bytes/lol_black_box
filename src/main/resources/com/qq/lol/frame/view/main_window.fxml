@@ -61,16 +61,33 @@
                   <Insets left="3.0" />
                </padding>
             </Label>
-            <Label fx:id="clientStatus" layoutX="481.0" layoutY="10.0" prefHeight="40.0" prefWidth="116.0" style="-fx-background-color: #66CD00;" text="TEST" />
+            <Label fx:id="clientStatus" layoutX="481.0" layoutY="10.0" prefHeight="40.0" prefWidth="116.0" style="-fx-background-color: #66CD00;" text="TEST">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></Label>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <Label fx:id="queueType" alignment="CENTER" layoutX="555.0" layoutY="10.0" prefHeight="40.0" prefWidth="268.0" style="-fx-background-color: #66CD00;" text="TEST">
                <HBox.margin>
-                  <Insets />
+                  <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                </HBox.margin>
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
             </Label>
+            <Button layoutX="389.0" layoutY="13.0" mnemonicParsing="false" onAction="#refreshGameHistory" prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #66CD00;" text="刷新对局">
+               <font>
+                  <Font name="System Bold Italic" size="16.0" />
+               </font>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+               </HBox.margin>
+            </Button>
          </children>
       </HBox>
    </top>

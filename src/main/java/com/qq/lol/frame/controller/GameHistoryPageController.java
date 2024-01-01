@@ -90,6 +90,7 @@ public class GameHistoryPageController {
             showPlayer(player, i++, roomInfo);
         }
 
+        warmTip();
     }
 
     public void showPlayer(PlayerInfoDto player, Integer vBox, GameRoomInfoDto roomInfo) {
@@ -267,6 +268,13 @@ public class GameHistoryPageController {
         ScrollPane historyScrollPane = (ScrollPane) playerVBox.lookup("#historyScrollPane");
         VBox historyBox = showGameHistory(scores);
         historyScrollPane.setContent(historyBox);
+    }
+
+    // 提醒栏目，后期考虑重构为设置页面可自定义 提醒语句
+    private void warmTip() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("无所谓输赢，真正含义是：无论队友玩的怎么样，我都正常玩，而不是队友玩的烂我就摆烂——这是太在乎输赢的表现！");
+        alert.show();
     }
 
     private void showTip(BlackPlayerDto blackPlayer, Integer i, String msg) {

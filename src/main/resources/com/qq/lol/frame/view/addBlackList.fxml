@@ -98,52 +98,62 @@
       </TextArea>
       <HBox fx:id="hBox" layoutY="96.0" prefHeight="25.0" prefWidth="920.0">
          <children>
-            <CheckBox fx:id="cbFour" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="台独" textAlignment="CENTER">
+            <CheckBox contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="台独" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </CheckBox>
-            <CheckBox fx:id="cbTwo" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="喷子" textAlignment="CENTER">
+            <CheckBox contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="喷子" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </CheckBox>
-            <CheckBox fx:id="cbOne" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="摆子" textAlignment="CENTER">
+            <CheckBox contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="摆子" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </CheckBox>
-            <CheckBox fx:id="cbThree" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="搞子" textAlignment="CENTER">
+            <CheckBox contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="搞子" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </CheckBox>
-            <CheckBox fx:id="cbFive" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="送人头" textAlignment="CENTER">
+            <CheckBox contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="送人头" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </CheckBox>
-            <CheckBox fx:id="cbSix" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0" text="国服少爷" textAlignment="CENTER">
+            <CheckBox contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0" text="国服少爷" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </CheckBox>
-            <CheckBox fx:id="cbEight" contentDisplay="CENTER" layoutX="250.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="67.0" text="挂机狗" textAlignment="CENTER">
+            <CheckBox contentDisplay="CENTER" layoutX="250.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="67.0" text="挂机狗" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </CheckBox>
-            <CheckBox fx:id="cbSeven" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="纯菜" textAlignment="CENTER">
+            <CheckBox contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="纯菜" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </CheckBox>
-            <CheckBox fx:id="cbSeven1" contentDisplay="CENTER" layoutX="456.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="孤儿" textAlignment="CENTER">
+            <CheckBox contentDisplay="CENTER" layoutX="456.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="孤儿" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </CheckBox>
-            <CheckBox fx:id="cbSeven11" contentDisplay="CENTER" layoutX="532.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="NT" textAlignment="CENTER">
+            <CheckBox contentDisplay="CENTER" layoutX="532.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="NT" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </CheckBox>
+            <CheckBox contentDisplay="CENTER" layoutX="608.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="逛街" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </CheckBox>
+            <CheckBox contentDisplay="CENTER" layoutX="684.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="演员" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

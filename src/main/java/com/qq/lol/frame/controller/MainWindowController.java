@@ -8,6 +8,7 @@ import com.qq.lol.core.services.impl.RoomServiceImpl;
 import com.qq.lol.dto.GameRoomInfoDto;
 import com.qq.lol.dto.SummonerInfoDto;
 import com.qq.lol.enums.ClientStatusEnum;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -125,21 +126,11 @@ public class MainWindowController {
     public void mainButtonTwo() {
         System.out.println("对局 按钮被选择");
         refreshClientStatus();
-        GameRoomInfoDto roomInfo = roomService.getRoomInfo();
-        if(roomInfo == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("客户端未进入游戏阶段！");
-            alert.show();
-
-            return;
-        }
 
         mainCenterPage.getChildren().clear();
         GridPane gridPane = ControllerManager.gameHistoryPageController.getGridPane();
         AnchorPane.setLeftAnchor(gridPane, 20.0);
         mainCenterPage.getChildren().add(gridPane);
-        // 填充内容
-        ControllerManager.gameHistoryPageController.showPlayers(roomInfo);
     }
 
     /**
@@ -192,5 +183,30 @@ public class MainWindowController {
         mainCenterPage.getChildren().add(borderPane);
     }
 
+    /**
+     * @Description: 获取对局页信息
+     * @param actionEvent:
+     * @return void
+     * @Auther: null
+     * @Date: 2024/1/1 - 13:44
+     */
+    public void refreshGameHistory(ActionEvent actionEvent) {
+        System.out.println("刷新对局 按钮被选择");
+        refreshClientStatus();
+        GameRoomInfoDto roomInfo = roomService.getRoomInfo();
+        if(roomInfo == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("客户端未进入游戏阶段！");
+            alert.show();
 
+            return;
+        }
+
+        mainCenterPage.getChildren().clear();
+        GridPane gridPane = ControllerManager.gameHistoryPageController.getGridPane();
+        AnchorPane.setLeftAnchor(gridPane, 20.0);
+        mainCenterPage.getChildren().add(gridPane);
+        // 填充内容
+        ControllerManager.gameHistoryPageController.showPlayers(roomInfo);
+    }
 }
