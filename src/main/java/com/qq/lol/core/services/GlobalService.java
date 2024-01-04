@@ -21,8 +21,6 @@ public class GlobalService {
     private static final GlobalService globalService = new GlobalService();
     private static final LolPlayerService lolPlayerService = LolPlayerServiceImpl.getLolPlayerService();
     private static final LootService lootService = LootServiceImpl.getLootService();
-    // 创建线程池，最大线程 3个，以免 LCU挂掉
-//    public static final ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
 
     /**
      * 全局的当前已登录召唤师信息，使用该信息不会频繁调用 LCU
@@ -86,7 +84,8 @@ public class GlobalService {
         // 写入配置文件
         prop.setProperty("historySize", historySize.toString());
         try {
-            OutputStream os = new FileOutputStream("src/main/resources/data.properties");
+            // 打成 jar包后无法直接修改，jar包是一种压缩包
+            OutputStream os = new FileOutputStream("src/main/java/data.properties");
             prop.store(os, "更新配置时间" + StandardOutTime.getCurrentTime());    // 加一行注释
             os.close();
         } catch (IOException e) {
