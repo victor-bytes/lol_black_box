@@ -143,27 +143,6 @@ public class RoomServiceImpl implements RoomService {
         teamOnePlayers = gameData.getJSONArray("teamOne")
                 .toJavaList(JSONObject.class)
                 .stream()
-//                .map(jsonPlayer -> {
-//                    Future<PlayerInfoDto> result = GlobalService.fixedThreadPool.submit(() -> parsePlayer(jsonPlayer));
-//                    try {
-//                        return result.get();
-//                    } catch (InterruptedException | ExecutionException e) {
-//                        e.printStackTrace();
-//                    }
-//                    return new PlayerInfoDto(
-//                            "ee639917-6a3c-5726-949f-537d341e5022",
-//                            "LCU获取玩家信息",
-//                            "异常",
-//                            "-1",
-//                            "-1",
-//                            lolHeroService.getHeroInfoByChampionId("-1"),
-//                            "6",
-//                            "NONE",
-//                            "异常",
-//                            "异常",
-//                            "异常"
-//                    );
-//                })
                 .map(RoomServiceImpl::parsePlayer)
                 .collect(Collectors.toList());
         // 获取 teamOne的puuid
@@ -174,27 +153,6 @@ public class RoomServiceImpl implements RoomService {
         teamTwoPlayers = gameData.getJSONArray("teamTwo")
                 .toJavaList(JSONObject.class)
                 .stream()
-//                .map(jsonPlayer -> {
-//                    Future<PlayerInfoDto> result = GlobalService.fixedThreadPool.submit(() -> parsePlayer(jsonPlayer));
-//                    try {
-//                        return result.get();
-//                    } catch (InterruptedException | ExecutionException e) {
-//                        e.printStackTrace();
-//                    }
-//                    return new PlayerInfoDto(
-//                            "ee639917-6a3c-5726-949f-537d341e5022",
-//                            "LCU获取玩家信息",
-//                            "异常",
-//                            "-1",
-//                            "-1",
-//                            lolHeroService.getHeroInfoByChampionId("-1"),
-//                            "6",
-//                            "NONE",
-//                            "异常",
-//                            "异常",
-//                            "异常"
-//                    ); // 返回异常玩家信息
-//                })
                 .map(RoomServiceImpl::parsePlayer)
                 .collect(Collectors.toList());
 

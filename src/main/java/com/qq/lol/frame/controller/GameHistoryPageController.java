@@ -4,6 +4,7 @@ import com.qq.lol.core.services.*;
 import com.qq.lol.core.services.impl.*;
 import com.qq.lol.dto.*;
 import com.qq.lol.frame.MainApp;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,6 +19,7 @@ import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @Auther: null
@@ -82,15 +84,15 @@ public class GameHistoryPageController {
         List<PlayerInfoDto> teamOne = roomInfo.getTeamOnePlayers();
         List<PlayerInfoDto> teamTwo = roomInfo.getTeamTwoPlayers();
 
-        int i = 1;
+        AtomicInteger i = new AtomicInteger(1);
         for (PlayerInfoDto player : teamOne) {
-            showPlayer(player, i++, roomInfo);
+            Platform.runLater(() -> showPlayer(player, i.getAndIncrement(), roomInfo));
         }
         for (PlayerInfoDto player : teamTwo) {
-            showPlayer(player, i++, roomInfo);
+            Platform.runLater(() -> showPlayer(player, i.getAndIncrement(), roomInfo));
         }
 
-        warmTip();
+        Platform.runLater(this::warmTip);
     }
 
     public void showPlayer(PlayerInfoDto player, Integer vBox, GameRoomInfoDto roomInfo) {
