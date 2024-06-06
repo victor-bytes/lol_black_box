@@ -1,5 +1,7 @@
 import com.qq.lol.core.services.BlackListService;
 import com.qq.lol.core.services.impl.BlackListServiceImpl;
+import com.qq.lol.dto.BlackPlayerDto;
+import com.qq.lol.dto.PageResult;
 
 /**
  * @Auther: null
@@ -11,9 +13,9 @@ public class TestBlackListService {
     private static BlackListService blackListService = BlackListServiceImpl.getBlackListService();
 
     public static void main(String[] args) {
-        System.out.println("玩家是否在黑名单：" + blackListService.inBlackList("123456789"));
-        Integer integer = blackListService.removeFromBlackList("123456789");
-        System.out.println(integer > 1);
+//        System.out.println("玩家是否在黑名单：" + blackListService.inBlackList("123456789"));
+//        Integer integer = blackListService.removeFromBlackList("123456789");
+//        System.out.println(integer > 1);
 
 //        BlackPlayerDto blackPlayer = new BlackPlayerDto();
 //        blackPlayer.setPuuid("123123123");
@@ -35,6 +37,14 @@ public class TestBlackListService {
 //        for (BlackPlayerDto item : items) {
 //            System.out.println(item);
 //        }
+
+        // 分页查询黑名单
+        PageResult<BlackPlayerDto> result = blackListService.selectBlackPlayerByPage(0, 10);
+        System.out.println(result);
+//        result.getItems().forEach(item -> {
+//            System.out.println(item);
+//            System.out.println();
+//        });
 
 
     }

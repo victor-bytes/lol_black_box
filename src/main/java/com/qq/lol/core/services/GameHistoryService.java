@@ -15,7 +15,7 @@ import java.util.Map;
 public interface GameHistoryService {
 
     /**
-     * @Description: 根据  GameQueueType查询队伍玩家近期战绩
+     * @Description: 根据  GameQueueType查询队伍玩家近期战绩，只查匹配 排位 组排 大乱斗
      * @param queueType:
      * @param size: 查询场数
      * @param puuids: 队伍 puuid的 List

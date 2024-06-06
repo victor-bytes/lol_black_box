@@ -106,6 +106,10 @@ public class MainApp extends Application {
         FXMLLoader settingsLoader = new FXMLLoader(getClass().getResource("/com/qq/lol/frame/view/settings.fxml")); // 必须使用绝对路径
         settingsLoader.load();
 
+        // 加载 黑名单页面
+        FXMLLoader blackListLoader = new FXMLLoader(getClass().getResource("/com/qq/lol/frame/view/blackList.fxml")); // 必须使用绝对路径
+        blackListLoader.load();
+
         // 主窗口加入 scene
         Scene scene = new Scene(mainRoot);
         primaryStage.setTitle("LOL Black Fox");

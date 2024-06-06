@@ -62,8 +62,9 @@ public class BlackListServiceImpl implements BlackListService {
      */
     @Override
     public Integer removeFromBlackList(String puuid) {
-        if(puuid == null || StringUtils.equals(puuid, ""))
+        if(puuid == null || StringUtils.equals(puuid, "")) {
             return 0;
+        }
 
         return blackListDao.removePlayer(puuid);
     }

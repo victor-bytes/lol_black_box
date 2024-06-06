@@ -127,17 +127,17 @@ public class RoomServiceImpl implements RoomService {
         台服 排位 在选英雄阶段无法获取双方信息,马服在选英雄阶段可以获取到我方队员信息
         并且台服在选英雄阶段，会返回上一局的 gameData数据
         */
-        // 获取当前客户端状态
-//        ClientStatusEnum clientStatus = lolClientService.getClientStatus();
+/*        // 获取当前客户端状态
+        ClientStatusEnum clientStatus = lolClientService.getClientStatus();
         // 获取当前大区 TW2台服 HN1 艾欧尼亚
-//        String platformId = global_service.getLoginSummoner().getPlatformId();
-//        if((gQT == GameQueueType.RANKED_FLEX_SR || gQT == GameQueueType.RANKED_SOLO_5x5)
-//                && ClientStatusEnum.InProgress != clientStatus
-//                && clientStatus != ClientStatusEnum.inGame
-//                && StringUtils.equals("TW2", platformId)) {
-//            System.out.println("------ 台服排位必须进入游戏才可以获取玩家信息 ------");
-//            return gameRoomInfoDto; // 返回房间信息，但不带有玩家信息
-//        }
+        String platformId = global_service.getLoginSummoner().getPlatformId();
+        if((gQT == GameQueueType.RANKED_FLEX_SR || gQT == GameQueueType.RANKED_SOLO_5x5)
+                && ClientStatusEnum.InProgress != clientStatus
+                && clientStatus != ClientStatusEnum.inGame
+                && StringUtils.equals("TW2", platformId)) {
+            System.out.println("------ 台服排位必须进入游戏才可以获取玩家信息 ------");
+            return gameRoomInfoDto; // 返回房间信息，但不带有玩家信息
+        }*/
 
         // 获取 teamOne玩家信息
         teamOnePlayers = gameData.getJSONArray("teamOne")
@@ -165,6 +165,15 @@ public class RoomServiceImpl implements RoomService {
         gameRoomInfoDto.setTeamOnePlayers(teamOnePlayers);
         gameRoomInfoDto.setTeamTwoPlayers(teamTwoPlayers);
 
+        // 打印一下双方队伍玩家姓名，确认获取到玩家信息
+        teamOnePlayers.forEach(item -> {
+            System.out.println(item.getGameName() + "#" + item.getTagLine());
+        });
+        System.out.println("----------------");
+        teamTwoPlayers.forEach(item -> {
+            System.out.println(item.getGameName() + "#" + item.getTagLine());
+        });
+
         // 设置 teamPuuid
         gameRoomInfoDto.setTeamPuuidOne(teamPuuidOne);
         gameRoomInfoDto.setTeamPuuidTwo(teamPuuidTwo);
@@ -175,8 +184,9 @@ public class RoomServiceImpl implements RoomService {
     // 解析 teamOne、teamTwo
     private static PlayerInfoDto parsePlayer(JSONObject player) {
         // TODO 此处可能会出 bug
-        if(player == null || player.size() == 0)
+        if(player == null || player.size() == 0) {
             return new PlayerInfoDto();
+        }
 
         String championId = player.getString("championId");
         String profileIconId = player.getString("profileIconId");
@@ -199,10 +209,9 @@ public class RoomServiceImpl implements RoomService {
         playerInfoDto.setSelectedPosition(selectedPosition);
         playerInfoDto.setPlatformId(GlobalService.getPlatform());
         playerInfoDto.setHero(lolHeroService.getHeroInfoByChampionId(championId));
-        playerInfoDto.setMasteryChampion(lolHeroService.getMasteryChampion(summonerId, 20));
+//        playerInfoDto.setMasteryChampion(lolHeroService.getMasteryChampion(summonerId, 20));
+        playerInfoDto.setMasteryChampion(lolHeroService.getMasteryChampionV2(puuid, 20));
         playerInfoDto.setInBlackList(newPlayerInfo.getInBlackList());
-
-        System.out.println("room player = " + playerInfoDto);
 
         return playerInfoDto;
     }

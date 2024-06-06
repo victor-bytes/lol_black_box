@@ -106,6 +106,37 @@ public class LolHeroServiceImpl implements LolHeroService {
         List<MasteryChampion> masteryChampions;
         String json = netRequestUtil.doGet("/lol-collections/v1/inventories/" + summonerId
                 + "/champion-mastery/top?limit=" + limit);
+
+        System.out.println(JSON.parseObject(json).getJSONArray("masteries"));
+
+        masteryChampions = JSON.parseObject(json).getJSONArray("masteries")
+                .toJavaList(MasteryChampion.class)
+                .stream()
+                .filter(i -> StringUtils.equals("S+", i.getHighestGrade())
+                        || StringUtils.equals("S", i.getHighestGrade())
+                        || i.getChampionLevel() == 7
+                        || i.getChampionLevel() == 6)
+                .collect(Collectors.toList());
+
+        return masteryChampions;
+    }
+
+    /**
+     * @Description: 查询玩家精通的英雄 ，原来的 api拳头已更新，现在需要 puuid查询精通英雄
+     * @param puuid:
+     * @param limit:
+     * @return java.util.List<com.qq.lol.dto.MasteryChampion>
+     * @Auther: null
+     * @Date: 2024/6/5 - 18:06
+     */
+    @Override
+    public List<MasteryChampion> getMasteryChampionV2(String puuid, Integer limit) {
+        if(puuid == null || StringUtils.equals("", puuid))
+            return new ArrayList<>();
+
+        List<MasteryChampion> masteryChampions;
+        String json = netRequestUtil.doGet("/lol-collections/v1/inventories/" + puuid
+                + "/champion-mastery/top?limit=" + limit);
         masteryChampions = JSON.parseObject(json).getJSONArray("masteries")
                 .toJavaList(MasteryChampion.class)
                 .stream()

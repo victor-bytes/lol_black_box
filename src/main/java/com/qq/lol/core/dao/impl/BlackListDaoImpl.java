@@ -36,8 +36,9 @@ public class BlackListDaoImpl implements BlackListDao {
      */
     @Override
     public Integer addBlackList(BlackPlayerDto blackPlayer) {
-        if(blackPlayer == null)
+        if(blackPlayer == null) {
             return 0;
+        }
 
         String blackListSql = "insert into `black_list`(`puuid`, `champion_id`, `kill`," +
                 "`deaths`,`assists`,`win`,`reason`,`game_id`,`meet_count`,`is_play_with_friend`,`friend_puuid`) " +
@@ -104,8 +105,9 @@ public class BlackListDaoImpl implements BlackListDao {
      */
     @Override
     public BlackPlayerDto queryPlayerByPuuid(String puuid) {
-        if(puuid == null || StringUtils.equals("", puuid))
+        if(puuid == null || StringUtils.equals("", puuid)) {
             return null;
+        }
 
         BlackPlayerDto blackPlayer = new BlackPlayerDto();
         String blackListSql = "select * from `black_list` where `puuid` = ?";
@@ -183,8 +185,9 @@ public class BlackListDaoImpl implements BlackListDao {
      */
     @Override
     public Integer removePlayer(String puuid) {
-        if(puuid == null || StringUtils.equals("", puuid))
+        if(puuid == null || StringUtils.equals("", puuid)) {
             return 0;
+        }
 
         String blackListSql = "delete from `black_list` where `puuid` = ?";
         String playerSql = "delete from `player` where `puuid` = ?";
@@ -232,8 +235,9 @@ public class BlackListDaoImpl implements BlackListDao {
      */
     @Override
     public Integer updateBlackList(BlackPlayerDto blackPlayer) {
-        if(blackPlayer == null)
+        if(blackPlayer == null) {
             return 0;
+        }
 
         String blackListSql = "update `black_list` set `kill` = ?,  `deaths` = ?, " +
                 "`assists` = ?, `reason` = ?, `meet_count` = ?, `win` = ? where `puuid` = ?";
@@ -247,7 +251,9 @@ public class BlackListDaoImpl implements BlackListDao {
             BlackPlayerDto bp = blackListDao.queryPlayerByPuuid(blackPlayer.getPuuid());
             if(bp == null)
                 // 要修改的玩家不存在黑名单中
+            {
                 return 0;
+            }
 
             ps.setInt(1, blackPlayer.getKills());
             ps.setInt(2, blackPlayer.getDeaths());
@@ -307,7 +313,7 @@ public class BlackListDaoImpl implements BlackListDao {
             // 获取黑名单
             ps = connection.prepareStatement(sql);
             ps.setLong(1, pageSize);
-            ps.setLong(2, pageNo);
+            ps.setLong(2, pageNo * pageSize);
             rs = ps.executeQuery();
             while (rs.next()) {
                 BlackPlayerDto blackPlayer = new BlackPlayerDto();
@@ -339,8 +345,9 @@ public class BlackListDaoImpl implements BlackListDao {
             // 获取黑名单总数
             ps = connection.prepareStatement(countSql);
             rs = ps.executeQuery();
-            while (rs.next())
+            while (rs.next()) {
                 count = rs.getLong("count");
+            }
 
             connection.commit();
             return new PageResult<>(blackPlayers, count, pageNo, pageSize);

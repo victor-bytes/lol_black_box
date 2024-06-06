@@ -22,6 +22,8 @@ public class ControllerManager {
 
     public static SettingsController settingsController;
 
+    public static BlackListController blackListController;
+
     private ControllerManager(){}
 
 }

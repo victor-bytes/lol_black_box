@@ -23,7 +23,8 @@ public class TestLolHeroService {
 //            System.out.println("更新英雄信息失败");
 //
 //        System.out.println(lolHeroService.getHeroInfoByChampionId("498"));
-        for (MasteryChampion masteryChampion : lolHeroService.getMasteryChampion("3112401987798752", 20)) {
+        String puuid = "";
+        for (MasteryChampion masteryChampion : lolHeroService.getMasteryChampionV2(puuid, 20)) {
             System.out.println(lolHeroService.getHeroInfoByChampionId(masteryChampion.getChampionId()).getName());
             System.out.println("赛季最高评分：" + (StringUtils.equals("", masteryChampion.getHighestGrade()) ? "无" : masteryChampion.getHighestGrade()));
             System.out.println("英雄成就等级：" + masteryChampion.getChampionLevel() + "级");

@@ -15,7 +15,7 @@ public interface LolHeroService {
 
     /**
      * @Description: 获取英雄头像
-     * @param imgId:
+     * @param imgId: 英雄 id就是英雄头像 id
      * @return javafx.scene.image.Image
      * @Auther: null
      * @Date: 2023/12/22 - 13:55
@@ -46,7 +46,18 @@ public interface LolHeroService {
      * @Auther: null
      * @Date: 2023/12/8 - 15:12
      */
+    @Deprecated
     List<MasteryChampion> getMasteryChampion(String summonerId, Integer limit);
+
+    /**
+     * @Description: 查询玩家精通的英雄 ，原来的 api拳头已更新，现在需要 puuid查询精通英雄
+     * @param puuid:
+     * @param limit:
+     * @return java.util.List<com.qq.lol.dto.MasteryChampion>
+     * @Auther: null
+     * @Date: 2024/6/5 - 18:06
+     */
+    List<MasteryChampion> getMasteryChampionV2(String puuid, Integer limit);
 
     /**
      * @Description: 获取用户已拥有英雄

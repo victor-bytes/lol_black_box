@@ -52,6 +52,8 @@ public interface BlackListService {
 
     /**
      * @Description: 分页查询黑名单玩家
+     * @param pageNo: 第几页
+     * @param pageSize: 每页数量
      * @return java.util.List<com.qq.lol.dto.BlackPlayer>
      * @throws
      * @Auther: null

@@ -30,8 +30,9 @@ public enum GameMode {
 
     public static GameMode getEnumIfPresent(String enumName){
         GameMode gameMode = Enums.getIfPresent(GameMode.class, enumName).orNull();
-        if(gameMode == null)
+        if(gameMode == null) {
             return DEFAULT_MODE;
+        }
 
         return gameMode;
     }

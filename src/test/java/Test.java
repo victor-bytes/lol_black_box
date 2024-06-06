@@ -1,6 +1,5 @@
-import com.qq.lol.core.services.GlobalService;
-import com.qq.lol.core.services.LolHeroService;
-import com.qq.lol.core.services.impl.LolHeroServiceImpl;
+import com.qq.lol.frame.controller.BlackListController;
+import com.qq.lol.frame.controller.ControllerManager;
 
 import java.text.ParseException;
 
@@ -13,8 +12,8 @@ import java.text.ParseException;
 public class Test {
 
     public static void main(String[] args) throws ParseException {
-        LolHeroService lolHeroService = LolHeroServiceImpl.getLolHeroService();
-        System.out.println(lolHeroService.getHeroCount());
-        System.out.println(lolHeroService.getOwnedHeroCount(GlobalService.getGlobalService().getLoginSummoner().getSummonerId()));
+        BlackListController blackListController = ControllerManager.blackListController;
+
+        System.out.println(blackListController);
     }
 }

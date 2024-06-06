@@ -144,6 +144,9 @@ public class MainWindowController {
         System.out.println("黑名单 按钮被选择");
         refreshClientStatus();
         mainCenterPage.getChildren().clear();
+        BorderPane borderPane = ControllerManager.blackListController.getBorderPane();
+        AnchorPane.setLeftAnchor(borderPane, 20.0);
+        mainCenterPage.getChildren().add(borderPane);
 
 //        AnchorPane.setLeftAnchor(gridPane, 20.0);
 
