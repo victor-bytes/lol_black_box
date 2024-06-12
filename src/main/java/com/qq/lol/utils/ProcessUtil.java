@@ -35,6 +35,7 @@ public class ProcessUtil {
      *
      * TODO 国服无法获取 token、port可能是需要管理员权限，也可能是因为输出结果中中文乱码无法解析
      */
+
     public static LolClientDto getClientProcess() throws IOException {
         String cmd = "WMIC PROCESS WHERE name=\"LeagueClientUx.exe\" GET commandline";
         BufferedReader reader = null;
@@ -69,17 +70,12 @@ public class ProcessUtil {
                 }
             }
             if (process != null) {
+                process.getInputStream().close();
                 process.getErrorStream().close();
                 process.getOutputStream().close();
             }
         }
 
     }
-
-//    public static LolClientDto getClientProcessNew() {
-//        String cmd = "cmd /c runas /user:Administrator WMIC PROCESS WHERE name=\"LeagueClientUx.exe\" GET commandline";
-//
-//
-//    }
 
 }
