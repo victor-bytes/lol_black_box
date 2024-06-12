@@ -1,5 +1,7 @@
 package com.qq.lol.frame;
 
+import com.qq.lol.utils.NetWebsocket;
+
 /**
  * @Auther: null
  * @Date: 2023/12/26 - 12 - 26 - 10:27
@@ -8,6 +10,11 @@ package com.qq.lol.frame;
  */
 public class AppStart {
     public static void main(String[] args) {
+//        订阅客户端事件
+        NetWebsocket.getNetWebsocket().subscribe_LCU();
+//        启动软件
         MainApp.main(args);
+        // 关闭websocket和OkHttpClient
+        NetWebsocket.getNetWebsocket().closeWebsocket();
     }
 }

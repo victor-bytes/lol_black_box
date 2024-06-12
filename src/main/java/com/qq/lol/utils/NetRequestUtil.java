@@ -19,12 +19,17 @@ import java.util.concurrent.TimeUnit;
  */
 @Data
 public class NetRequestUtil {
+
     private static String defaultHost;
     private OkHttpClient client = myHttpClient();
-    private Headers defaultHeaders;
+    private static Headers defaultHeaders;
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     private static NetRequestUtil netRequestUtil;
+
+    private static LolClientDto riotClientDto;
+
+    private NetRequestUtil(){}
 
     // 初始化请求头
     private NetRequestUtil(LolClientDto bo) {
@@ -37,7 +42,17 @@ public class NetRequestUtil {
                 .build();
     }
 
-    private NetRequestUtil(){}
+    public static Headers getDefaultHeaders() {
+        return defaultHeaders;
+    }
+
+    public static String getDefaultHost() {
+        return defaultHost;
+    }
+
+    public OkHttpClient getClient() {
+        return client;
+    }
 
     // 懒汉式单例模式
     public static NetRequestUtil getNetRequestUtil(){
@@ -46,7 +61,7 @@ public class NetRequestUtil {
                 System.out.println(StandardOutTime.getCurrentTime()+ " 第一次初始化NetRequestUtil---");
 
                 // 获取 Port和 Token
-                LolClientDto riotClientDto = ProcessUtil.getClientProcess();
+                riotClientDto = ProcessUtil.getClientProcess();
                 // 实例化 NetRequestUtil，用于返回
                 if(riotClientDto.equals(new LolClientDto())) {
                     /*
@@ -81,7 +96,6 @@ public class NetRequestUtil {
         return response.body().string();
     }
 
-    // 主要用户获取图片
     public Response doGetV2(String endpoint) {
         Request request = new Request.Builder()
                 .url(defaultHost + endpoint)

@@ -94,7 +94,7 @@ public class LolPlayerServiceImpl implements LolPlayerService {
         PlayerInfoDto playerInfo = JSON.parseObject(playerInfoJson, PlayerInfoDto.class);
         // 查询精通英雄
 //        playerInfo.setMasteryChampion(lolHeroService.getMasteryChampion(playerInfo.getSummonerId(), 20));
-        playerInfo.setMasteryChampion(lolHeroService.getMasteryChampionV2(puuid, 20));
+        playerInfo.setMasteryChampion(lolHeroService.getMasteryChampionV2(puuid));
         // 是否在黑名单中
         BlackPlayerDto blackPlayerDto = blackListService.inBlackList(puuid);
         playerInfo.setInBlackList(StringUtils.equals(blackPlayerDto.getPuuid(), puuid));

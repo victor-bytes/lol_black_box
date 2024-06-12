@@ -1,6 +1,7 @@
 package com.qq.lol.core.services.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.qq.lol.core.dao.HeroDao;
 import com.qq.lol.core.dao.impl.HeroDaoImpl;
@@ -124,26 +125,23 @@ public class LolHeroServiceImpl implements LolHeroService {
     /**
      * @Description: 查询玩家精通的英雄 ，原来的 api拳头已更新，现在需要 puuid查询精通英雄
      * @param puuid:
-     * @param limit:
      * @return java.util.List<com.qq.lol.dto.MasteryChampion>
      * @Auther: null
      * @Date: 2024/6/5 - 18:06
      */
     @Override
-    public List<MasteryChampion> getMasteryChampionV2(String puuid, Integer limit) {
+    public List<MasteryChampion> getMasteryChampionV2(String puuid) {
         if(puuid == null || StringUtils.equals("", puuid))
             return new ArrayList<>();
 
         List<MasteryChampion> masteryChampions;
-        String json = netRequestUtil.doGet("/lol-collections/v1/inventories/" + puuid
-                + "/champion-mastery/top?limit=" + limit);
-        masteryChampions = JSON.parseObject(json).getJSONArray("masteries")
+        String json = netRequestUtil.doGet("/lol-champion-mastery/v1/" + puuid + "/champion-mastery");
+        JSONArray jsonArray = JSON.parseArray(json);
+        masteryChampions = jsonArray
                 .toJavaList(MasteryChampion.class)
                 .stream()
                 .filter(i -> StringUtils.equals("S+", i.getHighestGrade())
-                        || StringUtils.equals("S", i.getHighestGrade())
-                        || i.getChampionLevel() == 7
-                        || i.getChampionLevel() == 6)
+                        || StringUtils.equals("S", i.getHighestGrade()))
                 .collect(Collectors.toList());
 
         return masteryChampions;

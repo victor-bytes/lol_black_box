@@ -52,12 +52,11 @@ public interface LolHeroService {
     /**
      * @Description: 查询玩家精通的英雄 ，原来的 api拳头已更新，现在需要 puuid查询精通英雄
      * @param puuid:
-     * @param limit:
      * @return java.util.List<com.qq.lol.dto.MasteryChampion>
      * @Auther: null
      * @Date: 2024/6/5 - 18:06
      */
-    List<MasteryChampion> getMasteryChampionV2(String puuid, Integer limit);
+    List<MasteryChampion> getMasteryChampionV2(String puuid);
 
     /**
      * @Description: 获取用户已拥有英雄

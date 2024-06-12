@@ -49,6 +49,7 @@ public class RoomServiceImpl implements RoomService {
         ClientStatusEnum clientStatus = lolClientService.getClientStatus();
         /**
          *  只适配台服、马服
+         *  TODO 马服获取不到port token
          */
         if(ClientStatusEnum.InProgress != clientStatus && clientStatus != ClientStatusEnum.inGame) {
             //未进入游戏
@@ -166,12 +167,13 @@ public class RoomServiceImpl implements RoomService {
         gameRoomInfoDto.setTeamTwoPlayers(teamTwoPlayers);
 
         // 打印一下双方队伍玩家姓名，确认获取到玩家信息
+        System.out.println("队伍一：");
         teamOnePlayers.forEach(item -> {
-            System.out.println(item.getGameName() + "#" + item.getTagLine());
+            System.out.println("    " + item.getGameName() + "#" + item.getTagLine());
         });
-        System.out.println("----------------");
+        System.out.println("队伍二：");
         teamTwoPlayers.forEach(item -> {
-            System.out.println(item.getGameName() + "#" + item.getTagLine());
+            System.out.println("    " + item.getGameName() + "#" + item.getTagLine());
         });
 
         // 设置 teamPuuid
@@ -210,7 +212,7 @@ public class RoomServiceImpl implements RoomService {
         playerInfoDto.setPlatformId(GlobalService.getPlatform());
         playerInfoDto.setHero(lolHeroService.getHeroInfoByChampionId(championId));
 //        playerInfoDto.setMasteryChampion(lolHeroService.getMasteryChampion(summonerId, 20));
-        playerInfoDto.setMasteryChampion(lolHeroService.getMasteryChampionV2(puuid, 20));
+        playerInfoDto.setMasteryChampion(lolHeroService.getMasteryChampionV2(puuid));
         playerInfoDto.setInBlackList(newPlayerInfo.getInBlackList());
 
         return playerInfoDto;

@@ -92,10 +92,15 @@ public class GameHistoryPageController {
             Platform.runLater(() -> showPlayer(player, i.getAndIncrement(), roomInfo));
         }
 
-        Platform.runLater(this::warmTip);
+        // 弹窗小提示
+//        Platform.runLater(this::warmTip);
     }
 
     public void showPlayer(PlayerInfoDto player, Integer vBox, GameRoomInfoDto roomInfo) {
+        if(player.getPuuid() == null) {
+            return;
+        }
+
         VBox playerVBox = (VBox)gridPane.lookup("#player" + vBox);
         AddBlackListController addBlackListController = ControllerManager.addBlackListController;
 
@@ -104,6 +109,7 @@ public class GameHistoryPageController {
         Button blackBtn = (Button) playerVBox.lookup("#blackBtn");
 
         // 是否在黑名单--------------------------------------------------------
+
         if(player.getInBlackList()) {
             // 在黑名单中   不显示拉黑按钮，并且显示红色背景用作提示
             playerVBox.setStyle("-fx-background-color:#FF4040");
