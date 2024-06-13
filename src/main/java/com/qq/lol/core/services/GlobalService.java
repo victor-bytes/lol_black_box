@@ -3,6 +3,7 @@ package com.qq.lol.core.services;
 import com.qq.lol.core.services.impl.LolPlayerServiceImpl;
 import com.qq.lol.core.services.impl.LootServiceImpl;
 import com.qq.lol.dto.SummonerInfoDto;
+import com.qq.lol.frame.controller.ControllerManager;
 import com.qq.lol.utils.StandardOutTime;
 
 import java.io.FileOutputStream;
@@ -36,6 +37,8 @@ public class GlobalService {
 
     private static final Properties prop;
 
+    private static String initRecorder = "";
+
     static {
         prop = new Properties();
         InputStream is = GlobalService.class.getClassLoader().getResourceAsStream("data.properties");
@@ -62,6 +65,14 @@ public class GlobalService {
 
     private GlobalService(){}
 
+    public static String getInitRecorder() {
+        return initRecorder;
+    }
+
+    public static void setInitRecorder(String initRecorder) {
+        GlobalService.initRecorder = GlobalService.initRecorder + "\n" + initRecorder;
+    }
+
     public static GlobalService getGlobalService() {
         return globalService;
     }
@@ -78,7 +89,7 @@ public class GlobalService {
         GlobalService.platform = platform;
     }
 
-    // 修改默认查询战绩数量
+    // 修改默认查询战绩数量（jar包运行修改无效）
     public void setHistorySize(Integer historySize) {
         GlobalService.historySize = historySize;
         // 写入配置文件
@@ -92,6 +103,17 @@ public class GlobalService {
             System.out.println("写入properties失败");
             e.printStackTrace();
         }
+    }
+
+    /**
+     * @Description: 向recorder中添加记录
+     * @param text:
+     * @return void
+     * @Auther: null
+     * @Date: 2024/6/13 - 15:47
+     */
+    public void addRecorderText(String text) {
+        ControllerManager.runningRecorderController.addRecorderText(text);
     }
 
     /**

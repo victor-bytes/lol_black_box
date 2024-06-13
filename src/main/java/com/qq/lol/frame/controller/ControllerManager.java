@@ -24,6 +24,8 @@ public class ControllerManager {
 
     public static BlackListController blackListController;
 
+    public static RunningRecorderController runningRecorderController;
+
     private ControllerManager(){}
 
 }

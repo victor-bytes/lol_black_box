@@ -141,7 +141,10 @@ public class LolHeroServiceImpl implements LolHeroService {
                 .toJavaList(MasteryChampion.class)
                 .stream()
                 .filter(i -> StringUtils.equals("S+", i.getHighestGrade())
-                        || StringUtils.equals("S", i.getHighestGrade()))
+                        || StringUtils.equals("S", i.getHighestGrade())
+                        || StringUtils.equals("S-", i.getHighestGrade())
+                        || i.getChampionLevel() > 10
+                )
                 .collect(Collectors.toList());
 
         return masteryChampions;

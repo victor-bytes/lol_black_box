@@ -1,6 +1,7 @@
 package com.qq.lol.utils;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
+import com.qq.lol.core.services.GlobalService;
 
 import javax.sql.DataSource;
 import java.io.InputStream;
@@ -25,27 +26,6 @@ public class JdbcUtils {
      */
     private JdbcUtils() { }
 
-/*    static {
-*//*        //数据源配置
-        Properties prop = new Properties();
-        //读取配置文件
-        InputStream is = JdbcUtils.class.getClassLoader().getResourceAsStream("druid.properties");
-        try {
-            prop.load(is);
-        } catch (IOException e) {
-            System.out.println("druid连接池初始化失败...");
-            e.printStackTrace();
-        }
-
-        try {
-            //返回的是DataSource
-            dataSource = DruidDataSourceFactory.createDataSource(prop);
-            System.out.println(StandardOutTime.getCurrentTime() + " ------ 初始化数据库连接池 ------");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*//*
-    }*/
-
     /**
      * 获取数据库连接
      */
@@ -61,6 +41,7 @@ public class JdbcUtils {
                 //返回的是DataSource
                 dataSource = DruidDataSourceFactory.createDataSource(prop);
                 System.out.println(StandardOutTime.getCurrentTime() + " ------ 初始化数据库连接池 ------");
+                GlobalService.setInitRecorder(StandardOutTime.getCurrentTime() + " 初始化数据库连接池--");
             }
             conn = dataSource.getConnection();
         } catch (Exception e) {

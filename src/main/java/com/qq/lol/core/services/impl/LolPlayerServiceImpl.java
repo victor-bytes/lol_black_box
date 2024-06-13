@@ -10,6 +10,7 @@ import com.qq.lol.core.services.LolHeroService;
 import com.qq.lol.core.services.LolPlayerService;
 import com.qq.lol.dto.BlackPlayerDto;
 import com.qq.lol.dto.PlayerInfoDto;
+import com.qq.lol.dto.ReportStat;
 import com.qq.lol.dto.SummonerInfoDto;
 import com.qq.lol.utils.NetRequestUtil;
 import javafx.scene.image.Image;
@@ -100,6 +101,18 @@ public class LolPlayerServiceImpl implements LolPlayerService {
         playerInfo.setInBlackList(StringUtils.equals(blackPlayerDto.getPuuid(), puuid));
 
         return playerInfo;
+    }
+
+    /**
+     * @param reportStat :
+     * @return void
+     * @Description: 游戏结束举报玩家
+     * @Auther: null
+     * @Date: 2024/6/12 - 23:42
+     */
+    @Override
+    public void autoReportPlayer(ReportStat reportStat) {
+
     }
 
     /**

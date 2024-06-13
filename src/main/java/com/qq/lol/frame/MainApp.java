@@ -80,6 +80,10 @@ public class MainApp extends Application {
             });
         });
 
+        // 加载 recorder
+        FXMLLoader recorderLoader = new FXMLLoader(getClass().getResource("/com/qq/lol/frame/view/recorder.fxml")); // 必须使用绝对路径
+        recorderLoader.load();
+
         // 加载主窗口
         FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/com/qq/lol/frame/view/main_window.fxml")); // 必须使用绝对路径
         Parent mainRoot = mainLoader.load();
@@ -110,6 +114,7 @@ public class MainApp extends Application {
         FXMLLoader blackListLoader = new FXMLLoader(getClass().getResource("/com/qq/lol/frame/view/blackList.fxml")); // 必须使用绝对路径
         blackListLoader.load();
 
+
         // 主窗口加入 scene
         Scene scene = new Scene(mainRoot);
         primaryStage.setTitle("LOL Black Fox");
@@ -121,5 +126,7 @@ public class MainApp extends Application {
         // 显示主页内容
         mainWindowController.showMainPage(globalService.getLoginSummoner());
 
+        // 初始化recorder
+        globalService.addRecorderText("");
     }
 }

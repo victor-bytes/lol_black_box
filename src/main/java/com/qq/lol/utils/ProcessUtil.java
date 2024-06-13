@@ -1,5 +1,6 @@
 package com.qq.lol.utils;
 
+import com.qq.lol.core.services.GlobalService;
 import com.qq.lol.dto.LolClientDto;
 
 import java.io.BufferedReader;
@@ -60,6 +61,8 @@ public class ProcessUtil {
             }
             System.out.print("=== Port ：" + leagueClientBO.getPort());
             System.out.println("=== Token ：" + leagueClientBO.getToken() + " ===");
+            GlobalService.setInitRecorder(StandardOutTime.getCurrentTime() + " port=" + leagueClientBO.getPort() +
+                    ", token=" + leagueClientBO.getToken() + "--");
 
             return leagueClientBO;
         } finally {

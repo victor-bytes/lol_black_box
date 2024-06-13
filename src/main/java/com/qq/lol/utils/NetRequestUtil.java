@@ -1,5 +1,6 @@
 package com.qq.lol.utils;
 
+import com.qq.lol.core.services.GlobalService;
 import com.qq.lol.dto.LolClientDto;
 import lombok.Data;
 import okhttp3.*;
@@ -21,8 +22,11 @@ import java.util.concurrent.TimeUnit;
 public class NetRequestUtil {
 
     private static String defaultHost;
+
     private OkHttpClient client = myHttpClient();
+
     private static Headers defaultHeaders;
+
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     private static NetRequestUtil netRequestUtil;

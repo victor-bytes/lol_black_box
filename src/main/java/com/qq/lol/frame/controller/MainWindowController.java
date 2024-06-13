@@ -8,6 +8,7 @@ import com.qq.lol.core.services.impl.RoomServiceImpl;
 import com.qq.lol.dto.GameRoomInfoDto;
 import com.qq.lol.dto.SummonerInfoDto;
 import com.qq.lol.enums.ClientStatusEnum;
+import com.qq.lol.utils.StandardOutTime;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -16,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import lombok.Data;
 
 import java.io.IOException;
@@ -59,6 +61,9 @@ public class MainWindowController {
     @FXML
     private Label queueType;
 
+    // 侧边栏
+    private static final VBox recorder = ControllerManager.runningRecorderController.getVBox();
+
     /**
      * initialize()在 fxml加载后实例化 MainWindowController 之后执行
      * FXMLLoader 首先调用默认构造函数，然后调用 initialize 方法，从而创建相应控制器的实例。
@@ -69,17 +74,8 @@ public class MainWindowController {
      */
     @FXML
     public void initialize() {
-/*        Image image = new Image("com/qq/lol/frame/static/icon.jpg");
-        BackgroundImage backgroundImage = new BackgroundImage(image,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.CENTER,
-                BackgroundSize.DEFAULT);
-        Background background = new Background(backgroundImage);
-        tabPane.setBackground(background)*/;
-
-//        mainCenterPane.setStyle("-fx-background-color:#4F4F4F");
         ControllerManager.mainWindowController = this;
+
     }
 
     /**
@@ -92,6 +88,7 @@ public class MainWindowController {
     public void mainButtonOne() {
         System.out.println("主页 按钮被选择");
         showMainPage(globalService.getLoginSummoner());
+
     }
 
     // 显示主页内容
@@ -102,7 +99,7 @@ public class MainWindowController {
         mainCenterPage.getChildren().clear();
         AnchorPane anchorPane = ControllerManager.mainPageController.getAnchorPane();
         AnchorPane.setLeftAnchor(anchorPane, 20.0);
-        mainCenterPage.getChildren().add(anchorPane);
+        mainCenterPage.getChildren().addAll(anchorPane, recorder);
     }
 
     // 刷新客户端状态 Label
@@ -130,7 +127,7 @@ public class MainWindowController {
         mainCenterPage.getChildren().clear();
         GridPane gridPane = ControllerManager.gameHistoryPageController.getGridPane();
         AnchorPane.setLeftAnchor(gridPane, 20.0);
-        mainCenterPage.getChildren().add(gridPane);
+        mainCenterPage.getChildren().addAll(gridPane, recorder);
     }
 
     /**
@@ -146,7 +143,7 @@ public class MainWindowController {
         mainCenterPage.getChildren().clear();
         BorderPane borderPane = ControllerManager.blackListController.getBorderPane();
         AnchorPane.setLeftAnchor(borderPane, 20.0);
-        mainCenterPage.getChildren().add(borderPane);
+        mainCenterPage.getChildren().addAll(borderPane, recorder);
 
 //        AnchorPane.setLeftAnchor(gridPane, 20.0);
 
@@ -166,7 +163,7 @@ public class MainWindowController {
 
         BorderPane borderPane = ControllerManager.toolsController.getBorderPane();
         AnchorPane.setLeftAnchor(borderPane, 20.0);
-        mainCenterPage.getChildren().add(borderPane);
+        mainCenterPage.getChildren().addAll(borderPane, recorder);
     }
 
     /**
@@ -183,7 +180,7 @@ public class MainWindowController {
 
         BorderPane borderPane = ControllerManager.settingsController.getBorderPane();
         AnchorPane.setLeftAnchor(borderPane, 20.0);
-        mainCenterPage.getChildren().add(borderPane);
+        mainCenterPage.getChildren().addAll(borderPane, recorder);
     }
 
     /**
@@ -195,6 +192,7 @@ public class MainWindowController {
      */
     public void refreshGameHistory(ActionEvent actionEvent) {
         System.out.println("刷新对局 按钮被选择");
+        globalService.addRecorderText(StandardOutTime.getCurrentTime() + " 获取对局信息--");
         refreshClientStatus();
         GameRoomInfoDto roomInfo = roomService.getRoomInfo();
         if(roomInfo == null) {
@@ -211,5 +209,16 @@ public class MainWindowController {
         mainCenterPage.getChildren().add(gridPane);
         // 填充内容
         ControllerManager.gameHistoryPageController.showPlayers(roomInfo);
+
+        globalService.addRecorderText(" gameId        --> " + roomInfo.getGameId());
+        globalService.addRecorderText(" gameMode      --> " + roomInfo.getGameModeName());
+        globalService.addRecorderText(" gameQueueType --> " + roomInfo.getGameQueueTypeName());
+        globalService.addRecorderText(" gameQueueName --> " + roomInfo.getGameQueueName());
+    }
+
+    @FXML
+    public void runningRecord(ActionEvent event) {
+        System.out.println("运行记录 按钮被点击");
+        ControllerManager.runningRecorderController.showController();
     }
 }

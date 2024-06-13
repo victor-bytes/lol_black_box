@@ -36,6 +36,7 @@ public class GameHistoryPageController {
     private static final GameHistoryService gameHistoryService = GameHistoryServiceImpl.getGameHistoryService();
     private static final LolPlayerService lolPlayerService = LolPlayerServiceImpl.getLolPlayerService();
     private static final BlackListService blackListService = BlackListServiceImpl.getBlackListService();
+    private static final GlobalService globalService = GlobalService.getGlobalService();
 
     @FXML
     private GridPane gridPane;
@@ -100,6 +101,7 @@ public class GameHistoryPageController {
         if(player.getPuuid() == null) {
             return;
         }
+        globalService.addRecorderText(" 填充玩家：" + player.getGameName() + "#" + player.getTagLine() + " --");
 
         VBox playerVBox = (VBox)gridPane.lookup("#player" + vBox);
         AddBlackListController addBlackListController = ControllerManager.addBlackListController;
@@ -111,6 +113,7 @@ public class GameHistoryPageController {
         // 是否在黑名单--------------------------------------------------------
 
         if(player.getInBlackList()) {
+            globalService.addRecorderText(" 黑名单玩家：" + player.getGameName() + "#" + player.getTagLine() + " --");
             // 在黑名单中   不显示拉黑按钮，并且显示红色背景用作提示
             playerVBox.setStyle("-fx-background-color:#FF4040");
             Image image = new Image("com/qq/lol/frame/static/enemy.png");

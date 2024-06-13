@@ -4,6 +4,7 @@ import com.qq.lol.core.services.GlobalService;
 import com.qq.lol.core.services.LootService;
 import com.qq.lol.core.services.impl.LootServiceImpl;
 import com.qq.lol.frame.MainApp;
+import com.qq.lol.utils.StandardOutTime;
 import javafx.application.HostServices;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +22,8 @@ import lombok.Data;
 @Data
 public class ToolsController {
     private static final LootService lootService = LootServiceImpl.getLootService();
+
+    private static final GlobalService globalService = GlobalService.getGlobalService();
 
     @FXML
     private BorderPane borderPane;
@@ -45,6 +48,8 @@ public class ToolsController {
 
     @FXML
     void exchange(ActionEvent event) {
+        globalService.addRecorderText(StandardOutTime.getCurrentTime() + " 兑换神话精粹--");
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("神话精粹兑换为 橙色精粹");
         // 判断神话精粹数量是否大于 0
