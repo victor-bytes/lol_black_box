@@ -98,11 +98,6 @@
       </TextArea>
       <HBox fx:id="hBox" layoutY="96.0" prefHeight="25.0" prefWidth="920.0">
          <children>
-            <CheckBox contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="台独" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </CheckBox>
             <CheckBox contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="喷子" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="12.0" />
