@@ -79,7 +79,7 @@ public class RunningRecorderController {
     public void showController() {
         if (vBox.getTranslateX() != 0) {
             // 将侧边栏置于最前面
-//            vBox.toFront();   // 不需要了
+            vBox.toFront();
             openNav.play();
         } else {
             closeNav.play();
