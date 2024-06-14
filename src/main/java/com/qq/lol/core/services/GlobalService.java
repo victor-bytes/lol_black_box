@@ -2,6 +2,7 @@ package com.qq.lol.core.services;
 
 import com.qq.lol.core.services.impl.LolPlayerServiceImpl;
 import com.qq.lol.core.services.impl.LootServiceImpl;
+import com.qq.lol.dto.GameRoomInfoDto;
 import com.qq.lol.dto.SummonerInfoDto;
 import com.qq.lol.frame.controller.ControllerManager;
 import com.qq.lol.utils.StandardOutTime;
@@ -37,7 +38,19 @@ public class GlobalService {
 
     private static final Properties prop;
 
+    // 用于存放程序初始化的一些信息显示到 recorder
     private static String initRecorder = "";
+
+    // 当前游戏房间信息，主要给拉黑举报玩家时使用
+    private static GameRoomInfoDto currGameRoomInfo;
+
+    public static GameRoomInfoDto getCurrGameRoomInfo() {
+        return currGameRoomInfo;
+    }
+
+    public static void setCurrGameRoomInfo(GameRoomInfoDto currGameRoomInfo) {
+        GlobalService.currGameRoomInfo = currGameRoomInfo;
+    }
 
     static {
         prop = new Properties();

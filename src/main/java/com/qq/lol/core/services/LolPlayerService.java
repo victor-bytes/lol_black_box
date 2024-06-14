@@ -38,7 +38,7 @@ public interface LolPlayerService {
      * @Auther: null
      * @Date: 2024/6/12 - 23:42
      */
-    void autoReportPlayer(ReportStat reportStat);
+    void reportPlayer(ReportStat reportStat);
 
 
 }

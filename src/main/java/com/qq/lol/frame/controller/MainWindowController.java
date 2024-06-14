@@ -209,6 +209,7 @@ public class MainWindowController {
         mainCenterPage.getChildren().add(gridPane);
         // 填充内容
         ControllerManager.gameHistoryPageController.showPlayers(roomInfo);
+        GlobalService.setCurrGameRoomInfo(roomInfo);
 
         globalService.addRecorderText(" gameId        --> " + roomInfo.getGameId());
         globalService.addRecorderText(" gameMode      --> " + roomInfo.getGameModeName());

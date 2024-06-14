@@ -2,6 +2,7 @@ package com.qq.lol.frame.controller;
 
 import com.qq.lol.core.services.GlobalService;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
@@ -59,11 +60,14 @@ public class RunningRecorderController {
      */
     public void addRecorderText(String text) {
         if(flag) {
+            // 添加程序启动期间的记录
             textArea.setText(GlobalService.getInitRecorder());
             flag = false;
             return;
         }
         textArea.setText(textArea.getText(0, textArea.getLength()) + "\n" + text);
+        // 添加完毕将光标定位到最后一行
+        Platform.runLater(() -> textArea.positionCaret(textArea.getText().length()));
     }
 
     /**

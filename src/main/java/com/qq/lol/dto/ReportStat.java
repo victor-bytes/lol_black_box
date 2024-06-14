@@ -1,5 +1,8 @@
 package com.qq.lol.dto;
 
+import lombok.Data;
+
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -8,6 +11,7 @@ import java.util.List;
  * @Description: 举报玩家参数
  * @version: 1.0
  */
+@Data
 public class ReportStat {
 
     // ee639917-6a3c-5726-949f-537d341e5022用和横杠隔开了，有可能提交不隔开，返回隔开
@@ -16,6 +20,30 @@ public class ReportStat {
 
     // 经过混淆处理后的违规者的 PUUID
     private String obfuscatedOffenderPuuid;
+
+    public ReportStat(String offenderPuuid, String obfuscatedOffenderPuuid, 
+                      List<String> categories, String gameId, String offenderSummonerId, String comment) {
+        this.offenderPuuid = offenderPuuid;
+        this.obfuscatedOffenderPuuid = obfuscatedOffenderPuuid;
+        this.categories = categories;
+        this.gameId = gameId;
+        this.offenderSummonerId = offenderSummonerId;
+        this.comment = comment;
+    }
+
+    public ReportStat(String offenderPuuid, String gameId, String offenderSummonerId) {
+        this(offenderPuuid, "", Arrays.asList(
+                "NEGATIVE_ATTITUDE",
+                "VERBAL_ABUSE",
+                "LEAVING_AFK",
+                "INTENTIONAL_FEEDING",
+                "HATE_SPEECH",
+                "CHEATING",
+                "INAPPROPRIATE_NAME",
+                "THIRD_PARTY_TOOLS",
+                "ASSISTING_ENEMY_TEAM"
+                ), gameId, offenderSummonerId, "");
+    }
 
     /**
      * 举报理由多选

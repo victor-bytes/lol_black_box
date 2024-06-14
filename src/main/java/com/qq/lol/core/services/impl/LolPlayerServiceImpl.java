@@ -12,10 +12,13 @@ import com.qq.lol.dto.BlackPlayerDto;
 import com.qq.lol.dto.PlayerInfoDto;
 import com.qq.lol.dto.ReportStat;
 import com.qq.lol.dto.SummonerInfoDto;
+import com.qq.lol.enums.ServerName;
 import com.qq.lol.utils.NetRequestUtil;
 import javafx.scene.image.Image;
 import okhttp3.Response;
 import org.apache.commons.lang3.StringUtils;
+
+import java.io.IOException;
 
 /**
  * @Auther: null
@@ -63,12 +66,15 @@ public class LolPlayerServiceImpl implements LolPlayerService {
             // 获取大区 id
             String platformId = parseObject.getString("platformId");
             // 添加大区
-            if(StringUtils.equals("TW2", platformId))
-                summonerInfo.setPlatformId("TW2");
-            else if(StringUtils.equals("HN1", platformId))
-                summonerInfo.setPlatformId("艾欧尼亚");
-            else
-                summonerInfo.setPlatformId("未知大区");
+//            if(StringUtils.equals("TW2", platformId))
+//                summonerInfo.setPlatformId("TW2");
+//            else if(StringUtils.equals("HN1", platformId))
+//                summonerInfo.setPlatformId("艾欧尼亚");
+//            else if(StringUtils.equals("HN10", platformId))
+//                summonerInfo.setPlatformId("黑色玫瑰");
+//            else
+//                summonerInfo.setPlatformId("新合并大区");
+            summonerInfo.setPlatformId(ServerName.getEnumIfPresent(platformId).getServerName());
 
             GlobalService.setPlatform(platformId);
         }
@@ -111,7 +117,16 @@ public class LolPlayerServiceImpl implements LolPlayerService {
      * @Date: 2024/6/12 - 23:42
      */
     @Override
-    public void autoReportPlayer(ReportStat reportStat) {
+    public void reportPlayer(ReportStat reportStat) {
+        if(reportStat == null || StringUtils.equals("", reportStat.getOffenderPuuid())) {
+            return;
+        }
+        try {
+            String data = JSON.toJSONString(reportStat);
+            netRequestUtil.doPost("/lol-player-report-sender/v1/end-of-game-reports", data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

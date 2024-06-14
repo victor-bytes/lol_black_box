@@ -26,7 +26,7 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <VBox id="player1" fx:id="playerOne" prefHeight="200.0" prefWidth="100.0">
+      <VBox id="player1" prefHeight="200.0" prefWidth="100.0">
          <opaqueInsets>
             <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
          </opaqueInsets>
@@ -67,7 +67,7 @@
             <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
-      <VBox id="player2" fx:id="playerOne1" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+      <VBox id="player2" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
          <opaqueInsets>
             <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
          </opaqueInsets>
@@ -105,7 +105,7 @@
             <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
-      <VBox id="player3" fx:id="playerOne11" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
+      <VBox id="player3" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
          <opaqueInsets>
             <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
          </opaqueInsets>
@@ -143,7 +143,7 @@
             <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
-      <VBox id="player4" fx:id="playerOne111" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3">
+      <VBox id="player4" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3">
          <opaqueInsets>
             <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
          </opaqueInsets>
@@ -181,7 +181,7 @@
             <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
-      <VBox id="player5" fx:id="playerOne1111" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4">
+      <VBox id="player5" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4">
          <opaqueInsets>
             <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
          </opaqueInsets>
@@ -219,7 +219,7 @@
             <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
-      <VBox id="player6" fx:id="playerOne11111" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+      <VBox id="player6" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
          <opaqueInsets>
             <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
          </opaqueInsets>
@@ -257,7 +257,7 @@
             <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
-      <VBox id="player7" fx:id="playerOne111111" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <VBox id="player7" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <opaqueInsets>
             <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
          </opaqueInsets>
@@ -295,7 +295,7 @@
             <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
-      <VBox id="player8" fx:id="playerOne1111111" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+      <VBox id="player8" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <opaqueInsets>
             <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
          </opaqueInsets>
@@ -333,7 +333,7 @@
             <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
-      <VBox id="player9" fx:id="playerOne11111111" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+      <VBox id="player9" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
          <opaqueInsets>
             <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
          </opaqueInsets>
@@ -371,7 +371,7 @@
             <ScrollPane id="historyScrollPane" prefHeight="216.0" prefWidth="246.0" style="-fx-background: #96CDCD;" />
          </children>
       </VBox>
-      <VBox id="player10" fx:id="playerOne111111111" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+      <VBox id="player10" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
          <opaqueInsets>
             <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
          </opaqueInsets>

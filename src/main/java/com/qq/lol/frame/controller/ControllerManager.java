@@ -26,6 +26,11 @@ public class ControllerManager {
 
     public static RunningRecorderController runningRecorderController;
 
+    /**
+     * TODO 目前采用的是启动 App时一次性初始化全部 fxml，页面比较多的时候可以选在 ControllerManager中初始化，
+     * 在第一次获取 Controller时初始化 fxml，类似于懒汉式单例模式
+     */
+
     private ControllerManager(){}
 
 }

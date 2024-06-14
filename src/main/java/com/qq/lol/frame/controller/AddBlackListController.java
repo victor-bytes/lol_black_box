@@ -1,9 +1,20 @@
 package com.qq.lol.frame.controller;
 
+import com.qq.lol.core.services.GlobalService;
+import com.qq.lol.core.services.LolClientService;
 import com.qq.lol.core.services.LolHeroService;
+import com.qq.lol.core.services.LolPlayerService;
+import com.qq.lol.core.services.impl.LolClientServiceImpl;
 import com.qq.lol.core.services.impl.LolHeroServiceImpl;
+import com.qq.lol.core.services.impl.LolPlayerServiceImpl;
 import com.qq.lol.dto.BlackPlayerDto;
+import com.qq.lol.dto.GameRoomInfoDto;
+import com.qq.lol.dto.PlayerInfoDto;
+import com.qq.lol.dto.ReportStat;
+import com.qq.lol.enums.ClientStatusEnum;
+import com.qq.lol.utils.StandardOutTime;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -16,12 +27,15 @@ import javafx.scene.shape.Rectangle;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Set;
+import java.util.*;
 
 @Data
 public class AddBlackListController {
 
     private static final LolHeroService lolHeroService = LolHeroServiceImpl.getLolHeroService();
+    private static final LolPlayerService lolPlayerService = LolPlayerServiceImpl.getLolPlayerService();
+    private static final GlobalService globalService = GlobalService.getGlobalService();
+    private static final LolClientService lolClientService = LolClientServiceImpl.getLolClientService();
 
     @FXML
     private AnchorPane anchorPane;
@@ -61,6 +75,21 @@ public class AddBlackListController {
 
     @FXML
     private HBox hBox;
+
+    @FXML
+    private Button reportFourBtn;
+
+    @FXML
+    private Button reportCurBtn;
+
+    // 当前要拉黑的玩家，也是要举报的玩家
+    private static BlackPlayerDto curBlackPlayer;
+
+    // 控制是否已经举报了四个队友，true表示还没有举报
+    private boolean fourReportFlag = true;
+
+    // 存放九个玩家的puuid，判断是否被举报过
+    private Set<String> tenPlayers = new HashSet<>();
 
     @FXML
     public void initialize() {
@@ -130,6 +159,8 @@ public class AddBlackListController {
 
     // 填充拉黑页面的数据
     public void showAddBlackPlayer(BlackPlayerDto blackPlayer) {
+        curBlackPlayer = blackPlayer;
+
         // 设置英雄头像
         Image icon = lolHeroService.getChampionIcon(blackPlayer.getChampionId());
         Rectangle rectangle = new Rectangle(heroIcon.getFitWidth(), heroIcon.getFitHeight());
@@ -184,5 +215,136 @@ public class AddBlackListController {
         reason.setText(newReason);
     }
 
+    /**
+     * @Description: 举报四个队友
+     * @param event:
+     * @return void
+     * @Auther: null
+     * @Date: 2024/6/14 - 0:04
+     */
+    @FXML
+    void reportFourBtn(ActionEvent event) {
+        //判断客户端是否处于游戏结束状态
+        if(lolClientService.getClientStatus() != ClientStatusEnum.EndOfGame) {
+            globalService.addRecorderText(StandardOutTime.getCurrentTime() + " 客户端未处于游戏结束状态，无法举报--");
+            return;
+        }
+        if(!fourReportFlag) {
+            globalService.addRecorderText(StandardOutTime.getCurrentTime() + " 已经举报过四名队友了--");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("已经举报过四名队友了！");
+            return;
+        }
+
+        globalService.addRecorderText(StandardOutTime.getCurrentTime() + " 举报四名队友--");
+        GameRoomInfoDto roomInfo = GlobalService.getCurrGameRoomInfo();
+        // 拿到当前登录客户端召唤师的puuid用于判断四名队友在哪个队伍
+        String puuid = GlobalService.getGlobalService().getLoginSummoner().getPuuid();
+        // 获取四个队友的信息并举报
+        List<PlayerInfoDto> teamOnePlayers = roomInfo.getTeamOnePlayers();
+        List<PlayerInfoDto> teamTwoPlayers = roomInfo.getTeamTwoPlayers();
+        List<PlayerInfoDto> reportOne = new ArrayList<>();
+        List<PlayerInfoDto> reportTwo = new ArrayList<>();
+
+        boolean tOne = false;
+        boolean tTwo = false;
+        // 判断队友在哪个队伍
+        for (PlayerInfoDto player : teamOnePlayers) {
+            reportOne.add(player);
+            if(StringUtils.equals(player.getPuuid(), puuid)) {
+                // 在第一个队伍，则去掉当前登录客户端的召唤师
+                tOne = true;
+                reportOne.remove(player);
+            }
+        }
+        for (PlayerInfoDto player : teamTwoPlayers) {
+            reportTwo.add(player);
+            if(StringUtils.equals(player.getPuuid(), puuid)) {
+                tTwo = true;
+                reportTwo.remove(player);
+            }
+        }
+        if(tOne) {
+            // 在一队，举报四个队友
+            reportOne.forEach(player -> {
+                globalService.addRecorderText(" " + player.getGameName() + "#" + player.getTagLine());
+                lolPlayerService.reportPlayer(new ReportStat(player.getPuuid(),
+                        roomInfo.getGameId(), player.getSummonerId()));
+                // 同时将tenPlays中该玩家移除，表示已经举报过
+                tenPlayers.remove(player.getPuuid());
+            });
+        }
+        if(tTwo) {
+            // 在二队，举报四个队友
+            reportTwo.forEach(player -> {
+                globalService.addRecorderText(" " + player.getGameName() + "#" + player.getTagLine());
+                lolPlayerService.reportPlayer(new ReportStat(player.getPuuid(),
+                        roomInfo.getGameId(), player.getSummonerId()));
+                tenPlayers.remove(player.getPuuid());
+            });
+        }
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("举报四名队友成功！");
+        // 设置为false不能重复举报
+        fourReportFlag = false;
+
+        event.consume();
+    }
+
+    /**
+     * @Description: 举报一个玩家
+     * @param event:
+     * @return void
+     * @Auther: null
+     * @Date: 2024/6/14 - 0:50
+     */
+    @FXML
+    void reportCurBtn(ActionEvent event) {
+        //判断客户端是否处于游戏结束状态
+        if(lolClientService.getClientStatus() != ClientStatusEnum.EndOfGame) {
+            globalService.addRecorderText(StandardOutTime.getCurrentTime() + " 客户端未处于游戏结束状态，无法举报--");
+            return;
+        }
+        // 是否已经举报过
+        if(!tenPlayers.contains(curBlackPlayer.getPuuid())) {
+            globalService.addRecorderText(StandardOutTime.getCurrentTime() + " 已经举报过：" +
+                    curBlackPlayer.getGameName() + "#" + curBlackPlayer.getTagLine());
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("已经举报过该玩家了！");
+            return;
+        }
+
+        List<PlayerInfoDto> teamOnePlayers = GlobalService.getCurrGameRoomInfo().getTeamOnePlayers();
+        List<PlayerInfoDto> teamTwoPlayers = GlobalService.getCurrGameRoomInfo().getTeamTwoPlayers();
+        PlayerInfoDto player = null;
+        // 主要是为了获取 sommonerId
+        for (PlayerInfoDto p : teamOnePlayers) {
+            if(StringUtils.equals(p.getPuuid(), curBlackPlayer.getPuuid())) {
+                player = p;
+                break;
+            }
+        }
+        for (PlayerInfoDto p : teamTwoPlayers) {
+            if(StringUtils.equals(p.getPuuid(), curBlackPlayer.getPuuid())) {
+                player = p;
+                break;
+            }
+        }
+
+        if(player != null) {
+            globalService.addRecorderText(StandardOutTime.getCurrentTime() + " 举报玩家：" +
+                    player.getGameName() + "#" + player.getTagLine());
+            GameRoomInfoDto roomInfo = GlobalService.getCurrGameRoomInfo();
+            lolPlayerService.reportPlayer(new ReportStat(player.getPuuid(),
+                    roomInfo.getGameId(), player.getSummonerId()));
+
+            tenPlayers.remove(player.getPuuid());
+        } else {
+            globalService.addRecorderText(StandardOutTime.getCurrentTime() + " Global未找到要举报的玩家：" +
+                    curBlackPlayer.getGameName() + "#" + curBlackPlayer.getTagLine());
+        }
+
+    }
 
 }
