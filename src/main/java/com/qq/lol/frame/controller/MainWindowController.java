@@ -193,6 +193,7 @@ public class MainWindowController {
     public void refreshGameHistory(ActionEvent actionEvent) {
         System.out.println("刷新对局 按钮被选择");
         globalService.addRecorderText(StandardOutTime.getCurrentTime() + " 获取对局信息--");
+        globalService.addRecorderText(StandardOutTime.getCurrentTime() + "--------------------");
         refreshClientStatus();
         GameRoomInfoDto roomInfo = roomService.getRoomInfo();
         if(roomInfo == null) {
@@ -206,7 +207,7 @@ public class MainWindowController {
         mainCenterPage.getChildren().clear();
         GridPane gridPane = ControllerManager.gameHistoryPageController.getGridPane();
         AnchorPane.setLeftAnchor(gridPane, 20.0);
-        mainCenterPage.getChildren().add(gridPane);
+        mainCenterPage.getChildren().addAll(gridPane, recorder);
         // 填充内容
         ControllerManager.gameHistoryPageController.showPlayers(roomInfo);
         GlobalService.setCurrGameRoomInfo(roomInfo);

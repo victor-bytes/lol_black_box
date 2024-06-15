@@ -2,7 +2,7 @@ package com.qq.lol.frame.controller;
 
 import com.qq.lol.core.services.GlobalService;
 import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
@@ -67,7 +67,7 @@ public class RunningRecorderController {
         }
         textArea.setText(textArea.getText(0, textArea.getLength()) + "\n" + text);
         // 添加完毕将光标定位到最后一行
-        Platform.runLater(() -> textArea.positionCaret(textArea.getText().length()));
+        textArea.positionCaret(textArea.getText().length());
     }
 
     /**
@@ -86,5 +86,11 @@ public class RunningRecorderController {
         }
     }
 
+    // 清空recorder
+    @FXML
+    void clearText(ActionEvent event) {
+        textArea.clear();
+        textArea.setText(GlobalService.getInitRecorder());
+    }
 
 }

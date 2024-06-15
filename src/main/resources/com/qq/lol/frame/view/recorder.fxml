@@ -18,7 +18,7 @@
       <TextArea fx:id="textArea" prefHeight="630.0" prefWidth="300.0" />
       <AnchorPane prefHeight="50.0" prefWidth="300.0">
          <children>
-            <Button layoutX="21.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="待扩展">
+            <Button layoutX="21.0" layoutY="14.0" mnemonicParsing="false" onAction="#clearText" prefHeight="25.0" prefWidth="60.0" text="清空">
                <padding>
                   <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                </padding>

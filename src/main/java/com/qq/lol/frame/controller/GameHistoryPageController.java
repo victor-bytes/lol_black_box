@@ -194,8 +194,11 @@ public class GameHistoryPageController {
         });
 
         // 不在黑名单中，设置拉黑按钮事件   setOnMouseClicked()鼠标点击(左键、右键、滚轮)就触发事件,setOnAction()是 Button事件，鼠标左键点击触发事件
-        // 是登录客户端的召唤师，排除在外，不设置事件
-        if(!StringUtils.equals(player.getPuuid(), globalService.getLoginSummoner().getPuuid())) {
+        // 是登录客户端的召唤师，不设置事件
+        if(StringUtils.equals(player.getPuuid(), globalService.getLoginSummoner().getPuuid())) {
+            // 设置为null就相当于不设置事件
+            blackBtn.setOnMouseClicked(null);
+        } else {
             blackBtn.setOnMouseClicked(event -> {
                 DialogPane dialogPane = new DialogPane();
                 // 设置拉黑 DialogPane窗口-----------------------------------
