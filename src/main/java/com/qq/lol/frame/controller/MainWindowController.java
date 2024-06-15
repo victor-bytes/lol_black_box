@@ -193,7 +193,7 @@ public class MainWindowController {
     public void refreshGameHistory(ActionEvent actionEvent) {
         System.out.println("刷新对局 按钮被选择");
         globalService.addRecorderText(StandardOutTime.getCurrentTime() + " 获取对局信息--");
-        globalService.addRecorderText(StandardOutTime.getCurrentTime() + "--------------------");
+        globalService.addRecorderText("----------------------------------------------");
         refreshClientStatus();
         GameRoomInfoDto roomInfo = roomService.getRoomInfo();
         if(roomInfo == null) {
