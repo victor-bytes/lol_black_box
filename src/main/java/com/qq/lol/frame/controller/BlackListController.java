@@ -59,8 +59,8 @@ public class BlackListController {
     // 总共多少页
     private Long pageCounts;
 
-    // 默认一页查询15条
-    private int NumberPagePer = 15;
+    // 默认一页查询18条
+    private int NumberPagePer = 18;
 
     @FXML
     public void initialize() {
